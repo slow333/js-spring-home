@@ -2,15 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
   <title>JS, DOM, BOM, events</title>
-  <script type="module" src="/js/nav.js"></script>
-  <link rel="icon" href="/favicon-32x32.png" />
-  <link href="/css/style.css" rel="stylesheet" >
+<!--  <script src="/js/menu/loadScript.js"></script>-->
+  <link href="/favicon-32x32.png" rel="icon"/>
+  <link href="/css/style.css" rel="stylesheet">
 </head>
 <body>
-<nav></nav>
-<main class="main" style="margin: 60px 10px 10px 10px; padding: 0;">
+<main style="margin:0;">
   <section>
     <h2>관련 내용은 JS Info, MDN 페이지를 참조함</h2>
     <ul>
@@ -18,13 +17,21 @@
       <li><a href="https://developer.mozilla.org/ko/docs/Learn/HTML">MDN HTML 공부 페이지</a></li>
       <li><a href="https://developer.mozilla.org/ko/docs/Learn/CSS">MDN CSS 공부 페이지</a></li>
       <li><a href="https://developer.mozilla.org/ko/docs/Learn/JavaScript/">MDN JS 공부 페이지</a></li>
-      <li><a href="https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects">JS 표준 내장
-        객체</a></li>
+      <li><a href="https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects">
+        JS 표준 내장 객체</a></li>
     </ul>
-    <h3>Nav Menu는 기본적으로 CSS를 통해 구성</h3>
-    </section>
+  </section>
 </main>
-<footer>footer</footer>
-<script></script>
+<script>
+  function loadScript(src, callback) {
+    let script = document.createElement("script");
+    script.src = src;
+    script.onload = () => callback(script);
+    document.head.append(script);
+  }
+  loadScript('/js/menu/loadNav.js', function (page) {
+    console.log(page);
+  });
+</script>
 </body>
 </html>

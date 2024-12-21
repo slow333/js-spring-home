@@ -9,14 +9,27 @@
 *::after {
   box-sizing: border-box;
 }
+:root {
+  --fontstack: 'Noto Sans KR', sans-serif;
+  --colorprimary:black;
+  --colorsecondary: white;
+  --coloraccent: #712cf9;
+  --colorgray:#777;
+  --colorbright:#f1f1f1;
+  --h1: 22px;
+  --h2: 20px;
+  --h3: 16px;
+  --p: 14px;
+  --subtext: 12px;
+  --transition: 0.4s ease-in-out;
+  --shadow: #00000030 0px 0px 10px 0px;
+  --shadowdark: #00000030 0px 5px 10px 5px;
+}
 body {
-  font-family: "Noto Sans KR", "Roboto",serif;
+  font-family: var(--fontstack), serif ;
   height: 100%;
   position: relative;
 }
-/*::-webkit-scrollbar {*/
-/*  display: none;*/
-/*}*/
 
 main {
   padding: 48px 5px 0 206px;
@@ -27,33 +40,33 @@ main {
 section {
   margin: 0;
   padding: 0 10px 10px 10px;
-  border-right: rgba(60, 60, 60, 0.32) solid 8px;
-  border-left: rgba(60, 60, 60, 0.32) solid 8px;
-  border-top: #f1f1f1 solid 8px;
-  background: #fff;
+  border-right: var(--colorgray) solid 8px;
+  border-left: var(--colorgray) solid 8px;
+  border-top: var(--colorbright) solid 8px;
+  background: var(--colorsecondary);
 }
 section:last-child {
-  border-bottom: #f1f1f1 solid 8px;
+  border-bottom: var(--colorbright) solid 8px;
 }
 footer {
   width: 100%;
   padding: 6px 20px;
   position : absolute;
-  background: #777;
-  color: #f1f1f1;
+  background: var(--colorgray);
+  color: var(--colorsecondary);
 }
 h1 {
-  font-size: 30px;
+  font-size: var(--h1);
   margin-bottom: 10px;
   text-align: center;
 }
 h1:before, h1:after {
   content: "|";
-  color: #aaa;
+  color:var(--colorprimary);
   padding: 0 8px;
 }
 h2, h3, h4, h5, h6 {
-  font-size: 23px;
+  font-size: var(--h2);
   font-weight: bolder;
   margin: 7px 0;
   text-align: left;
@@ -61,19 +74,19 @@ h2, h3, h4, h5, h6 {
 h2:before {
   content: "◼";
   padding-right: 8px;
-  color: rgba(255, 69, 0, 0.82);
+  color: var(--coloraccent);
 }
 h3 {
-  font-size: 20px;
+  font-size: var(--h3);
   margin: 7px 0 0 10px;
 }
 h3:before {
   content: "◾";
   padding-right: 8px;
-  color: #712cf9;
+  color: var(--coloraccent);
 }
 h4  {
-  font-size: 18px;
+  font-size: var(--h3);
   font-weight: normal;
   margin: 7px 0 0 20px;
 }
@@ -82,18 +95,18 @@ h4:before {
   padding-right: 8px;
   color: lightgray;
 }
-h5, h6 {font-size: 17px}
+h5, h6 {font-size: var(--p)}
 p {
   line-height: 1.6;
-  font-size: 1rem;
+  font-size: var(--p);
   padding-left: 6px;
-  font-family: "Roboto","Noto Sans KR", serif;
+  font-family: var(--fontstack);
 }
 
 code, pre {
   font-family: "consolas", monospace;
   line-height: 1.6;
-  background: rgba(234, 234, 234, 0.52);
+  background: var(--colorbright);
   padding: 2px 9px;
   width: 100%;
   margin: 0 4px;
@@ -104,14 +117,14 @@ table {
   text-indent: initial;
   unicode-bidi: isolate;
   border-spacing: 2px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--colorbright);
   border-collapse: collapse;
-  font-size: 15px;
+  font-size: var(--p);
   width: 100%;
   margin: 4px;
 }
 tr, td, th {
-  border: 1px solid #dddddd;
+  border: 1px solid var(--colorbright);
   border-collapse: collapse;
 }
 /* ====== nav menu ====== */
@@ -122,27 +135,20 @@ tr, td, th {
   align-items: center;
   width: 100%;
   background-size: cover;
-  background-color: #712cf9;
-  color: white;
+  background-color: var(--coloraccent);
+  color: var(--colorsecondary);
   z-index: 9;
 }
-.navbar .nav {
+.navbar li {
   cursor: pointer;
+  list-style: none;
+  padding: 10px 10px;
+  margin:0;
 }
-.navbar a:link,
-.navbar a:visited{
-  display: inline-block;
-  padding: 8px 16px;
-  font-size: 20px;
-  font-weight: bold;
-  font-family: "Roboto",serif;
-  color: white;
-  text-decoration: none;
-}
-.navbar .nav:hover a {
-  background-color: #fff;
-  color: #712cf9;
-  /*border: 5px solid #712cf9;*/
+
+.navbar li:hover {
+  background-color: var(--colorbright);
+  color: var(--coloraccent);
 }
 /* #### aside menu #### */
 .aside {
@@ -151,19 +157,19 @@ tr, td, th {
   display: flex;
   flex-direction: column;
   width: 200px;
-  box-shadow: 0 0 4px #666;
+  box-shadow: var(--shadow);
   padding: 18px 10px 10px 10px;
   height: 100%;
   overflow-y: auto;
 }
 .aside .title {
-  font-size: 24px;
+  font-size: var(--h1);
   font-weight: bolder;
   color: #fefefe;
   background-color: #333;
   text-align: center;
   padding: 6px 0;
-  font-family: "Roboto",serif;
+  font-family: var(--fontstack);
 }
 .aside > ul {
   display: flex;
@@ -176,7 +182,7 @@ tr, td, th {
   margin:0;
 }
 .aside ul li:hover {
-  background-color: #ddd;
+  background-color: var(--colorbright);
   cursor: pointer;
 }
 .aside ul li ul {
@@ -184,14 +190,14 @@ tr, td, th {
   margin:0;
 }
 .aside .sub{
-  color: #555;
+  color: var(--colorgray);
   padding: 10px 0 0 0 ;
   margin-bottom: 0;
   font-size: 18px;
   font-weight: bold;
 }
 .aside .sub:hover{
-  color: #aaa;
+  color: var(--coloraccent);
   cursor: pointer;
 }
 .aside .content {
@@ -214,7 +220,7 @@ tr, td, th {
 .aside a:visited
 {
   text-decoration: none;
-  color: #5600f3;
+  color: var(--coloraccent);
   font-weight: 400;
 }
 
@@ -222,11 +228,11 @@ tr, td, th {
   cursor: pointer;
   color: yellow;
   display: inline-block;
-  background-color: darkgreen;
+  background-color: var(--coloraccent);
 }
 
 hr {
   margin: 1rem 0;
   padding: 0;
-  border: 1px dotted darkorange;
+  border: 1px dotted var(--coloraccent);
 }
