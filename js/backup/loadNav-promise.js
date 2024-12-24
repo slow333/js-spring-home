@@ -27,13 +27,13 @@ loadNav('/page/components/nav.html')
                window.location = "/index.html";
                break;
             case 'JavaScript':
-               window.location = "/page/js/01-intro/01-start.html";
+               window.location = "../../page/js/01-intro/01-start.html";
                break;
             case 'HTML':
-               window.location = "/page/dom/01-basic/01-start.html";
+               window.location = "../../page/dom/01-basic/01-start.html";
                break;
             case 'JAVA':
-               window.location = "/page/java/01-basic/01-start.html";
+               window.location = "../../page/java/01-basic/01-start.html";
                break;
          }
       }

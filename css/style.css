@@ -16,7 +16,7 @@
   --coloraccent: #712cf9;
   --colorgray:#777;
   --colorbright:#f1f1f1;
-  --h1: 22px;
+  --h1: 26px;
   --h2: 20px;
   --h3: 16px;
   --p: 14px;
@@ -40,13 +40,13 @@ main {
 section {
   margin: 0;
   padding: 0 10px 10px 10px;
-  border-right: var(--colorgray) solid 8px;
-  border-left: var(--colorgray) solid 8px;
-  border-top: var(--colorbright) solid 8px;
+  border-right: var(--colorbright) solid 2px;
+  border-left: var(--colorbright) solid 2px;
+  border-top: var(--colorbright) solid 2px;
   background: var(--colorsecondary);
 }
 section:last-child {
-  border-bottom: var(--colorbright) solid 8px;
+  border-bottom: var(--colorbright) solid 2px;
 }
 footer {
   width: 100%;
@@ -57,14 +57,12 @@ footer {
 }
 h1 {
   font-size: var(--h1);
-  margin-bottom: 10px;
+  margin: 10px;
   text-align: center;
+  font-weight: 900;
+  text-transform: uppercase;
 }
-h1:before, h1:after {
-  content: "|";
-  color:var(--colorprimary);
-  padding: 0 8px;
-}
+
 h2, h3, h4, h5, h6 {
   font-size: var(--h2);
   font-weight: bolder;
@@ -100,16 +98,17 @@ p {
   line-height: 1.6;
   font-size: var(--p);
   padding-left: 6px;
-  font-family: var(--fontstack);
+  font-family: var(--fontstack), serif;
 }
 
 code, pre {
-  font-family: "consolas", monospace;
+  font-family: "consolas",'Noto Sans KR', monospace;
   line-height: 1.6;
   background: var(--colorbright);
-  padding: 2px 9px;
-  width: 100%;
-  margin: 0 4px;
+  padding: 6px 9px;
+  margin-left: 10px;
+  width: 96%;
+  font-size: var(--p);
 }
 table {
   display: table;
@@ -137,18 +136,27 @@ tr, td, th {
   background-size: cover;
   background-color: var(--coloraccent);
   color: var(--colorsecondary);
+  box-shadow: var(--shadowdark);
   z-index: 9;
 }
 .navbar li {
   cursor: pointer;
   list-style: none;
-  padding: 10px 10px;
   margin:0;
 }
-
-.navbar li:hover {
+.navbar li a {
+  display: inline-block;
+  cursor: pointer;
+  list-style: none;
+  padding: 10px 20px;
+}
+.navbar a, .navbar a:visited, .navbar a:link {
+  text-decoration: none;
+  color: var(--colorsecondary);
+}
+.navbar li a:hover {
   background-color: var(--colorbright);
-  color: var(--coloraccent);
+  color: black;
 }
 /* #### aside menu #### */
 .aside {
@@ -161,15 +169,16 @@ tr, td, th {
   padding: 18px 10px 10px 10px;
   height: 100%;
   overflow-y: auto;
+  transition: var(--transition);
 }
 .aside .title {
-  font-size: var(--h1);
+  font-size: var(--h3);
   font-weight: bolder;
   color: #fefefe;
   background-color: #333;
   text-align: center;
   padding: 6px 0;
-  font-family: var(--fontstack);
+  font-family: var(--fontstack), serif;
 }
 .aside > ul {
   display: flex;

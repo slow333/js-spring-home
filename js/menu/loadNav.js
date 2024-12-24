@@ -10,80 +10,75 @@ function loadXML(src) {
    });
 }
 
-loadXML('/page/components/nav.html')
-   .then(function (text) {
-      let nav = document.createElement('nav');
-      nav.setAttribute('class', 'navbar');
-      nav.setAttribute('id', 'navbar');
-      nav.innerHTML = text;
-      document.body.prepend(nav);
-      return new Promise((resolve, reject) => {
-         resolve(nav);
-      })
-   })
-   .then(function (nav) {
-      nav.onclick = (event) => getAside(event);
+async function loadMenu(){
+   let navText = await loadXML('/page/components/nav.html');
+   let nav = await setNavEl(navText);
+   let asideUrl = await selectAsideUrl(nav);
+   let asideText = await loadXML(asideUrl);
+   let aside = await setAside(asideText);
+   setCurrentUrl(aside, asideUrl, nav);
+   aside.addEventListener('click', toggleHide);
+}
+let promise = loadMenu();
+promise.then(result => result);
 
-      if (location.href === 'http://127.0.0.1:8080/index.html') {
-         loadAside('/page/components/home-aside.html')
-      }
-      if (location.href.includes('http://127.0.0.1:8080/page/js')) {
-         loadAside('/page/components/js-aside.html')
-      }
-      if (location.href.includes('http://127.0.0.1:8080/page/dom')) {
-         loadAside('/page/components/dom-aside.html')
-      }
-      if (location.href.includes('http://127.0.0.1:8080/page/java')) {
-         loadAside('/page/components/java-aside.html')
-      }
-   })
-
-function getAside(event) {
-   let url;
-   let textContent = event.target.textContent;
-   if (textContent === 'HOME') url = "/index.html"; else if (textContent === 'JavaScript') url = "/page/js/01-intro/01-start.html"; else if (textContent === 'HTML') url = "/page/dom/01-basic/01-start.html"; else if (textContent === 'JAVA') url = "/page/java/01-basic/01-start.html";
-   window.location = url;
+async function setNavEl(text){
+   let nav = document.createElement('nav');
+   nav.setAttribute('class', 'navbar');
+   nav.setAttribute('id', 'navbar');
+   nav.innerHTML = text;
+   document.body.prepend(nav);
+   return nav
 }
 
-function loadAside(url) {
-   loadXML(url)
-      .then(text => setAside(text))
-      .then(function (aside) {
-         aside.onclick = (event) => toggleHide(event);
-         return setCurrentUrl(aside)
-      })
+async function selectAsideUrl (nav) {
+   let asideUrl;
+   if (location.href === 'http://127.0.0.1:8080/index.html')
+      asideUrl = null;
+   if (location.href.includes('http://127.0.0.1:8080/page/js'))
+      asideUrl ='/page/components/js-aside.html';
+   if (location.href.includes('http://127.0.0.1:8080/page/dom'))
+      asideUrl = '/page/components/dom-aside.html';
+   if (location.href.includes('http://127.0.0.1:8080/page/java'))
+      asideUrl = '/page/components/java-aside.html';
+   return asideUrl;
 }
 
-function setAside(text) {
-   let aside = document.createElement('aside');
-   aside.setAttribute('id', 'aside');
-   aside.innerHTML = text;
-   document.querySelector('nav').after(aside);
-   return new Promise((resolve, reject) => {
-      resolve(aside);
-   })
+async function setAside(asideUrl) {
+   if(asideUrl){
+      let aside = document.createElement('aside');
+      aside.setAttribute('id', 'aside');
+      aside.innerHTML = asideUrl;
+      document.querySelector('nav').after(aside);
+      return aside;
+   }
 }
 
-function setCurrentUrl(aside) {
+function setCurrentUrl(aside, asideUrl, nav) {
    aside.querySelectorAll('a').forEach(function (a) {
       if (location.href.includes(a.href)) {
          a.style.color = 'white';
          a.style.background = 'orangered';
       }
    });
-   jsAsideToggleByUrl();
+   toggleByUrl(aside);
+   if(asideUrl === '/page/components/js-aside.html') {
+      nav.querySelector('.javascript').style.background = 'black';
+   } else if(asideUrl === '/page/components/dom-aside.html') {
+      nav.querySelector('.html').style.background = 'black';
+   } else if(asideUrl === '/page/components/java-aside.html') {
+      nav.querySelector('.java').style.background = 'black';
+   } else{
+      nav.querySelector('.home').style.background = 'black';
+   }
 }
 
-function jsAsideToggleByUrl() {
+function toggleByUrl(aside) {
    document.querySelectorAll('aside ul li ul')
       .forEach(toggle => toggle.hidden = true);
-   if (location.href.includes('03-object')) {
-      document.querySelector('#js-object').hidden = false;
-   } else if (location.href.includes('02-basic')) {
-      document.querySelector('#js-basic').hidden = false;
-   } else if (location.href.includes('01-intro')) {
-      document.querySelector('#js-intro').hidden = false;
-   }
+   let position = location.href.split('/')[5];
+   let selectedLink = aside.querySelector('[href*='+`"${position}"`+']');
+   selectedLink.closest('ul').hidden = false;
 }
 
 function toggleHide(e) {

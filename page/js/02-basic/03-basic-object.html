@@ -11,6 +11,19 @@
 <body>
 <main>
   <h1>객체</h1>
+  <p>자바스크립트는 원시값(문자열, 숫자 등)을 마치 객체처럼 다룰 수 있게 해줍니다. 원시값에도 객체에서처럼 메서드를 호출할 수 있죠. 원시값은 객체가 아니란 것을 상기하도록 합시다.</p>
+  <ul>
+  <li>원시값 : string, number, bigint, boolean, symbol, null, undefined 형으로 총 일곱 가지</li>
+  <li>객체:{name : "John", age : 30}와 같이 중괄호 {}를 사용해 만들 수 있습니다. 자바스크립트에는 여러 종류의 객체가 있는데, 함수도 객체의 일종</li>
+    <li>객체의 장점 중 하나는 함수를 프로퍼티로 저장할 수 있다는 것입니다.</li>
+  </ul>
+  <section>
+    <h2>원시값을 객체처럼 사용하기</h2>
+    <h3>원시값에서 매서드를 호출하면 래퍼 객체를 생성하여 매서드를 호출한 후에 래퍼 객체를 삭제함</h3>
+    <pre>  let zero = new Number(0); // 객체를 반환함, 하위호환성을 위해 남겨둠. 사용안함
+  if(zero) ; // wrapper 객체가 호출되어 true를 반환함</pre>
+    <h3>let num = Number('123'); // 이렇게하면 값 자체를 반환함</h3>
+  </section>
   <section>
     <p>객체는 몇 가지 특수한 기능을 가진 associative array</p>
     <p>지울 때 delete obj.prop</p>
@@ -43,5 +56,17 @@ let user = makeUser("John", 25);
     <div id="tree"></div>
   </section>
 </main>
+<script>
+  let str = 'As sly as a fox, as strong as an ox';
+  let pos = 0;
+  let target = 'as';
+  while (true) {
+    let foundPos = str.indexOf(target, pos);
+    if (foundPos === -1) break;
+
+    console.log(`found ${foundPos}`);
+    pos = foundPos +1;
+  }
+</script>
 </body>
 </html>

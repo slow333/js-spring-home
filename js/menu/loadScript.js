@@ -1,9 +1,9 @@
-function loadScript(src, callback) {
+function loadScript(callback) {
    let script = document.createElement("script");
-   script.src = src;
+   script.src = '/js/menu/loadNav.js';
    script.onload = () => callback(script);
    document.head.append(script);
 }
-loadScript('/js/menu/loadNav.js', function (page) {
+loadScript(function (page) {
    // console.log(page);
 });

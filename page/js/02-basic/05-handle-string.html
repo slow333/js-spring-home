@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JavaScript</title>
+  <script src="/js/menu/loadScript.js"></script>
+  <link rel="icon" href="/favicon-32x32.png" />
+  <link href="/css/style.css" rel="stylesheet" >
+</head>
+<body>
+<main>
+  <section>
+    <h2>string indexOf; str.indexOf('id', 2); 2부터 찾음</h2>
+    <pre>  let str = 'As sly as a fox, as strong as an ox';
+  let pos = 0;
+  let target = 'as';
+  while (true) {
+    let foundPos = str.indexOf(target, pos);
+    if (foundPos === -1) break;
+
+    console.log(`found ${foundPos}`);
+    pos = foundPos +1;
+  }</pre>
+  </section>
+  <section>
+    <h3>str : includes, startsWith, endsWith ; 불린 반환</h3>
+    <p>비교적 근래에 나온 메서드인 str.includes(substr, pos)는 str에 부분 문자열 substr이
+      있는지에 따라 true나 false를 반환합니다.</p>
+    <h3>문자열 추출: str.slice(start[,end]); // start 부터 end까지(end미포함), 음수가능</h3>
+    <h3>문자열 추출: str.substring(2, 4); // 2, 4 사이 3, 음수는 0</h3>
+    <h3>문자열 추출: str.substr(-2, 4); // -2부터 4개</h3>
+  </section>
+  <section>
+    <h3>str.codePointAt(value); value위치의 문자에 대한 코드를 반환</h3>
+    <h3>str.fromCodePoint(value); value에 대한 문자를 반환</h3>
+    <pre>// 90을 16진수로 변환하면 5a입니다.
+alert( '\u005a' ); // Z</pre>
+  </section>
+  <section>
+    <h3>문자열 비교: str.localeCompare(str2);</h3>
+    <h3>서로게이트 쌍</h3>
+    <h4>서로게이트 쌍을 사용해 인코딩한 기호의 길이는 2입니다.</h4>
+    <pre>alert( '𝒳'.length ); // 2, 수학에서 쓰이는 대문자 X(그리스 문자 카이 - 옮긴이)
+alert( '😂'.length ); // 2, 웃으면서 눈물 흘리는 얼굴을 나타내는 이모티콘
+alert( '𩷶'.length ); // 2, 사용 빈도가 낮은 중국어(상형문자)</pre>
+    <pre>alert( '𝒳'[0] ); // 이상한 기호가 출력됨
+alert( '𝒳'[1] ); // 서로게이트 쌍의 일부가 출력됨</pre>
+  </section>
+</main>
+<script>
+  let str = 'As sly as a fox, as strong as an ox';
+  let pos = 0;
+  let target = 'as';
+  while (true) {
+    let foundPos = str.indexOf(target, pos);
+    if (foundPos === -1) break;
+
+    console.log(`found ${foundPos}`);
+    pos = foundPos +1;
+  }
+</script>
+</body>
+</html>
