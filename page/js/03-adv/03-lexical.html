@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>JavaScript</title>
+  <script src="/js/menu/loadScript.js"></script>
+  <link rel="icon" href="/favicon-32x32.png" />
+  <link href="/css/style.css" rel="stylesheet" >
+</head>
+<body>
+<main>
+  <h1>lexical environment</h1>
+  <h2>어려움</h2>
+  <section>
+    <h2>1단계; 변수</h2>
+      <h3>환경 레코드: 모든 지역 변수를 프로퍼티로 저장</h3>
+      <h3>스크립트가 시작되면 스크립트 내의 변수 전체가 렉시컬 환경에 올라감:uninitialized</h3>
+      <h3>let을 만나면 undefined ⇒ 값에 할당됨 ⇒ 값이 변경됨</h3>
+    <h2>2단계; 함수 선언문</h2>
+      <h3>바로 초기화됨(함수 표현식은 해당안됨)</h3>
+    <h2>3단계: 내부와 외부 렉시컬 환경</h2>
+      <h3>함수를 호출하면 새로운 렉시컬 환경이 자동으로 만들어짐</h3>
+      <h3>그런 후에 함수의 실행문이 실행됨</h3>
+    <h2>4단계: 함수를 반환하는 함수</h2>
+      <h3>반환되는 함수가 수행될 당시의 환경(변수를 저장함)을 기억함</h3>
+      <h3>변수값 갱신은 변수가 저장된 렉시컬 환경에서 이뤄짐</h3>
+    <h2>closure는 외부 변수를 기억하고 이 외부 변수에 접근할 수 있는 함수</h2>
+      <h3>위의 4단계에서 반환되는 함수는 클로저 임.</h3>
+  </section>
+  <section>
+    <h2>함수에는 name, length 프로퍼티가 있음</h2>
+    <pre>function f2(a, b) {};
+  f2.name // name,   f2.length // 2;</pre>
+    <h2>함수 프로퍼티로 지정해서 호출하기</h2>
+    <pre>function makeCounter() {
+  function counter() {  return counter.count++;  }
+  counter.count = 0; //counter 함수(객체)의 프로퍼티로 설정됨
+  return counter;
+}
+
+let cc = makeCounter();
+console.log( cc() ); // 0
+console.log( cc() ); // 1</pre>
+    <h2>내부 함수를 반환하고, 여기서 자기 자신을 호출해서...</h2>
+    <pre>function sum(a) {
+  let result= a;
+  function f(b) {
+    result += b;
+    return f; //여기 f()하면 안되고 context를 반환 해야함
+  }
+  f.toString = function () {  return result; }
+  return f;
+}
+
+console.log( sum(5).toString())
+console.log(sum(0)(1)(2)(3)(4)(5).toString())</pre>
+  </section>
+</main>
+
+
+<script>
+function makeCounter() {
+  function counter() {
+    return counter.count++;
+  }
+  counter.count = 0;
+  counter.decrease = () => counter.count--;
+  counter.set = (value) => counter.count = value;
+  return counter;
+}
+
+let cc = makeCounter();
+console.log( cc() ); // 0
+console.log( cc() ); // 1
+console.log( cc.set(5) );
+console.log(cc.decrease())
+console.log(cc.decrease())
+function sum(a) {
+  let result= a;
+  function f(b) {
+    result += b;
+    return f;
+  }
+  f.toString = function () {
+    return result;
+  }
+  return f;
+}
+
+console.log( sum(5).toString())
+console.log(sum(0)(1)(2)(3)(4)(5).toString())
+</script>
+</body>
+</html>

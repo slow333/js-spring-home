@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JavaScript</title>
+  <script src="/js/menu/loadScript.js"></script>
+  <link rel="icon" href="/favicon-32x32.png" />
+  <link href="/css/style.css" rel="stylesheet" >
+</head>
+<body>
+<main>
+  <h1>JSON과 메서드</h1>
+  <section>
+    <h2>JSON.stringify</h2>
+    <pre>let student = {
+  name: 'John',
+  age: 30,
+  isAdmin: false,
+  courses: ['html', 'css', 'js'],
+  wife: null
+};
+let json = JSON.stringify(student);
+
+alert(typeof json); // 문자열이네요!
+alert(json);
+/* JSON으로 인코딩된 객체:
+{
+  "name": "John",
+  "age": 30,
+  "isAdmin": false,
+  "courses": ["html", "css", "js"],
+  "wife": null
+}
+*/</pre>
+    <h3>함수(메서드), 심볼형(키가 심볼인 프로퍼티), 값이 undefined인 프로퍼티는 무시됨</h3>
+    <pre>let user = {
+  sayHi() { // 무시
+    alert("Hello");
+  },
+  [Symbol("id")]: 123, // 무시
+  something: undefined // 무시
+};
+
+alert( JSON.stringify(user) ); // {} (빈 객체가 출력됨)</pre>
+    <h2>replacer</h2>
+    <pre>let json = JSON.stringify(value, [replacer, space])</pre>
+  </section>
+  <section>
+    <h2>JSON.parse</h2>
+    <pre>let value = JSON.parse(str, [reviver]);</pre>
+    <h3>JSON 실수하는 것</h3>
+    <pre>let json = `{
+  name: "John",        // 실수 1: 프로퍼티 이름을 큰따옴표로 감싸지 않았습니다.
+  "surname": 'Smith',  // 실수 2: 프로퍼티 값은 큰따옴표로 감싸야 하는데, 작은따옴표로 감쌌습니다.
+  'isAdmin': false    // 실수 3: 프로퍼티 키는 큰따옴표로 감싸야 하는데, 작은따옴표로 감쌌습니다.
+  "birthday": new Date(2000, 2, 3),
+      // 실수 4: "new"를 사용할 수 없습니다. 순수한 값(bare value)만 사용할 수 있습니다.
+  "friends": [0,1,2,3]              // 이 프로퍼티는 괜찮습니다.
+}`;</pre>
+    <h3>reviver 사용하기</h3>
+    <pre>let str = '{"title":"Conference","date":"2017-11-30T12:00:00.000Z"}';
+
+let meetup = JSON.parse(str);
+alert( meetup.date.getDate() ); // 에러!
+
+let meetup = JSON.parse(str, function(key, value) {
+  if (key == 'date') return new Date(value);
+  return value;
+});</pre>
+  </section>
+</main>
+<script>
+
+</script>
+</body>
+</html>

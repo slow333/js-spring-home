@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>JavaScript</title>
+  <script src="/js/menu/loadScript.js"></script>
+  <link rel="icon" href="/favicon-32x32.png" />
+  <link href="/css/style.css" rel="stylesheet" >
+</head>
+<body>
+<main>
+  <h1>call/apply, 데코레이터, 포워딩</h1>
+  <p>데코레이터는 함수를 감싸는 래퍼로 함수의 행동을 변화시킵니다. 주요 작업은 여전히 함수에서 처리합니다.</p>
+  <p>데코레이터는 함수에 추가된 ‘기능’ 혹은 ‘상(相, aspect)’ 정도로 보시면 됩니다.
+    하나 혹은 여러 개의 데코레이터를 추가해도 함수의 코드는 변경되지 않습니다.</p>
+  <h3>콜 포워딩은 대개 apply를 사용해 구현합니다.</h3>
+  <pre>let wrapper = function() {
+  return original.apply(this, arguments);
+};</pre>
+  <section>
+    <h2>코드 변경 없이 캐싱 기능 추가하기</h2>
+    <pre>function slow(x) {
+  // CPU 집약적인 작업이 여기에 올 수 있습니다.
+  alert(`slow(${x})을/를 호출함`);
+  return x;
+}
+
+function cachingDecorator(func) {
+  let cache = new Map();
+
+  return function(x) { // -----------------------------------------w
+    if (cache.has(x)) {    // cache에 해당 키가 있으면 --------------r
+      return cache.get(x); // 대응하는 값을 cache에서 읽어옵니다.-----a
+    }  //----------------------------------------------------------p
+    let result = func(x);  // 그렇지 않은 경우엔 func를 호출하고, ----p
+    cache.set(x, result);  // 그 결과를 캐싱(저장)합니다. -----------e
+    return result;  // --------------------------------------------r
+  };
+}
+
+slow = cachingDecorator(slow);
+
+alert( slow(1) ); // slow(1)이 저장되었습니다.
+alert( "다시 호출: " + slow(1) ); // 동일한 결과
+
+alert( slow(2) ); // slow(2)가 저장되었습니다.
+alert( "다시 호출: " + slow(2) ); // 윗줄과 동일한 결과</pre>
+  </section>
+  <section>
+    <h2>인수가 여러개인 cash </h2>
+    <pre>let worker = {
+  someValue () { return 8; },
+  slow(min, max) {
+    alert(`slow(${min},${max})을/를 호출함`);
+    return min + max + this.someValue();
+  }
+};
+
+function cachingDecorator(func, hash) {
+  let cache = new Map();
+  return function() {
+    let key = hash(arguments); // (*)
+    if (cache.has(key)) {
+      return cache.get(key);
+    }
+    let result = func.call(this, ...arguments); // this는 점 앞의 객체가됨
+    cache.set(key, result);
+    return result;
+  };
+}
+function hash(args) { return args[0] + ',' + args[1]; }
+
+worker.slow = cachingDecorator(worker.slow, hash);
+// worker.slow를 호출하면 this에 대한 컨텍스를 잃음
+// 그래서 호출되는 곳에서 call로 this를 정해 주어야함
+
+alert( worker.slow(3, 5) ); // 제대로 동작합니다.
+alert( "다시 호출: " + worker.slow(3, 5) ); // 동일한 결과 출력(캐시된 결과)</pre>
+  </section>
+  <section>
+    <h2>func.apply</h2>
+    <h3>여기서 func.call(this, ...arguments) 대신, func.apply(this, arguments)를 사용해도 됩니다.</h3>
+    <pre>func.apply(context, args)</pre>
+    <h4>전개 구문 ...은 이터러블 args을 분해 해 call에 전달할 수 있도록 해줍니다.</h4>
+    <h4>apply는 오직 유사 배열 형태의 args만 받습니다.</h4>
+  </section>
+  <section>
+    <pre>function delay(f, ms) {
+  return function() {
+    setTimeout(() => f.apply(this, arguments), ms);
+  };
+}
+let f1000 = delay(alert, 1000);
+f1000("test"); // shows "test" after 1000ms</pre>
+  </section>
+</main>
+<!--################################################-->
+<script>
+  let worker = {
+    someValue() {
+      return 7;
+    },
+    slow(min, max) {
+      console.log(`slow(${min},${max})을/를 호출함`);
+      return min + max + this.someValue();
+    }
+  };
+
+  function cachingDecorator(func, hash) {
+    let cache = new Map();
+    return function() {
+      let key = hash(arguments); // (*)
+      if (cache.has(key)) {
+        return cache.get(key);
+      }
+
+      let result = func.call(this, ...arguments); // (**)
+
+      cache.set(key, result);
+      return result;
+    };
+  }
+
+  function hash(args) {
+    return args[0] + ',' + args[1];
+  }
+
+  worker.slow = cachingDecorator(worker.slow, hash);
+
+  console.log( worker.slow(3, 5) ); // 제대로 동작합니다.
+  console.log(  "다시 호출: " + worker.slow(3, 5) ); // 동일한 결과 출력(캐시된 결과)
+</script>
+</body>
+</html>

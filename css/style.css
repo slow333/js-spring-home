@@ -16,6 +16,7 @@
   --coloraccent: #712cf9;
   --colorgray:#777;
   --colorbright:#f1f1f1;
+  --colorbrightest:#fafafa;
   --h1: 26px;
   --h2: 20px;
   --h3: 16px;
@@ -58,7 +59,7 @@ footer {
 h1 {
   font-size: var(--h1);
   margin: 10px;
-  text-align: center;
+  /* text-align: center; */
   font-weight: 900;
   text-transform: uppercase;
 }
@@ -94,6 +95,9 @@ h4:before {
   color: lightgray;
 }
 h5, h6 {font-size: var(--p)}
+h3, h4, h5, h6 {
+  white-space: pre-wrap;
+}
 p {
   line-height: 1.6;
   font-size: var(--p);
@@ -104,11 +108,18 @@ p {
 code, pre {
   font-family: "consolas",'Noto Sans KR', monospace;
   line-height: 1.6;
-  background: var(--colorbright);
-  padding: 6px 9px;
-  margin-left: 10px;
-  width: 96%;
+  background: var(--colorbrightest);
+  padding: 3px 9px;
+  margin: 3px 0 0 10px;
+  width: 98%;
   font-size: var(--p);
+}
+code {
+  padding: 2px;
+}
+pre {
+  border-top: 0.2px dotted #aaa;
+  border-bottom: 0.2px dotted #aaa;
 }
 table {
   display: table;
@@ -166,26 +177,35 @@ tr, td, th {
   flex-direction: column;
   width: 200px;
   box-shadow: var(--shadow);
-  padding: 18px 10px 10px 10px;
+  padding: 18px 0 10px 0;
   height: 100%;
   overflow-y: auto;
   transition: var(--transition);
 }
 .aside .title {
-  font-size: var(--h3);
+  font-size: var(--h2);
   font-weight: bolder;
   color: #fefefe;
   background-color: #333;
   text-align: center;
-  padding: 6px 0;
+  padding: 8px 0;
+  margin:0 0 8px 0;
   font-family: var(--fontstack), serif;
+  width:100%;
 }
 .aside > ul {
   display: flex;
   flex-direction: column;
-  padding: 0;
+  padding: 6px;
+  margin-left: 10px;
 }
-.aside ul li {
+.aside > ul h2 {
+  font-size: 18px;
+}
+.aside > ul h2:before {
+  content: "";
+}
+.aside ul > li {
   list-style: none;
   padding: 0;
   margin:0;
@@ -195,12 +215,12 @@ tr, td, th {
   cursor: pointer;
 }
 .aside ul li ul {
-  padding: 0;
+  padding: 4px;
   margin:0;
 }
 .aside .sub{
   color: var(--colorgray);
-  padding: 10px 0 0 0 ;
+  padding: 3px;
   margin-bottom: 0;
   font-size: 18px;
   font-weight: bold;
@@ -212,14 +232,14 @@ tr, td, th {
 .aside .content {
   /*display: block;*/
   /*visibility: hidden;*/
-  width: 180px;
+  width: 100%;
   font-size: 15px;
 }
 .aside .content.active {
   display: none;
 }
 .aside .content a{
-  margin: 0 10px;
+  margin: 0 ;
   padding: 3px 6px;
   display: inline-block;
   text-decoration: none;
@@ -244,4 +264,21 @@ hr {
   margin: 1rem 0;
   padding: 0;
   border: 1px dotted var(--coloraccent);
+}
+button, .btn, input {
+  display: inline-block;
+  padding: 4px 10px;
+  border: none;
+  background-color: var(--coloraccent);
+  color: var(--colorsecondary);
+  font-size: 16px;
+  margin: 2px 0;
+  border-radius: 4px;
+}
+.todo {
+  display:inline-block;
+  font-size: 16px;
+  padding: 4px 0 0 10px;
+  width: 120px;
+
 }

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>JavaScript</title>
+  <script src="/js/menu/loadScript.js"></script>
+  <link rel="icon" href="/favicon-32x32.png" />
+  <link href="/css/style.css" rel="stylesheet" >
+</head>
+<body>
+<main>
+  <h1>bind</h1>
+  <section>
+    <h2>binding 하기</h2>
+    <h3>func.bind(func); this를 func로 지정함</h3>
+    <h3>사라진 'this'</h3>
+    <pre>let user = {
+  firstName: "John",
+  sayHi() { alert(`Hello, ${this.firstName}!`);  }
+};
+setTimeout(user.sayHi, 1000); // Hello, undefined!</pre>
+    <h3>해결책 1; 랩퍼</h3>
+    <pre>let user = {
+  firstName: "John",
+  sayHi() { alert(`Hello, ${this.firstName}!`);  }
+};
+setTimeout(function() ( user.sayHi()), 1000);
+또는 setTimeout(() => ( user.sayHi()), 1000); </pre>
+    <h3>방법 2: bind</h3>
+    <pre>let user = {
+  firstName: "John",
+  sayHi() { alert(`Hello, ${this.firstName}!`);  }
+};
+let sayHi = user.sayHi.bind(user);
+// let sayHi = uer.sayHI; sayHi.call(user);
+say("Hello"); // Hello, John (인수 "Hello"가 say로 전달되었습니다.)
+say("Bye"); // Bye, John ("Bye"가 say로 전달되었습니다.)
+setTimeout(sayHi, 1000);</pre>
+  </section>
+  <section>
+    <h2>컨텍스트 없는 부분 적용</h2>
+    <h3>좀 혼란 스러움...</h3>
+    <pre>function partial(func, ...argsBound) {
+  return function(...args) { // (*)
+    return func.call(this, ...argsBound, ...args);
+  }
+}
+// 사용법:
+let user = {
+  firstName: "John",
+  say(time, phrase) {
+    console.log(`[${time}] ${this.firstName}: ${phrase}!`);
+  }
+};
+// 시간을 고정한 부분 메서드를 추가함
+user.sayNow = partial(user.say, new Date().getHours() + ':' + new Date().getMinutes());
+user.sayNow("Hello");
+// 출력값 예시:
+// [10:00] John: Hello!</pre>
+  </section>
+</main>
+<!--################################################-->
+<script>
+  function partial(func, ...argsBound) {
+    return function(...args) { // (*)
+      return func.call(this, ...argsBound, ...args);
+    }
+  }
+  let user = {
+    firstName: "John",
+    say(time, phrase) {
+      console.log(`[${time}] ${this.firstName}: ${phrase}!`);
+    }
+  };
+  // 시간을 고정한 부분 메서드를 추가함
+  user.sayNow = partial(user.say, new Date().getHours() + ':' + new Date().getMinutes());
+  user.sayNow("Hello");
+  let user2 = {
+    firstName: "John",
+    sayHi(ok) {
+      console.log(`${ok}, ${this.firstName}!`);  }
+  };
+  let sayHi = user2.sayHi;
+  sayHi.call(user2, "Hiiii");
+</script>
+</body>
+</html>

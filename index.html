@@ -3,13 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1" name="viewport">
-  <title>JS, DOM, BOM, events</title>
-<!--  <script src="/js/menu/loadScript.js"></script>-->
+  <title>JS, Java, HTML</title>
+ <script src="/js/menu/loadScript.js"></script>
   <link href="/favicon-32x32.png" rel="icon"/>
   <link href="/css/style.css" rel="stylesheet">
+  <style>
+    .index-main {
+      margin-top: 60px;margin-left: 17px;
+    }
+  </style>
 </head>
 <body>
-<div style="margin-top: 60px;margin-left: 17px;">
+<div class="index-main">
     <h2>관련 내용은 JS Info, MDN 페이지를 참조함</h2>
     <ul>
       <li><a href="https://ko.javascript.info/">JS infor 페이지</a></li>
@@ -20,16 +25,14 @@
         JS 표준 내장 객체</a></li>
     </ul>
 </div>
-<script>
-  function loadScript(src, callback) {
-    let script = document.createElement("script");
-    script.src = src;
-    script.onload = () => callback(script);
-    document.head.append(script);
-  }
-  loadScript('/js/menu/loadNav.js', function (page) {
-    console.log(page);
-  });
-</script>
+<div class="index-main" style="margin-top: 10px;">
+  <h2>vs code 단축키</h2>
+  <ul>
+    <li>한줄 복사: alt+shift + arrow</li>
+    <li>한줄 이동: alt + arrow</li>
+    <li>줄삭제:Ctrl + Shift + K </li>
+    <li>console.log: log + tabkey</li>
+  </ul>
+</div>
 </body>
 </html>

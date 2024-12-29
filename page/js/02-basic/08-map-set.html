@@ -17,10 +17,137 @@
     <h2>map</h2>
     <h3>map은 키가 있는 데이터를 저장한다는 점에서 객체와 유사하지만, 맵의 키는 다양한 자료형을 허용</h3>
     <h3>let map = new Map(); map.set(key, value); map.get(key); </h3>
-    <h3>map.has(key); map.delete(key); map.clear(); map.size()</h3>
+    <h3>map.has(key); map.delete(key); map.clear(); map.size; </h3>
+    <pre>let map = new Map();
+map.set('1', 'str1');   // 문자형 키
+map.set(1, 'num1');     // 숫자형 키
+map.set(true, 'bool1'); // 불린형 키
+
+// 객체는 키를 문자형으로 변환한다는 걸 기억하고 계신가요?
+// 맵은 키의 타입을 변환시키지 않고 그대로 유지합니다. 따라서 아래의 코드는 출력되는 값이 다릅니다.
+map.get(1); // 'num1'   map.get('1'); // 'str1'
+alert( map.size ); // 3
+map.set('1', 'str1') //chaining 가능
+  .set(1, 'num1')
+  .set(true, 'bool1');    </pre>
+  </section>
+  <section>
+    <h2>map 요소에 반복 작업하기</h2>
+    <ul>
+      <li><code>map.keys()</code> – 각 요소의 키를 모은 반복 가능한(iterable, 이터러블) 객체를 반환합니다.</li>
+      <li><code>map.values()</code> – 각 요소의 값을 모은 이터러블 객체를 반환합니다.</li>
+      <li><code>map.entries()</code> –  요소의 <code>[키, 값]</code>을 한 쌍으로 하는 이터러블 객체를 반환합니다.
+        이 이터러블 객체는 <code>for..of</code>반복문의 기초로 쓰입니다.</li>
+    </ul>
+    <pre>let recipeMap = new Map([
+  ['cucumber', 500],  ['tomatoes', 350],  ['onion',    50]
+]);
+// 키(vegetable)를 대상으로 순회합니다.
+for (let vegetable of recipeMap.keys()) {
+  alert(vegetable); // cucumber, tomatoes, onion
+}
+// 값(amount)을 대상으로 순회합니다.
+for (let amount of recipeMap.values()) {
+  alert(amount); // 500, 350, 50
+}
+// [키, 값] 쌍을 대상으로 순회합니다.
+for (let entry of recipeMap) { // recipeMap.entries()와 동일합니다.
+  alert(entry); // cucumber,500 ...
+}</pre>
+    <h3>맵은 삽입 순서를 기억</h3>
+    <h3>맵은 배열과 유사하게 forEach도 지원</h3>
+    <pre>recipeMap.forEach( (value, key, map) => {
+  alert(`${key}: ${value}`); // cucumber: 500 ...
+});</pre>
+  </section>
+  <section>
+    <h2>Object.entries; object를 map으로 변경</h2>
+    <pre>let map = new Map(Object.entries(obj));</pre>
+    <h2>Object.fromEntries; map을 객체로 변경</h2>
+    <pre>let obj = Object.fromEntries(map.entries()); // .entries()를 생략 가능
+let prices = Object.fromEntries([ ['banana', 1],  ['orange', 2],  ['meat', 4] ]);
+// now prices = { banana: 1, orange: 2, meat: 4 }
+alert(prices.orange); // 2</pre>
+    <h2>Object.keys(obj); Object.values(obj);</h2>
+  </section>
+  <section>
+    <h2>set</h2>
+    <p>set은 중복을 허용하지 않음. 키가 없음</p>
+    <h3>new Set(iterable); set.add(value); set.delete(value); </h3>
+    <h3>set.has(value);  set.clear(); set.size;</h3>
+    <pre>let set = new Set(["oranges", "apples", "bananas"]);
+for (let value of set) alert(value);
+// forEach를 사용해도 동일하게 동작합니다.
+set.forEach((value, valueAgain, set) => {
+  alert(value);
+});</pre>
+    <p>forEach에 쓰인 콜백 함수는 세 개의 인수를 받는데, 첫 번째는 값, 두 번째도 같은 값인
+      valueAgain을 받고 있습니다. 세 번째는 목표하는 객체(셋)이고요. 동일한 값이 인수에 두 번 등장하고 있습니다.
+      이렇게 구현된 이유는 맵과의 호환성 때문입니다. </p>
+    <ul>
+      <li>set.key(); set내의 모든 값을 포함하는 이터러블 객체를 반환</li>
+      <li>set.values(); map과의 호환성 때문에</li>
+      <li>set.entries(); 셋 내의 각 값을 이용해 만든 [value, value] 배열을 포함하는 이터러블 객체를 반환합니다. 맵과의 호환성을 위해 만들어졌습니다.</li>
+    </ul>
+  </section>
+  <h1>Object.keys, values, entries</h1>
+  <h3>사용 가능한 자료구조: Map, Set, Array</h3>
+  <h3>배열을 반환: Object.entries(obj) => [key, value] 배열을 반환</h3>
+  <section>
+    <h2>사용법</h2>
+    <pre>             map             object
+호출문법:   map.key()        Object.keys(obj)
+반환 값:    iterable 객체    진짜 배열</pre>
+    <pre>let user = { name: "John", age: 30 };
+Object.keys(user) = ["name", "age"]
+Object.values(user) = ["John", 30]
+Object.entries(user) = [ ["name","John"], ["age",30] ]
+for(let value of Object.values(obj) { ... }</pre>
+  </section>
+  <section>
+    <h2>객체 변환하기</h2>
+    <h3>Object.entries(obj) => .map(([key, value]) => [key, value *2]) => wrap Object.fromEntries</h3>
   </section>
 </main>
 <script>
+  function unique(arr) {
+    return Array.from(new Set(arr));
+  }
+  let values = ["Hare", "Krishna", "Hare", "Krishna", "Krishna", "Krishna", "Hare", "Hare", ":-O" ];
+  console.log( unique(values) );
+  function aclean(array) {
+    let map = new Map();
+    for (let value of array) {
+      let key = value.toLowerCase().split('').sort().join('');
+      map.set(key, value);
+    }
+    return Array.from(map.values());
+  }
+  let arr = ["nap", "teachers", "cheaters", "PAN", "ear", "era", "hectares"];
+  console.log( aclean(arr) );
+  let salaries = {
+    "John": 100,
+    "Pete": 300,
+    "Mary": 250
+  };
+
+  console.log( sumSalaries(salaries) ); // 650
+  function sumSalaries(salaries) {
+    let sum = 0;
+    for (let salary of Object.values(salaries)) {
+      sum += salary;
+    }
+    return sum;
+  }
+  let user = {
+    name: 'John',
+    age: 30
+  };
+
+  console.log( count(user) ); // 2
+  function count(user) {
+    return Object.keys(user).length;
+  }
 </script>
 </body>
 </html>
