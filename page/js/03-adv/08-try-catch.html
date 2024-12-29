@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>JavaScript</title>
+  <script src="/js/menu/loadScript.js"></script>
+  <link rel="icon" href="/favicon-32x32.png" />
+  <link href="/css/style.css" rel="stylesheet" >
+</head>
+<body>
+<main>
+  <h1>try catch</h1>
+  <section>
+    <h2>setTimeout과 같은 스케줄된 코드에서는 try..catch를 잡아낼수 없음</h2>
+    <pre>setTimeout(function(){
+  try{
+  noSuchFunction;
+  } catch(e){
+  console.log(e);
+  }
+}, 1000)</pre>
+  </section>
+  <section>
+    <h2>애러 다시 던지기: 예상못한 애러 처리...</h2>
+    <pre>
+function readData() {
+  let json = '{ "age": 30 }'; // 불완전한 데이터
+  try {
+    let user = JSON.parse(json); // <-- 에러 없음
+    if (!user.name) {
+      throw new SyntaxError("불완전한 데이터: 이름 없음"); // (*)
+    }
+    alert( user.name );
+  } catch(e) {
+    if(e instanceof SyntaxError){
+      console.log(e);
+    } else {
+      throw e;
+    }
+    alert( "JSON Error: " + e.message ); // JSON Error: 불완전한 데이터: 이름 없음
+  }
+}
+//나머지 애러를 처리함
+try {
+  readData();
+} catch(e) {
+  console.log(e);
+}</pre>
+  </section>
+  <section>
+    <h2>finally</h2>
+    <h3>finally 절은 무언가를 실행하고, 실행 결과에 상관없이 실행을 완료하고 싶을 경우 사용</h3>
+    <pre>let num = 9;
+let diff, result;
+function fib(n) {
+  if (n < 0 || Math.trunc(n) != n) {
+    throw new Error("음수나 정수가 아닌 값은 처리할 수 없습니다.");
+  }
+  return n <= 1 ? n : fib(n - 1) + fib(n - 2);
+}
+let start = Date.now();
+
+try { result = fib(num);
+} catch (e) { result = 0;
+} finally { diff = Date.now() - start; }
+
+alert(result || "에러 발생");
+alert( `연산 시간: ${diff}ms` );</pre>
+    <h3>try..catch..finallly 안의 변수는 지역 변수</h3>
+    <h4>위 예시에서 변수 diff와 result는 try..catch 전 에 선언되었다는 점에 주의</h4>
+  </section>
+  <section>
+    <h2>전역 catch</h2>
+    <h3>브라우저 환경에선 window.onerror를 이용해 에러를 처리할 수 있습니다. window.onerror 프로퍼티에
+      함수를 할당하면, 예상치 못한 에러가 발생했을 때 이 함수가 실행됩니다.</h3>
+    <pre>window.onerror = function(message, url,line, col, error) {
+      // ...
+  }</pre>
+    <h4>message: 애러 매시지, url: 애러가 발생한 url, line/col: 애러가 발생한 곳의 줄과 열 번호, error: 애러 객체</h4>
+    <h4>그런데 전역 핸들러 window.onerror는 죽어버린 스크립트를 복구하려는 목적으로는 잘 사용하지 않습니다. 프로그래밍 에러가 발생한 경우 window.onerror만으로 스크립트를 복구하는 건 사실상 불가능하죠. window.onerror는 개발자에게 에러 메시지를 보내는 용도로 사용합니다.</h4>
+  </section>
+  <h1>커스텀 애러와 애러 확장</h1>
+  <h2>나중에 필요할 때 읽어 보기.. 일단 스킵</h2>
+</main>
+<!--################################################-->
+<script>
+  let num = 21;
+  let diff, result;
+  function fib(n) {
+    if (n < 0 || Math.trunc(n) !== n) {
+      throw new Error("음수나 정수가 아닌 값은 처리할 수 없습니다.");
+    }
+    return n <= 1 ? n : fib(n - 1) + fib(n - 2);
+  }
+  let start = Date.now();
+
+  try { result = fib(num);
+  } catch (e) { result = 0;
+  } finally { diff = Date.now() - start; }
+
+  console.log(result || "에러 발생");
+  console.log( `연산 시간: ${diff}ms` );
+</script>
+</body>
+</html>

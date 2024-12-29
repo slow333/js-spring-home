@@ -197,10 +197,11 @@ tr, td, th {
   display: flex;
   flex-direction: column;
   padding: 6px;
-  margin-left: 10px;
+  margin-left: 0;
 }
 .aside > ul h2 {
   font-size: 18px;
+  padding:6px 0; margin:0;
 }
 .aside > ul h2:before {
   content: "";
@@ -239,11 +240,14 @@ tr, td, th {
   display: none;
 }
 .aside .content a{
-  margin: 0 ;
-  padding: 3px 6px;
+  margin-left: 4px;
+  padding: 2px 4px;
   display: inline-block;
   text-decoration: none;
-  width: 170px;
+  width: 100%;
+}
+.aside .content a:before {
+  content: "▸ ";
 }
 .aside a:link,
 .aside a:visited

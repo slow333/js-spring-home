@@ -37,8 +37,10 @@ async function setNavEl(text){
 }
 // nav에 설정된 href를 활용해서 현재의 location 기반 aside file 선택
 async function selectAsideUrl () {
-   if (location.href === 'http://127.0.0.1:8080/index.html')
+   if (location.href === 'http://127.0.0.1:8080/index.html') {
+      document.title = "HOME";
       return null;
+   }
    let asideName = location.href.split('/')[4];
    document.title = asideName;
    return `/page/components/${asideName}-aside.html`;
