@@ -33,7 +33,7 @@ body {
 }
 
 main {
-  padding: 48px 5px 0 206px;
+  padding: 40px 5px 0 206px;
   overflow: auto;
   margin:0 0 40px 0;
   min-height: calc(94.04vh);
@@ -172,7 +172,7 @@ tr, td, th {
 /* #### aside menu #### */
 .aside {
   position: fixed;
-  top: 38px;
+  top: 30px;
   display: flex;
   flex-direction: column;
   width: 200px;
@@ -189,7 +189,7 @@ tr, td, th {
   background-color: #333;
   text-align: center;
   padding: 8px 0;
-  margin:0 0 8px 0;
+  margin:0 ;
   font-family: var(--fontstack), serif;
   width:100%;
 }

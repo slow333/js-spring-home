@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>JavaScript</title>
+  <script src="/js/menu/loadScript.js"></script>
+  <link rel="icon" href="/favicon-32x32.png" />
+  <link href="/css/style.css" rel="stylesheet" >
+</head>
+<body>
+<main>
+  <h1>promise</h1>
+  <section>
+    <h2>new Promise(function(resolve, reject) { ... })</h2>
+    <h3>resolve(value) — 일이 성공적으로 끝난 경우 그 결과를 나타내는 value와 함께 호출</h3>
+    <h3>reject(error) — 에러 발생 시 에러 객체를 나타내는 error와 함께 호출</h3>
+    <pre>let promise = new Promise(function(resolve, reject) {
+  setTimeout(() => resolve("완료!"), 1000);
+});
+
+// resolve 함수는 .then의 첫 번째 함수(인수)를 실행합니다.
+promise.then(
+  result => alert(result), // 1초 후 "완료!"를 출력
+  error => alert(error) // 실행되지 않음
+);</pre>
+    <h3>catch</h3>
+    <pre>promise.then(
+  result => alert(result), // 1초 후 "완료!"를 출력
+).catch(e => alert(e));
+).then(null, function() {...}); 둘은 같음</pre>
+    <h3>finally</h3>
+    <h4>finally 핸들러엔 인수가 없습니다. finally에선 프라미스가 이행되었는지, 거부되었는지 알 수 없습니다.
+      finally에선 절차를 마무리하는 ‘보편적’ 동작을 수행하기 때문에 성공·실패 여부를 몰라도 됩니다.</h4>
+    <h4>finally 핸들러는 자동으로 다음 핸들러에 결과와 에러를 전달합니다.</h4>
+    <pre>new Promise((resolve, reject) => {
+  setTimeout(() => resolve("결과"), 2000)
+})
+  .finally(() => alert("프라미스가 준비되었습니다."))
+  .then(result => alert(result))  // <-- .then에서 result를 다룰 수 있음
+  .catch(err => alert(err));  </pre>
+  </section>
+  <section>
+    <h2>loadScript</h2>
+    <pre>function loadScript(src) {
+  return new Promise(function(resolve, reject) {
+    let script = document.createElement('script');
+    script.src = src;
+
+    script.onload = () => resolve(script);
+    script.onerror = () => reject(new Error(`${src}를 불러오는 도중에 에러가 발생함`));
+
+    document.head.append(script);
+  });
+}
+let promise = loadScript("https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.js");
+promise.then(
+  script => alert(`${script.src}을 불러왔습니다!`),
+  error => alert(`Error: ${error.message}`)
+);
+promise.then(script => alert('또다른 핸들러...'));</pre>
+  </section>
+</main>
+<!--################################################-->
+<script>
+  let promise = new Promise(function(resolve, reject) {
+    setTimeout(() => resolve("완료!"), 1000);
+  });
+  // resolve 함수는 .then의 첫 번째 함수(인수)를 실행합니다.
+  promise.then(
+    result => console.log(result), // 1초 후 "완료!"를 출력
+    error => console.log(error) // 실행되지 않음
+  );
+</script>
+</body>
+</html>

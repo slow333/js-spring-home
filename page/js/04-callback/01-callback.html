@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>JavaScript</title>
+  <script src="/js/menu/loadScript.js"></script>
+  <link rel="icon" href="/favicon-32x32.png" />
+  <link href="/css/style.css" rel="stylesheet" >
+</head>
+<body>
+<main>
+  <h1>callback</h1>
+  <p>setTimeout은 스케줄링에 사용되는 대표적인 함수. 모든 스크립트가 실행되고 난 후에 실행됨</p>
+  <section>
+    <h2>loadScript </h2>
+    <pre>function loadScript(src, callback) {
+    let script = document.createElement('script');
+    script.src = src;
+    script.onload = () => callback(null, script); // null을 앞에 넣야함
+    script.onerror = () => callback(new Error('failed to load script'));
+    document.head.append(script);
+  }
+  loadScript('/js/exercises/printFor.js', function (error, script) {
+    if (error) {
+      console.log(error.message);
+    } else {
+      console.log(script);
+      printText(location.href)
+      loadScript('/js/exercises/printFor.js', function (error, script) {
+        if (error) {
+          console.log(error.message);
+        } else {
+          console.log(script);
+          loadScript('/js/exercises/printFor.js', function (error, script) {
+           ...
+          }
+        }
+      }
+    }
+});</pre>
+  </section>
+</main>
+<!--################################################-->
+<script>
+  function loadScript(src, callback) {
+    let script = document.createElement('script');
+    script.src = src;
+    script.onload = () => callback(null, script);
+    script.onerror = () => callback(new Error('failed to load script'));
+    document.head.append(script);
+  }
+  loadScript('/js/exercises/printFor.js', function (error, script) {
+    if (error) {
+      console.log(error.message);
+    } else {
+      console.log(script);
+      printText(location.href)
+    }
+  });
+</script>
+</body>
+</html>
