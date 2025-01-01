@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>JavaScript</title>
+  <script src="/js/menu/loadNav.js"></script>
+  <link rel="icon" href="/favicon-32x32.png" />
+  <link href="/css/style.css" rel="stylesheet" >
+</head>
+<body>
+<main>
+  <h1>모듈 소개</h1>
+  <p>모듈은 단지 파일 하나에 불과합니다. 스크립트 하나는 모듈 하나입니다.</p>
+  <pre>&lt;script type="module"> 해주면 import 가능</pre>
+  <pre>&lt;script type="module">
+import * as say from '/js/module.js';
+say.hi(); say.sayBye();</pre>
+  <h3>모듈 스크립트는 항상 지연 실행됩니다. 외부 스크립트, 인라인 스크립트와 관계없이
+    마치 defer 속성을 붙인 것처럼 실행됩니다</h3>
+  <h3>import.meta.url; </h3>
+  <h4>인라인 스크립트가 위치해 있는 html 페이지의 URL</h4>
+  <section>
+    <h2>사용법</h2>
+    <pre>// 📁 /js/modules/say.js
+export function say() {  console.log("Hello World!"); }
+&lt;script type="module">
+  import { say } from '/js/modules/say.js';
+  say();
+&lt;/script>
+&lt;script type="module" src="/js/modules/say.js">
+  say();
+&lt;/script></pre>
+    <pre>import {user} from './user.js';
+document.body.innerHTML = user; // John</pre>
+  </section>
+  <section>
+    <h2>모듈 다시 내보내기</h2>
+<pre>auth/
+  index.js
+  user.js
+  helpers.js
+  tests/
+      login.js
+  providers/
+      github.js
+      facebook.js
+      ...</pre>
+    <pre>// 📁 auth/index.js
+// login과 logout을 가지고 온 후 바로 내보냅니다.
+export {login, logout} from './helpers.js';
+// User 가져온 후 바로 내보냅니다.
+export {default as User} from './user.js';
+...    </pre>
+  </section>
+  <section>
+    <h2>import() 표현식</h2>
+    <pre>&lt;script>
+  async function load() {
+    let say = await import('./say.js');
+    say.hi(); // 안녕하세요.
+    say.bye(); // 안녕히 가세요.
+    say.default(); // export default한 모듈을 불러왔습니다!
+  }
+&lt;/script>
+&lt;button onclick="load()">클릭해주세요,&lt;/button></pre>
+    <script>
+      async function load() {
+        let say = await import('/js/modules/say.js');
+        say.sayHi();
+        say.sayHello();
+        say.say();
+      }
+      load();
+    </script>
+  </section>
+  <section>
+    <h2>모듈은 한번만 평가됨</h2>
+    <pre>// 📁 admin.js
+export let admin = {  name: "John" };
+// 📁 1.js
+import {admin} from './admin.js';
+admin.name = "Pete";
+// 📁 2.js
+import {admin} from './admin.js';
+alert(admin.name); // Pete
+// 1.js와 2.js 모두 같은 객체를 가져오므로
+// 1.js에서 객체에 가한 조작을 2.js에서도 확인할 수 있습니다.</pre>
+  </section>
+  <section>
+    <h2>인라인 스크립트의 비동기 처리</h2>
+    <h3>모듈이 아닌 일반 스크립트에서 async 속성은 외부 스크립트를 불러올 때만 유효</h3>
+    <h3>async 속성이 붙은 스크립트는 로딩이 끝나면 다른 스크립트나 HTML 문서가 처리되길 기다리지 않고 바로 실행</h3>
+    <h3>반면, 모듈 스크립트에선 async 속성을 인라인 스크립트에도 적용할 수 있습니다.</h3>
+    <p>아래 인라인 스크립트엔 async 속성이 붙었기 때문에 다른 스크립트나 HTML이 처리되길 기다리지 않고 바로 실행됩니다.</p>
+    <pre>필요한 모듈(analytics.js)의 로드가 끝나면
+문서나 다른 script 가 로드되길 기다리지 않고 바로 실행됩니다.
+&lt;script async type="module">
+  import {counter} from './analytics.js';
+  counter.count();
+&lt;/script></pre>
+  </section>
+</main>
+<!--################################################-->
+<script type="module">
+  import { say } from '/js/modules/say.js';
+  say();
+</script>
+</body>
+</html>

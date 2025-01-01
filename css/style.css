@@ -17,10 +17,11 @@
   --colorgray:#777;
   --colorbright:#f1f1f1;
   --colorbrightest:#fafafa;
-  --h1: 26px;
-  --h2: 20px;
-  --h3: 16px;
-  --p: 14px;
+  --h1: 28px;
+  --h2: 22px;
+  --h3: 20px;
+  --h4: 18px;
+  --p: 16px;
   --subtext: 12px;
   --transition: 0.4s ease-in-out;
   --shadow: #00000030 0px 0px 10px 0px;
@@ -85,7 +86,7 @@ h3:before {
   color: var(--coloraccent);
 }
 h4  {
-  font-size: var(--h3);
+  font-size: var(--h4);
   font-weight: normal;
   margin: 7px 0 0 20px;
 }

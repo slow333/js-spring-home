@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>JavaScript</title>
+  <script src="/js/menu/loadScript.js"></script>
+  <link rel="icon" href="/favicon-32x32.png" />
+  <link href="/css/style.css" rel="stylesheet" >
+</head>
+<body>
+<main>
+  <h1>promise API</h1>
+  <section>
+    <h2>Promise.all</h2>
+    <h3>하나라도 애러가 나면 전체가 애러남</h3>
+    <pre>let promise = Promise.all([ ...promises... ])</pre>
+    <pre>let urls = [ url1, url2, url3 ];
+  let requests = urls.map(url => fetch(url));
+  Promise.all(requests)
+    .then(responses => responses.forEach(
+      response => alert(`${response.url}: ${response.status}`)
+    ));</pre>
+    <pre>  let names = ['iliakan', 'Violet-Bora-Lee', 'jeresig'];
+  let requests = names.map(name => fetch(`https://api.github.com/users/${name}`));
+  Promise.all(requests)
+    .then(responses => {
+      for(let response of responses) {
+        console.log(`${response.url}: ${response.status}`); // 모든 url의 응답코드가 200입니다.
+      }
+      return responses;
+    })
+    .then(responses => Promise.all(responses.map(r => r.json())))
+    .then(users => {
+      users.forEach(user => {
+        let avatar = user.avatar_url;
+        let avatarImg = document.createElement('img');
+        avatarImg.src = avatar;
+        avatarImg.width = 100;
+        document.querySelector('#promises').appendChild(avatarImg);
+        setTimeout(() => {  avatarImg.remove(); }, 3000);
+      });
+        return users;
+      })
+    .then(users => users.forEach(user => console.log(user.name)));</pre>
+  </section>
+  <section>
+    <h2>Promise.allSettled</h2>
+    <h3>모든 프라미스가 처리될 때까지 기다림</h3>
+    <pre>let names = [ 'iliakan', 'Violet-Bora-Lee', 'no-such-url' ];
+Promise.allSettled(names.map(name => fetch(`https://api.github.com/users/${name}`)))
+  .then(results => {
+    results.forEach((result, num) => {
+      if (result.status == "fulfilled")
+        console.log(`${names[num]}: ${result.value.status}`);
+      if (result.status == "rejected")
+        console.log(`${names[num]}: ${result.reason}`);
+    });
+  });</pre>
+  </section>
+  <section>
+    <h2>Promise.race</h2>
+    <h3>가장먼저 처리되는 결과를 반환</h3>
+    <pre>let promise = Promise.race(iterable);</pre>
+    <pre>Promise.race([
+  new Promise((resolve, reject) => setTimeout(() => resolve(1), 1000)),
+  new Promise((resolve, reject) => setTimeout(() => reject(new Error("에러 발생!")), 2000)),
+  new Promise((resolve, reject) => setTimeout(() => resolve(3), 3000))
+]).then(alert); // 1</pre>
+  </section>
+  <section><h2>Promisify; callback 함수를 promise로 만듦</h2></section>
+  <section id="promises">
+
+  </section>
+</main>
+<!--################################################-->
+<script>
+  let names = [ 'iliakan', 'Violet-Bora-Lee', 'no-such-url' ];
+  Promise.allSettled(names.map(name => fetch(`https://api.github.com/users/${name}`)))
+    .then(results => { // (*)
+      results.forEach((result, num) => {
+        if (result.status === "fulfilled") {
+          console.log(`${names[num]}: ${result.value.status}`);
+        }
+        if (result.status === "rejected") {
+          console.log(`${names[num]}: ${result.reason}`);
+        }
+      });
+    });
+</script>
+</body>
+</html>

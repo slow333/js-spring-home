@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JavaScript</title>
+  <link rel="icon" href="/favicon-32x32.png" />
+  <link href="/css/style.css" rel="stylesheet" >
+  <script src="/js/menu/loadScript.js"></script>
+</head>
+<body>
+<main>
+  <h1>주요 노드 프로퍼티</h1>
+  <section>
+    <h2>주요 DOM 노드 프로퍼티는 다음과 같습</h2>
+    <h3>nodeType</h3>
+    <h4>요소 타입을 알고 싶을 때 사용합니다. 요소 노드라면 1을, 텍스트 노드라면 3을 반환합니다.
+      두 타입 외에도 각 노드 타입엔 대응하는 상숫값이 있습니다. 읽기 전용입니다.</h4>
+    <h3>nodeName/tagName</h3>
+    <h4>요소 노드의 태그 이름을 알아낼 때 사용합니다. XML 모드일 때를 제외하고 태그 이름은 항상 대문자로 변환됩니다.
+      요소 노드가 아닌 노드에는 nodeName을 사용하면 됩니다. 읽기 전용입니다.</h4>
+    <h3>innerHTML : HTML을 수정</h3>
+    <h3>outerHTML</h3>
+    <h4>elem.outerHTML에 무언가를 할당해도 elem 자체는 바뀌지 않습니다.
+      대신 새로운 HTML이 외부 컨텍스트에서 만들어지고, elem이 삭제된 자리를 채웁니다.</h4>
+    <h3>nodeValue/data</h3>
+    <h4>요소가 아닌 노드(텍스트, 주석 노드 등)의 내용을 읽을 때 쓰입니다. 두 프로퍼티는 거의 동일하게 동작합니다.
+      주로 data를 많이 사용하는 편이며 내용을 수정할 때도 이 프로퍼티를 쓸 수 있습니다.</h4>
+    <h3>textContent</h3>
+    <h4>HTML에서 모든 태그를 제외한 텍스트만 읽을 때 사용합니다.
+      할당 연산을 통해 무언가를 쓸 수도 있는데 이때 태그를 포함한 모든 특수문자는 문자열로 처리됩니다.
+      사용자가 입력한 문자를 안전한 방법으로 처리하기 때문에 원치 않는
+      HTML이 사이트에 삽입되는 것을 예방할 수 있습니다.</h4>
+    <h3>hidden</h3>
+    <h4>true로 설정하면 CSS에서 display:none을 설정한 것과 동일하게 동작합니다.</h4>
+  </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>JavaScript</title>
+  <script src="/js/menu/loadNav.js"></script>
+  <link rel="icon" href="/favicon-32x32.png" />
+  <link href="/css/style.css" rel="stylesheet" >
+</head>
+<body>
+<main>
+  <h1>Proxy</h1>
+  <p>Proxy는 특정 객체를 감싸 프로퍼티 읽기, 쓰기와 같은 객체에 가해지는 작업을 중간에서 가로채는 객체로, 가로채진 작업은 Proxy 자체에서 처리되기도 하고, 원래 객체가 처리하도록 그대로 전달되기도 합니다.</p>
+  <p>프락시는 다양한 라이브러리와 몇몇 브라우저 프레임워크에서 사용되고 있습니다.</p>
+  <pre>let proxy = new Proxy(target, handler)</pre>
+  <h2>get 트랩으로 프로퍼티 기본값 설정</h2>
+  <h2>set 트랩으로 프로퍼티 값 검증</h2>
+  <h2>ownKeys와 getOwnPropertyDescriptor로 반복 작업</h2>
+  <h2>deleteProperty와 여러 트랩을 사용해 프로퍼티 보호</h2>
+  <h2>has 트랩으로 ‘범위’ 내 여부 확인하기</h2>
+  <h2>apply 트랩으로 함수 감싸기</h2>
+  <h2>Reflect</h2>
+  <h3>Reflect is a built-in object that simplifies creation of Proxy.</h3>
+  <pre>let user = { name: "John", _password: "***" };
+user = new Proxy(user, {
+  get(target, prop) {
+    if (prop.startsWith('_')) {
+      throw new Error("접근이 제한되어있습니다.");
+    }
+    let value = target[prop];
+    return (typeof value === 'function') ? value.bind(target) : value; // (*)
+  },
+  set(target, prop, val) { // 프로퍼티 쓰기를 가로챕니다.
+    if (prop.startsWith('_')) {
+      throw new Error("접근이 제한되어있습니다.");
+    } else {
+      target[prop] = val;
+      return true;
+    }
+  },
+  deleteProperty(target, prop) { // 프로퍼티 삭제를 가로챕니다.
+    if (prop.startsWith('_')) {
+      throw new Error("접근이 제한되어있습니다.");
+    } else {
+      delete target[prop];
+      return true;
+    }
+  },
+  ownKeys(target) { // 프로퍼티 순회를 가로챕니다.
+    return Object.keys(target).filter(key => !key.startsWith('_'));
+  }
+});
+
+// "get" 트랩이 _password 읽기를 막습니다.
+try {
+  alert(user._password); // Error: 접근이 제한되어있습니다.
+} catch(e) { alert(e.message); }
+
+// "set" 트랩이 _password에 값을 쓰는것을 막습니다.
+try {
+  user._password = "test"; // Error: 접근이 제한되어있습니다.
+} catch(e) { alert(e.message); }
+
+// "deleteProperty" 트랩이 _password 삭제를 막습니다.
+try {
+  delete user._password; // Error: 접근이 제한되어있습니다.
+} catch(e) { alert(e.message); }
+
+// "ownKeys" 트랩이 순회 대상에서 _password를 제외시킵니다.
+for(let key in user) alert(key); // name</pre>
+</main>
+<!--################################################-->
+<script>
+</script>
+</body>
+</html>

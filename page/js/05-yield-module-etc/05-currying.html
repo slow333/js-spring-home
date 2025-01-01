@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>JavaScript</title>
+  <script src="/js/menu/loadNav.js"></script>
+  <link rel="icon" href="/favicon-32x32.png" />
+  <link href="/css/style.css" rel="stylesheet" >
+</head>
+<body>
+<main>
+  <h1>currying</h1>
+  <p>커링 (Currying) 은 함수와 함께 사용할 수 있는 고급기술입니다.
+    오직 자바스크립트에만 존재하는 것은 아니고 다른 언어에도 존재하죠.</p>
+  <p>커링은 f(a, b, c)처럼 단일 호출로 처리하는 함수를 f(a)(b)(c)와 같이 각각의 인수가
+    호출 가능한 프로세스로 호출된 후 병합되도록 변환하는 것입니다.</p>
+  <h2>curry 함수</h2>
+  <pre>function curry(f) { // 커링 변환을 하는 curry(f) 함수
+  return function(a) {
+    return function(b) {
+      return f(a, b);
+    };
+  };
+}
+// usage
+function sum(a, b) {  return a + b; }
+
+let curriedSum = curry(sum);
+alert( curriedSum(1)(2) ); // 3</pre>
+  <pre>function sum(a, b) {
+  return a + b;
+}
+let carriedSum = _.curry(sum); // lodash 라이브러리의 _.carry 사용
+alert( carriedSum(1, 2) ); // 3, 보통 때 처럼 호출가능
+alert( carriedSum(1)(2) ); // 3, partially 호출되었음</pre>
+  <h2>사례:로그 함수 호출</h2>
+  <pre>function log(date, importance, message) {
+  alert(`[${date.getHours()}:${date.getMinutes()}] [${importance}] ${message}`);
+}
+
+log = _.curry(log);
+log(new Date(), "DEBUG", "some debug"); // log(a, b, c)
+log(new Date())("DEBUG")("some debug"); // log(a)(b)(c)
+// logNow 는 log 의 첫 번째 인수가 고정된 partial이 될 것입니다.
+
+let logNow = log(new Date());
+// use it
+logNow("INFO", "message"); // [HH:mm] INFO message
+
+let debugNow = logNow("DEBUG");
+debugNow("message"); // [HH:mm] DEBUG 메세지</pre>
+</main>
+<!--################################################-->
+<script>
+  function sum(a, b) {
+    return a + b;
+  }
+  let carriedSum = _.curry(sum); // lodash 라이브러리의 _.carry 사용
+  alert( carriedSum(1, 2) ); // 3, 보통 때 처럼 호출가능
+  alert( carriedSum(1)(2) ); // 3, partially 호출되었음
+</script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>JavaScript</title>
+  <script src="/js/menu/loadNav.js"></script>
+  <link rel="icon" href="/favicon-32x32.png" />
+  <link href="/css/style.css" rel="stylesheet" >
+</head>
+<body>
+<main>
+  <h1>제너레이터</h1>
+  <p>일반 함수는 하나의 값(혹은 0개의 값)만을 반환합니다.</p>
+  <p>하지만 제너레이터(generator)를 사용하면 여러 개의 값을 필요에 따라 하나씩 반환(yield)할 수 있습니다.
+    제너레이터와 이터러블 객체를 함께 사용하면 손쉽게 데이터 스트림을 만들 수 있습니다.</p>
+  <section>
+    <h2>generator 함수</h2>
+    <pre>function* generateSequence(start, end) {
+  for (let i = start; i <= end; i++) yield i;
+}
+function* generatePasswordCodes() {
+  yield* generateSequence(48, 57);// 0..9, for(...) yield i; 와 같음
+  yield* generateSequence(65, 90);// A..Z
+  yield* generateSequence(97, 122);// a..z
+}
+
+let str = '';
+for(let code of generatePasswordCodes()) {
+  str += String.fromCharCode(code);
+}
+
+console.log(str); // 0..9A..Za..z</pre>
+    <h3>의사난수 재생기</h3>
+    <pre>function pseudoRandom(seed) {
+  let value = seed;
+
+  return function() {
+    value = value * 16807 % 2147483647;
+    return value;
+  }
+}
+
+let generator = pseudoRandom(1);
+
+alert(generator()); // 16807
+alert(generator()); // 282475249
+alert(generator()); // 1622650073</pre>
+  </section>
+</main>
+<!--################################################-->
+<script>
+
+</script>
+</body>
+</html>

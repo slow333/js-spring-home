@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>JavaScript</title>
+  <script src="/js/menu/loadNav.js"></script>
+<!--  <script src="/js/menu/loadScript.js"></script>-->
+  <link rel="icon" href="/favicon-32x32.png" />
+  <link href="/css/style.css" rel="stylesheet" >
+</head>
+<body>
+<main>
+  <h1>async, await</h1>
+  <pre>async function f() {
+  let promise = new Promise((resolve, reject) => {
+    setTimeout(() => resolve("완료!"), 1000)
+  });
+  let result = await promise; // 프라미스가 이행될 때까지 기다림
+  alert(result); // "완료!"
+}
+f();</pre>
+  <pre>async function loadJson(url) {
+  let response =await fetch(url);
+  if(response.status === 200) {
+    return response.json();
+  } else {
+    throw new Error(response.status);
+  }
+}
+ loadJson('no-such-user.json').catch(alert); // Error: 404</pre>
+  <section>
+    <h2>showAvatar</h2>
+    <pre>async function showAvatar() {
+  // JSON 읽기
+  let response = await fetch('/article/promise-chaining/user.json');
+  let user = await response.json();
+  // github 사용자 정보 읽기
+  let githubResponse = await fetch(`https://api.github.com/users/${user.name}`);
+  let githubUser = await githubResponse.json();
+  // 아바타 보여주기
+  let img = document.createElement('img');
+  img.src = githubUser.avatar_url;
+  img.className = "promise-avatar-example";
+  document.body.append(img);
+  // 3초 대기
+  await new Promise((resolve, reject) => setTimeout(resolve, 3000));
+  img.remove();
+  return githubUser;
+}
+
+showAvatar();</pre>
+    <h2>Promise.all 과도 함께 쓸 수 있음</h2>
+    <pre>// 프라미스 처리 결과가 담긴 배열을 기다립니다.
+let results = await Promise.all([
+  fetch(url1),
+  fetch(url2),
+  ...
+]);</pre>
+  </section>
+  <section>
+    <h2>애러 다시 던지기</h2>
+    <pre>class HttpError extends Error {
+  constructor(response) {
+    super(`${response.status} for ${response.url}`);
+    this.name = 'HttpError';
+    this.response = response;
+  }
+}
+
+function loadJson(url) {
+  return fetch(url)
+    .then(response => {
+      if (response.status == 200) return response.json();
+      else throw new HttpError(response);
+    })
+}
+
+// 유효한 사용자를 찾을 때까지 반복해서 username을 물어봄
+function demoGithubUser() {
+  let name = prompt("GitHub username을 입력하세요.", "slow333");
+  return loadJson(`https://api.github.com/users/${name}`)
+    .then(user => {
+      alert(`이름: ${user.name}.`);
+      return user;
+    })
+    .catch(err => {
+      if (err instanceof HttpError && err.response.status == 404) {
+        alert("일치하는 사용자가 없습니다. 다시 입력해 주세요.");
+        return demoGithubUser();
+      } else throw err;
+    });
+}
+
+demoGithubUser();</pre>
+  </section>
+</main>
+<!--################################################-->
+<script>
+
+class HttpError extends Error {
+  constructor(response) {
+    super(`${response.status} for ${response.url}`);
+    this.name = 'HttpError';
+    this.response = response;
+  }
+}
+async function loadJson(url) {
+  let response =await fetch(url);
+  if(response.status === 200) {
+    return response.json();
+  } else {
+    throw new HttpError(response);
+  }
+}
+// loadJson('no-such-user.json').then(json => console.log(json)).catch(console.log); // Error: 404
+
+// 유효한 사용자를 찾을 때까지 반복해서 username을 물어봄
+function demoGithubUser() {
+  let name = "slow333";
+  // let name = prompt("GitHub username을 입력하세요.", "slow33");
+
+  return loadJson(`https://api.github.com/users/${name}`)
+    .then(user => {
+      console.log(`이름: ${user.name}.`);
+      return user;
+    })
+    .catch(err => {
+      if (err instanceof HttpError && err.response.status === 404) {
+        console.log("일치하는 사용자가 없습니다. 다시 입력해 주세요.");
+        return demoGithubUser();
+      } else {
+        throw err;
+      }
+    });
+}
+
+demoGithubUser();
+</script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>JavaScript</title>
+  <script src="/js/menu/loadNav.js"></script>
+  <link rel="icon" href="/favicon-32x32.png" />
+  <link href="/css/style.css" rel="stylesheet" >
+</head>
+<body>
+<main>
+  <h1>BigInt</h1>
+  <p>최근에 추가됨</p>
+  <p>형 변환과 관련된 연산은 항상 조용히 동작합니다. 절대 에러를 발생시키지 않죠. 그런데 bigint가 너무 커서 숫자형에서
+    허용하는 자릿수를 넘으면 나머지 비트는 자동으로 잘려 나갑니다. 이런 점을 염두하고 형 변환을 해야 합니다.</p>
+  <pre>const bigint = 1234567890123456789012345678901234567890n;
+const sameBigint = BigInt("1234567890123456789012345678901234567890");
+const bigintFromNumber = BigInt(10); // 10n과 동일합니다.</pre>
+  <pre>alert(1n + 2n); // 3
+alert(5n / 2n); // 2</pre>
+  <pre>alert(1n + 2); // Error: Cannot mix BigInt and other types</pre>
+  <pre>let bigint = 1n;
+let number = 2;
+
+// 숫자를 bigint로
+alert(bigint + BigInt(number)); // 3
+// bigint를 숫자로
+alert(Number(bigint) + number); // 3</pre>
+  <pre>let bigint = 1n;
+alert( +bigint ); // 에러</pre>
+  <pre>alert( 2n > 1n ); // true
+alert( 2n > 1 ); // true</pre>
+  <pre>alert( 1 == 1n ); // true
+alert( 1 === 1n ); // false</pre>
+</main>
+<!--################################################-->
+<script>
+</script>
+</body>
+</html>

@@ -41,7 +41,6 @@ async function selectAsideUrl () {
        || location.href === "http://127.0.0.1:8080/index.html") {
       document.title = "HOME";
       return null;
-      // return "/page/components/home-aside.html";
    }
    let asideName = location.href.split('/')[4];
    document.title = asideName;
@@ -78,6 +77,6 @@ function showToggleByCurrUrl(aside) {
 // aside 제목(li) 선택 시 하위 리스트(ul) show toggle
 function toggleAsideSub(e) {
    if (e.target.tagName !== 'H2') return;
-   let contentToggle = e.target.closest('li').querySelector('ul');
+   let contentToggle = e.target.closest('.sub-content').querySelector('.content-toggle');
    contentToggle.hidden = !contentToggle.hidden;
 }
