@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JavaScript</title>
+  <link rel="icon" href="/favicon-32x32.png" />
+  <link href="/css/style.css" rel="stylesheet" >
+  <script src="/js/menu/loadScript.js"></script>
+</head>
+<body>
+<main>
+  <h1>문서 수정하기</h1>
+  <section>
+    <h2>내용 추가하기</h2>
+    <ul>
+      <li>node.append(노드나 문자열) – 노드나 문자열을 node 끝에 삽입합니다.</li>
+      <li>node.prepend(노드나 문자열) – 노드나 문자열을 node 맨 앞에 삽입합니다.</li>
+      <li>node.before(노드나 문자열) –- 노드나 문자열을 node 이전에 삽입합니다.</li>
+      <li>node.after(노드나 문자열) –- 노드나 문자열을 node 다음에 삽입합니다.</li>
+      <li>node.replaceWith(노드나 문자열) –- node를 새로운 노드나 문자열로 대체합니다</li>
+    </ul>
+  </section>
+  <section>
+    <h2>insertAdjacentHTML/Text/Element</h2>
+    <h3>elem.insertAdjacentHTML(where, html)</h3>
+    <ul>
+      <li>'beforebegin' – elem 바로 앞에 html을 삽입합니다.</li>
+      <li>'afterbegin' – elem의 첫 번째 자식 요소 바로 앞에 html을 삽입합니다.</li>
+      <li>'beforeend' – elem의 마지막 자식 요소 바로 다음에 html을 삽입합니다.</li>
+      <li>'afterend' – elem 바로 다음에 html을 삽입합니다.</li>
+    </ul>
+  </section>
+  <section>
+    <h2>let div2 = div.cloneNode(true);</h2>
+    <h3>true; 깊은 복제본, false;후손 복사 없이</h3>
+  </section>
+  <section>
+    <h2>samples</h2>
+    <ol id="elem">
+      <li>Hello</li>
+      <li>World</li>
+    </ol>
+    <h3>모두 지우기</h3>
+    <pre>function clear(elem) {
+  while(elem.firstChild){
+    elem.firstChild.remove();
+  }
+}
+clear(elem);  </pre>
+  <ul class="ex01"></ul>
+  <h3>li내용 추가하기</h3>
+  <pre>let ul = document.querySelector('.ex01');
+  while(true){
+    let value = prompt("li에 들어갈 값은?");
+    if(value == "" || value == null) break;
+    let li = document.createElement('li');
+    li.textContent = value;
+    ul.append(li)
+  }    
+  </pre>
+  <h3>객체를 활용해 list만들기</h3>
+  <pre>let data = {
+  "Fish": {
+    "trout": {},
+    "salmon": {}
+  },
+  "Tree": {
+    "Huge": {
+      "sequoia": {},
+      "oak": {}
+    },
+    "Flowering": {
+      "apple tree": {},
+      "magnolia": {}
+    }
+  }
+};
+
+function createTree(container, obj) {
+  container.append(createTreeDom(obj));
+}
+
+function createTreeDom(obj) {
+  // 자식 요소가 없다면 함수는 undefined를 리턴합니다.
+  // 또한 &lt;ul> 역시 생성되지 않을 것입니다.
+  if (!Object.keys(obj).length) return;
+
+  let ul = document.createElement('ul');
+
+  for (let key in obj) {
+    let li = document.createElement('li');
+    li.innerHTML = key;
+
+    let childrenUl = createTreeDom(obj[key]);
+    if (childrenUl) {  li.append(childrenUl);  }
+    ul.append(li);
+  }
+  return ul;
+}
+
+let container = document.getElementById('container');
+createTree(container, data);  </pre>
+  <h3>표정렬하기</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th><th>Surname</th><th>Age</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>John</td><td>Smith</td><td>10</td>
+      </tr>
+      <tr>
+        <td>Pete</td><td>Brown</td><td>15</td>
+      </tr>
+      <tr>
+        <td>Ann</td><td>Lee</td><td>5</td>
+      </tr>
+      <tr>
+        <td>...</td><td>...</td><td>...</td>
+      </tr>
+    </tbody>
+    </table>
+    <pre>let sortedRows = Array.from(table.tBodies[0].rows) // 1
+  .sort((rowA, rowB) => rowA.cells[0].innerHTML.localeCompare(rowB.cells[0].innerHTML));
+
+table.tBodies[0].append(...sortedRows); // (3)</pre>
+  </section>
+  <ul>
+    <li>Animals
+      <ul>
+        <li>Mammals
+          <ul>
+            <li>Cows</li>
+            <li>Donkeys</li>
+            <li>Dogs</li>
+            <li>Tigers</li>
+          </ul>
+        </li>
+        <li>Other
+          <ul>
+            <li>Snakes</li>
+            <li>Birds</li>
+            <li>Lizards</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li>Fishes
+      <ul>
+        <li>Aquarium
+          <ul>
+            <li>Guppy</li>
+            <li>Angelfish</li>
+          </ul>
+        </li>
+        <li>Sea
+          <ul>
+            <li>Sea trout</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</main>
+<script>
+  let lis = document.querySelectorAll('li');
+
+  for (let li of lis) {
+    // 이 <li> 의 모든 하위 <li> 의 개수를 얻어옵니다.
+    let descendantsCount = li.querySelectorAll('li').length;
+    if (!descendantsCount) continue;
+
+    // 텍스트 노드에 위의 내용을 직접 추가합니다.
+    li.firstChild.data += ' [' + descendantsCount + ']';
+  }
+</script>
+</body>
+</html>

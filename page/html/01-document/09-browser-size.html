@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/favicon-32x32.png" />
+  <link href="/css/style.css" rel="stylesheet" >
+  <script src="/js/menu/loadScript.js"></script>
+</head>
+<body>
+<main>
+  <button id="btn2">go down</button>
+
+  <h1>브라우저 창 사이즈와 스크롤</h1>
+  <h3>window.innerWidth/innerHeight는 스크롤바가 차지하는 영역을 포함해 값을 계산</h3>
+  <h3>document.documentElement.clientWidth; // 스크롤바가 차지하는 영역을 제외한 창 너비</h3>
+  <section>
+    <h2>스크롤 정보 얻기</h2>
+    <h3>세로 스크롤에 의해 가려진 위쪽 영역 높이:  window.pageYOffset;</h3>
+    <h3>가로 스크롤에 의해 가려진 왼쪽 영역 너비: window.pageXOffset</h3>
+    <h3 class="linebreak">전체 창의 높이 : document.body.scrollHeight, document.documentElement.scrollHeight,
+      document.body.offsetHeight, document.documentElement.offsetHeight,
+      document.body.clientHeight, document.documentElement.clientHeight 중 최대값</h3>
+    <h2>scrollTo, scrollBy로 스크롤 상태 변경</h2>
+    <h3>window.scrollBy(0, 20)</h3>
+    <h4 class="linebreak">scrollBy(x,y)메서드를 사용하면 페이지의 스크롤 상태를 현재 포지션을 기준으로 상대적으로
+      조정합니다. scrollBy(0,10)는 문서의 스크롤 상태를 현재를 기준으로 스크롤을 10px아래로 내린것 처럼 움직임.</h4>
+    <h3>window.scrollTo(0,0);</h3>
+    <h4 class="linebreak">scrollTo(pageX,pageY)메서드는 절대 좌표를 기준으로 페이지 스크롤 상태를 변경합니다.
+      따라서 눈에 보이는 영역의 왼쪽 위 모서리의 좌표가 문서 전체의 왼쪽 위 모서리를 기준으로
+      (pageX, pageY)가 됩니다. 마치 scrollLeft와 scrollTop 값을 변경한 것처럼 움직이는 거죠.
+      그래서 scrollTo(0,0)을 호출하면 문서 스크롤 상태를 처음 상태로 되돌릴 수 있습니다.</h4>
+    <h2>scrollIntoView</h2>
+    <h3>elem.scrollIntoView(top)를 호출하면 전체 페이지 스크롤이 움직여 elem이 눈에 보이는 상태로 변경됩니다.</h3>
+    <h4>elem.scrollIntoView는 인수를 하나 받는데, 인수에 따라 다음과 같이 동작합니다.</h4>
+    <h5 class="linebreak">top이 true(디폴트)인 경우, elem이 창 제일 위에 보이도록 스크롤 상태가 변경됩니다.
+          elem의 위쪽 모서리가 창의 위쪽 모서리와 일치하게 되죠.</h5>
+    <h5 class="linebreak">top이 false인 경우, elem이 창 가장 아래에 보이도록 스크롤 상태가 변경됩니다.
+          elem의 아래쪽 모서리가 창의 아래쪽 모서리와 일치하게 변합니다.</h5>
+    <h2>scroll bar</h2>
+    <h3>document.body.style.overflow = "hidden"</h3>
+
+    <button id="btn">go top</button>
+
+  </section>
+</main>
+<script>
+ btn.onclick = function () {
+   window.scrollTo(0,0);
+ }
+ btn2.onclick = function () {
+   window.scrollTo(0,1000);
+ }
+</script>
+</body>
+</html>

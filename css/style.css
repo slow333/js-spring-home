@@ -37,7 +37,7 @@ main {
   padding: 40px 5px 0 206px;
   overflow: auto;
   margin:0 0 40px 0;
-  min-height: calc(94.04vh);
+  min-height: calc(94.2vh);
 }
 section {
   margin: 0;
@@ -85,18 +85,23 @@ h3:before {
   padding-right: 8px;
   color: var(--coloraccent);
 }
-h4  {
+h4, h5, h6  {
   font-size: var(--h4);
   font-weight: normal;
   margin: 7px 0 0 20px;
 }
 h4:before {
   content: "▸";
-  padding-right: 8px;
+  padding-left: 8px;
   color: lightgray;
 }
 h5, h6 {font-size: var(--p)}
-h3, h4, h5, h6 {
+h5:before {
+  content: " ↳ ";
+  padding-left: 18px;
+  color: lightgray;
+}
+.linebreak {
   white-space: pre-wrap;
 }
 p {
@@ -139,9 +144,10 @@ tr, td, th {
   border-collapse: collapse;
 }
 /* ====== nav menu ====== */
-.navbar {
+#navbar {
   position: fixed;
   display: flex;
+  justify-content: space-between;
   top: 0;
   align-items: center;
   width: 100%;
@@ -149,7 +155,19 @@ tr, td, th {
   background-color: var(--coloraccent);
   color: var(--colorsecondary);
   box-shadow: var(--shadowdark);
-  z-index: 9;
+  z-index: 100;
+}
+.navBtn, .footerBtn {
+  background: var(--colorbright);
+  color: var(--coloraccent);
+  margin-right: 20px;
+}
+.navBtn:hover, .footerBtn:hover {
+  background: #dddddd;
+  cursor: pointer;
+}
+#navbar ul {
+  display: flex;
 }
 .navbar li {
   cursor: pointer;
@@ -264,7 +282,17 @@ tr, td, th {
   display: inline-block;
   background-color: var(--coloraccent);
 }
-
+.aside a.currentUrl {
+  color : white;
+  background :orangered;
+}
+/*footer style*/
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+/*etc style*/
 hr {
   margin: 1rem 0;
   padding: 0;

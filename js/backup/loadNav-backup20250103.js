@@ -1,28 +1,31 @@
+function loadXML(src) {
+   return new Promise(function (resolve, reject) {
+      let xhr = new XMLHttpRequest();
+      if(src){
+         xhr.open('GET', src, true);
+         xhr.responseType = 'text';
+         xhr.setRequestHeader('Accept', 'text/plain');
+         xhr.send();
+         xhr.onload = () => resolve(xhr.responseText);
+         xhr.onerror = () => reject(xhr.responseText);
+      }
+   });
+}
 async function loadMenu(){
-   let responseNav = await fetch('/page/components/nav.html');
-   let navText = await responseNav.text();
+   let navText = await loadXML('/page/components/nav.html');
    let nav = await setNavEl(navText);
-
-   await loadFooter("/page/components/footer.html");
-
    let asideUrl = await selectAsideUrl();
-   let responseAside = await fetch(asideUrl);
-   let asideText = await responseAside.text();
+   let asideText = await loadXML(asideUrl);
    let aside = await setAside(asideText);
    document.querySelectorAll('aside ul li ul')
       .forEach(toggle => toggle.hidden = true);
    setStyleByCurrentUrl(aside, nav);
    showToggleByCurrUrl(aside);
    aside.onclick = toggleAsideSub;
-   document.querySelector('.navBtn').onclick =  () =>
-      document.querySelector('#footer').scrollIntoView(false,{behavior: 'smooth'});
-   // document.querySelector('.navBtn').onclick =  () => window.scrollTo(0, 2000);
-   document.querySelector('.footerBtn').onclick = () => document.body.scrollIntoView();
-   // document.querySelector('.footerBtn').onclick = () => window.scrollTo(0,0);
 }
 loadMenu().catch(error => new Error(error.message));
 
-// responseText를 가지고 nav element 생성
+// xhr을 통해 받은 responseText를 가지고 nav element 생성
 async function setNavEl(text){
    let nav = document.createElement('nav');
    nav.setAttribute('class', 'navbar');
@@ -56,7 +59,8 @@ async function setAside(asideText) {
 function setStyleByCurrentUrl(aside, nav) {
    aside.querySelectorAll('a').forEach(function (a) {
       if (location.href.includes(a.href)) {
-         a.classList.add('currentUrl');
+         a.style.color = 'white';
+         a.style.background = 'orangered';
       }
    });
    let id = document.querySelector('aside').id;
@@ -72,17 +76,6 @@ function showToggleByCurrUrl(aside) {
 // aside 제목(li) 선택 시 하위 리스트(ul) show toggle
 function toggleAsideSub(e) {
    if (e.target.tagName !== 'H2') return;
-   let contentToggle = e.target.nextElementSibling;
+   let contentToggle = e.target.closest('.sub-content').querySelector('.content-toggle');
    contentToggle.hidden = !contentToggle.hidden;
-}
-async function loadFooter(src) {
-   let responseFooter = await fetch(src);
-   let footerText = await responseFooter.text();
-
-   let footer = document.createElement('footer');
-   footer.setAttribute('class', 'footer');
-   footer.setAttribute('id', 'footer');
-   footer.innerHTML = footerText;
-   document.body.append(footer);
-   return footer
 }

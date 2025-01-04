@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/favicon-32x32.png" />
+  <link href="/css/style.css" rel="stylesheet" >
+  <style>
+    .welcome {
+      color: red; font-size: 30px;
+    }
+  </style>
+  <script src="/js/menu/loadScript.js"></script>
+</head>
+<body>
+<main>
+  <h1>스타일과 클래스</h1>
+  <h3>가능하면 스타일 설정보다는 클래스로 설정</h3>
+  <section>
+    <h2>classList</h2>
+    <h3>elem.classList.add/remove('classname');</h3>
+    <h3>elem.classList.toggle('classname');</h3>
+    <h3>elem.classList.contains('classname');</h3>
+    <pre>document.body.style.display = "none"; // hide
+setTimeout(() => document.body.style.display = "", 1000); // 1초 후 다시 원래 상태로 돌아옵니다.</pre>
+  </section>
+  <section>
+    <h2>style.cssText</h2>
+    <h3>문자열을 사용해 전체 스타일을 설정</h3>
+    <pre>div.style.cssText=`color: red !important;
+  background-color: yellow;
+  width: 100px;
+  text-align: center;
+`;
+또는 div.setAttribute('style', 'color:red...')</pre>
+  </section>
+  <section>
+    <h2>getComputedStyle; 최종 결정값을 반환함</h2>
+    <pre>let computedStyle = getComputedStyle(document.body);
+// 이제 마진과 색 정보를 얻을 수 있습니다.
+alert( computedStyle.marginTop ); // 5px
+alert( computedStyle.color ); // rgb(255, 0, 0)</pre>
+  <div class="notification"></div>
+  </section>
+</main>
+<script>
+  // 창의 오른쪽 상단에 "Hello"라는 텍스트가 담긴 요소를 보여줍니다.
+  showNotification({
+    top: 100, // 창의 상단에서 10px 떨어진 위치에 표시합니다(기본값은 0px).
+    right: 10, // 창의 오른쪽 가장자리에서 10px 떨어진 위치에 표시합니다(기본값은 0px).
+    html: "Hello!", // 알림의 HTML입니다.
+    className: "welcome" // div에 대한 추가 클래스입니다(선택 사항).
+  });
+  function showNotification(obj) {
+    let noti = document.querySelector(".notification");
+    noti.style.cssText = `position:absolute; top:${obj.top}px; right:${obj.right}px;`
+    noti.innerHTML = obj.html;
+    noti.classList.add(obj.className);
+    let i =0;
+    let toggleNoti = setInterval(() => {
+      if(noti.style.display === "none"){
+        noti.style.display = "";
+      } else {
+        noti.style.display = "none";
+      }
+      i++;
+      return () => clearInterval(toggleNoti);
+    }, 1000);
+    setTimeout(() => {
+      clearInterval(toggleNoti);
+      noti.remove();
+    },6000)
+  }
+</script>
+</body>
+</html>
