@@ -10,11 +10,12 @@
   <style>
     .index-main {
       margin-top: 60px;margin-left: 17px;
+      min-height: calc(100vh - 102px);
     }
   </style>
 </head>
 <body>
-<div class="index-main">
+  <div class="index-main">
     <h2>관련 내용은 JS Info, MDN 페이지를 참조함</h2>
     <ul>
       <li><a href="https://ko.javascript.info/">JS infor 페이지</a></li>
@@ -24,28 +25,66 @@
       <li><a href="https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects">
         JS 표준 내장 객체</a></li>
     </ul>
-</div>
-<div class="index-main" style="margin-top: 10px;">
-  <h2>vs code 단축키</h2>
-  <ul>
-    <li>한줄 복사: alt+shift + arrow</li>
-    <li>한줄 이동: alt + arrow</li>
-    <li>줄삭제:Ctrl + Shift + K </li>
-    <li>단축키지정(user snippets): [File]-[Preference]-[Configure User Snippets]
-    <pre>javascript.json에 내용 추가
-"console.log print":{
-  "prefix": "cl",
-  "body": [
-    "console.log()"
-  ],
-  "description": "Log output to console"
-}</pre>
-    </li>
-  </ul>
-  <h2>web storm 단축키</h2>
-  <ul>
-    <li>console.log: log + tab</li>
-  </ul>
+    <div>
+      <h2>vs code 단축키</h2>
+      <ul>
+        <li>한줄 복사: alt+shift + arrow</li>
+        <li>한줄 이동: alt + arrow</li>
+        <li>줄삭제:Ctrl + Shift + K </li>
+        <li>단축키지정(user snippets): [File]-[Preference]-[Configure User Snippets]</li>
+        <pre>javascript.json에 내용 추가
+    "console.log print":{
+      "prefix": "cl",
+      "body": [
+        "console.log()"
+      ],
+      "description": "Log output to console"
+    }</pre>
+      </ul>
+      <h2>web storm 단축키</h2>
+      <ul>
+        <li>console.log: log + tab</li>
+      </ul>
+    </div>
+    <div>
+      <h2>STS 단축키</h2>
+      <pre>커서가 위치한 라인 지우기 : ctrl + d
+블록 주석 :  ctrl + shift + /
+블록 주석 풀기 : ctrl + shift + \
+한 줄 주석 : ctrl + / 또는 ctrl + shift + c
+한 줄 주석 풀기(한 줄 주석 상태에서 다시) : ctrl + / 또는 ctrl + shift + c
+
+import java util(임포트) : ctrl + shift + o
+
+커서위치에 있는 코드 한 줄 위로 옮기기 : alt + ↑ (드래그 후 해당 명령어 사용시 드래그 라인 옮기기 가능)
+커서위치에 있는 코드 한 줄 아래로 옮기기 : alt + ↓ (드래그 후 해당 명령어 사용시 드래그 라인 옮기기 가능)
+
+자동 줄맞춤 : ctrl + shift + f
+자동 완성 기능 : ctrl + space
+동일 변수명 한번에 바꾸기 단축키 : alt + shift + r
+소스로 선언된 다른 메소드 및 service단 등으로 이동 : 선언된 코드부분에 마우스 올리고 ctrl + click
+이동 후 이전에 있었던 곳으로 돌아가기 : alt + ←
+다시 앞으로 이동하기 : alt + →
+이전 히스토리로 한 단계 이동 : ctrl+ z
+이후 히스토리로 한 단계 이동 : ctrl + y
+getter, setter 만들기 (필드선언 후) : alt + shift + s 누르고 r => Select All 클릭 => Generate
+생성자 만들기 (필드선언 후) : alt + shift + s 누르고 o => Generate
+ToString 만들기 : alt + shift + s 누르고 s => Generate
+.java 및 .class 등 파일 검색 : ctrl + shift + r
+해당 키워드 전체 파일에서 검색 : ctrl + h => File Search 탭에서  키워드 검색
+소스단에서 원하는 line으로 이동 : ctrl + l</pre>
+    </div>
+  <div>
+    <h2>git; command shell</h2>
+    <pre>git init // 초기 시작시 에만 필요
+  git add .
+  git branch -M main // 초기 시작시 에만 필요
+  git remote add origin git@github.com:slow333/js-spring-home.git // 초기 시작시 에만 필요
+  git commit -m 'comments what i want'
+  git push -u origin main
+
+  git remote remove git@github.com:slow333/js-spring-home.git </pre>
+  </div>
 </div>
 </body>
 </html>

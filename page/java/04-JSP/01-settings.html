@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="/js/menu/loadScript.js"></script>
+</head>
+<body>
+<main>
+<h1>기본 설정</h1>
+  <section>
+    <h2>톰켓서버(WAS) 설치/설정</h2>
+    <ol>
+      <li>톰겟 9 버젼 다운로드 및 압축 풀기</li>
+      <li>환경설정: path에 CATALINA_HOME에 압축 푼 경로 추가, D:\java\tomcat9</li>
+      <li>포트 수정: /conf 폴더 => server.xml => &lt;Connector port="8081" protocol="HTTP/1.1" ; 포트번호 수정</li>
+      <li>http://127.0.0.1:8081/ 사이트 접속할수 없음</li>
+      <li>/bin/startup.bat 실행</li>
+      <li>/bin/shutdown.bat 실행은 종료</li>
+    </ol>
+    <h2>STS 설치</h2>
+    <ol>
+      <li>홈접속 > Download Packages > Eclipse IDE for Enterprise Java and Web Developers  </li>
+      <li>적당한 폴더에 압축 풀기: d:/java/eclipse, workspace 폴더생성</li>
+      <li>열때 워크스페이스 지정</li>
+      <li>file > new > dynamic web project ; 보이면됨</li>
+      <li>window > preferences > general > workspace > text file encoding ; other utf-8 확인</li>
+      <li>window > web > CSS files, HTML files, JSP Files ; encoding utf-8 확인</li>
+      <li>톰켓서버 연동하기
+      <ul>
+        <li>welcome 닫으면 우하단에 > Servers; No server ... 클릭</li>
+        <li>  > Apache > Tomcat v9.0 선택 > Next >
+        Tomcat installation directory; browse.. , 폴더선택(D:\java\tomcat9) > Next > 프로젝트 등록하기..> finish</li>
+      </ul>
+      </li>
+      <li>file > new > dynamic web project ; project name;이름
+        > Next; 기본 >Next; generate web.xml... 체크 > finish </li>
+    </ol>
+    <ol>
+      <li>prjName > src > main > webapp;우클릭 > new > jsp file > file name; first.jsp > next > New JSP File (html5); default > finish</li>
+      <li>jsp 파일을 열어서 알아서 편집(html file임)</li>
+      <li>jsp 파일에서 우클릭 > run as > run on server; click > 서버선택하고 always use ... 체크 > next > 해당 프로젝트가 보임 > finish </li>
+      <li>root 경로 변경 : 기본으로 프로젝트 이름임 > project; 우클릭 > properties > web project settings > context root; / 로 변경; 이런 후에 Servers 를 삭제하고 다시 등록 해야함</li>
+    </ol>
+    <h2>배포파일 만들기</h2>
+    <ol>
+      <li>프로젝트 우클릭 > export > WAR file > tomcat 폴더; webapps</li>
+      <li>Export source files하면 jsp 소스포함, Overwrite existing file하면 기존에 war있으면 같은 파일 덮어씀</li>
+      <li>tomcat > bin > start.bat 실행하면 자동으로 압축을 풀고 서버가 실행됨</li>
+      <li>배포하면 root경로(context root)는 원래로 돌아감</li>
+      <li>프로젝트 이름으로 배포파일을 생성후 war 파일이름을 ROOT로 변경, 그러면 ROOT로 해서 배포됨</li>
+    </ol>
+    <h2>STS 애러</h2>
+    <h3> expected 에러 해결하기 html, js 등의 파일에서 발생하는 에러 해결하기</h3>
+    <p>프로젝트 우클릭 > properties > client-side JavaScript > Validation > Errors/Warnings; Enable Javascript ... ; Potential Promramming problems; Optional Semi-Colon > Ignore</p>
+    <p>{에러 발생한 workspace}\.metadata\.plugins\org.eclipse.core.resources\.projects\{프로젝트명}\.markers
+// 이클립스 or STS 종료 후, 위의 경로로 들어가 .markers 파일을 삭제한다.</p>
+  </section>
+</main>
+</body>
+</html>

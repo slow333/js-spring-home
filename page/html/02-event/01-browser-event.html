@@ -1,17 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" href="/favicon-32x32.png" />
-  <link href="/css/style.css" rel="stylesheet" >
+  <link rel="stylesheet" href="/css/fieldAndBall.css">
+  <link rel="stylesheet" href="/css/carousel.css">
   <script src="/js/menu/loadScript.js"></script>
 </head>
 <body>
 <main>
   <h1>브라우저 이벤트</h1>
+  <h3>브라우저 이벤트 종류</h3>
+  <h4>click;</h4>
+  <h4>contextmenu; 마우스 오른쪽 버튼을 눌렀을 때</h4>
+  <h4>mouseover/mouseout; mousedown/mouseup; mousemove;</h4>
+  <h4>mouseover/out, mouseenter/leave 는 동작이 서로 다름, bubbling 차이라는데 정확히 모름</h4>
+  <h3>폼 요소: submit, focus</h3>
+  <h3>key ; keydown, keyup</h3>
+  <h3>문서 이벤트; DOMContentLoaded; </h3>
+  <h3>CSS 이벤트; transitionend</h3>
+  <h2>carousel 예제; 좌우로 내용 움직이기</h2>
+  <h3>여러 가지로 응용해서 활용 가능</h3>
+  <div id="carousel" class="carousel">
+    <button class="arrow prev">⇦</button>
+    <div class="gallery">
+      <ul class="images">
+        <li><img src="https://en.js.cx/carousel/1.png"></li>
+        <li><img src="https://en.js.cx/carousel/2.png"></li>
+        <li><img src="https://en.js.cx/carousel/3.png"></li>
+        <li><img src="https://en.js.cx/carousel/4.png"></li>
+        <li><img src="https://en.js.cx/carousel/5.png"></li>
+        <li><img src="https://en.js.cx/carousel/6.png"></li>
+        <li><img src="https://en.js.cx/carousel/7.png"></li>
+        <li><img src="https://en.js.cx/carousel/8.png"></li>
+        <li><img src="https://en.js.cx/carousel/9.png"></li>
+        <li><img src="https://en.js.cx/carousel/10.png"></li>
+      </ul>
+    </div>
+    <button class="arrow next">⇨</button>
+  </div>
+  <pre>let width = 130; // image width
+let count = 3; // visible images count
+
+let list = carousel.querySelector('ul');
+let listElems = carousel.querySelectorAll('li');
+
+let position = 0; // ribbon scroll position
+
+carousel.querySelector('.prev').onclick = function() {
+  position += width * count; // shift left
+  position = Math.min(position, 0) // can't move to the left too much, end of images
+  list.style.marginLeft = position + 'px';
+};
+carousel.querySelector('.next').onclick = function() {
+  position -= width * count; // shift right
+  // can only shift the ribbbon for (total ribbon length - visible count) images
+  position = Math.max(position, -width * (listElems.length - count));
+  list.style.marginLeft = position + 'px';
+};</pre>
+  <h2>축구장에서 공 움직이기</h2>
+  <h3>좌표를 활용한 여러가지로 활용/응용 가능</h3>
+    <div id="field">
+      <img src="https://en.js.cx/clipart/ball.svg" id="ball"> . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+      . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    </div>
+    <pre>let ball =  document.getElementById("ball");
+let field = document.getElementById("field");
+field.onclick = function(e) {
+  let fieldCoords = field.getBoundingClientRect();
+  let left = e.clientX - fieldCoords.left - field.clientLeft - ball.offsetWidth / 2;
+  let top = e.clientY - fieldCoords.top - field.clientTop - ball.offsetHeight/2;
+  ball.style.top = top + "px";
+  ball.style.left = left+"px";
+}</pre>
+  <h2>개별 엘리먼트에 버튼 추가 후 개별 액션 달기; </h2>
+  <h3>간단하고 id, data 필요없음, 내용 toogle 가능</h3>
+    <pre>let panes = document.querySelectorAll('.pane');
+for(let pane of panes) {
+  pane.insertAdjacentHTML("afterbegin", '&lt;button class="remove-button">[x]&lt;/button>');
+  // button becomes the first child of pane
+  pane.firstChild.onclick = () => pane.remove();
+}</pre>
   <section>
+    <h2>이벤트 핸들러</h2>
+    <h3>HTML 속성</h3>
+    <h3>HTML안의 on[event] 속성에 핸들러를 할당</h3>
+    <pre>&lt;input value="click me" onclick="alert("Click!!!");" type="button"></pre>
+    <h3>클릭하면 onclick 안의 코드가 실행됨</h3>
+    <h3>HTML 속성은 대소문자를 구분하지 안음.</h3>
+    <h3>this는 button 요소 자체를 나타냄</h3>
+    <h3>elem.onclick = func;는 한번만 적용할 수 있음</h3>
+    <h2>removeEventListener; </h2>
+    <h3>지우기 위해서는 별도의 함수로 선언해야함</h3>
+    <pre>elem.addEventListener( "click" , () => alert('감사합니다!'));
+// ....
+elem.removeEventListener( "click", () => alert('감사합니다!'));// 동작안함</pre>
+    <pre>function handler() {  alert( '감사합니다!' ); }
+input.addEventListener("click", handler);
+// ....
+input.removeEventListener("click", handler);</pre>
+    <h3>DOMContentLoaded는 addEventListener로 해야만 함</h3>
   </section>
+  <section>
+    <h2>이벤트 객체</h2>
+    <h3>이벤트가 발생하면 브라우저는 이벤트 객체를 만듬.</h3>
+    <pre>&lt;input type="button" value="클릭해 주세요." id="elem">
+  elem.onclick = function(event) {
+    // 이벤트 타입과 요소, 클릭 이벤트가 발생한 좌표를 보여줌
+    alert(event.type + " 이벤트가 " + event.target + "에서 발생했습니다.");
+    alert("이벤트가 발생한 곳의 좌표는 " + event.clientX + ":" + event.clientY +"입니다.");
+  };  </pre>
+  </section>
+
 </main>
 <script>
 </script>

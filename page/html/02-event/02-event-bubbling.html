@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="/css/fieldAndBall.css">
+  <link rel="stylesheet" href="/css/carousel.css">
+  <script src="/js/menu/loadScript.js"></script>
+</head>
+<body>
+<main>
+  <h1>버블링</h1>
+  <img src="/images/event-bubbling.png" alt="event bubbling" width="300" style="float:right;">
+  <h3>한 요소에 이벤트가 발생하면, 이 요소에 할당된 핸들러가 동작하고, 이어서 부모 요소의 핸들러가 동작합니다.
+    가장 최상단의 조상 요소를 만날 때까지 이 과정이 반복되면서 요소 각각에 할당된 핸들러가 동작합니다.</h3>
+  <h1>이벤트 위임;event delegation</h1>
+  <section>
+    <h2>팔괘도 클릭한 TD 강조하기</h2>
+    <pre>let selectedTd;
+table.onclick = function(event) {
+  let target = event.target; // 클릭이 어디서 발생했을까요?
+  if (target.tagName != 'TD') return; // TD에서 발생한 게 아니라면 아무 작업도 하지 않습니다,
+  highlight(target); // 강조 함
+};
+function highlight(td) {
+  if (selectedTd) { // 이미 강조되어있는 칸이 있다면 원상태로 바꿔줌
+    selectedTd.classList.remove('highlight');
+  }
+  selectedTd = td;
+  selectedTd.classList.add('highlight'); // 새로운 td를 강조 함
+}</pre>
+  </section>
+  <section>
+    <div id="menutest">
+      <button data-action="save" class="action-save">저장하기</button>
+      <button data-action="load" class="action-load">불러오기</button>
+      <button data-action="search" class="action-search">검색하기</button>
+    </div>
+  <pre>class Menu { // class로 해도되는데 data-action이 좀더 적당함
+  constructor(elem) {
+    this._elem = elem;
+    elem.onclick = this.onClick.bind(this); // bind한 this는 Menu
+  }
+  save() { alert('저장하기'); }
+  load() { alert('불러오기');  }
+  search() { alert('검색하기'); }
+  onClick(event) {
+    let action = event.target.dataset.action;
+    if (action) { this[action](); }
+  };
+}
+new Menu(menutest)</pre>
+  </section>
+  <section>
+    <h2>구성 요소 삭제하기(이벤트 위임 사용하면 간단함)</h2>
+    <h3>클릭한 요소의 위치를 기억하고 있어 버튼을 누르면 버튼이 속한 요소를 기억함</h3>
+    <div id="container">
+      <div class="pane">
+        <h4>Horse</h4>
+        <p>The horse is one of two extant subspeci. The horse l of today.</p>
+        <button class="remove-button">[x]</button>
+      </div>
+      <div class="pane">
+        <h4>Donkey</h4>
+        <p>The donkey or asst least 5000 years.</p>
+        <button class="remove-button">[x]</button>
+      </div>
+      <div class="pane">
+        <h4>Cat</h4>
+        <p>The domestic cat (Latin: Felitheir ability to hunt vermin.  </p>
+        <button class="remove-button">[x]</button>
+      </div>
+    </div>
+<pre>container.onclick = function(event) {
+  if (event.target.tagName !== 'BUTTON') return;
+  event.target.closest('.pane').remove();
+}</pre>
+  </section>
+  <section>
+    <h2>하단 내용들 toggle하기(이벤트 위임 사용)</h2>
+    <h3>내가 클릭한 이벤트의 위치를 할고 있음</h3>
+    <ul class="tree" id="tree">
+      <li>Animals
+        <ul>
+          <li>Mammals
+            <ul>
+              <li>Cows</li>
+              <li>Donkeys</li>
+              <li>Dogs</li>
+              <li>Tigers</li>
+            </ul>
+          </li>
+          <li>Other
+            <ul>
+              <li>Snakes</li>
+              <li>Birds</li>
+              <li>Lizards</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Fishes
+        <ul>
+          <li>Aquarium
+            <ul>
+              <li>Guppy</li>
+              <li>Angelfish</li>
+            </ul>
+          </li>
+          <li>Sea
+            <ul>
+              <li>Sea trout</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+<pre>tree.onclick = function(event) {
+  let target = event.target
+  let ul = target.querySelector('ul');
+  if (target.tagName !== 'LI' || !ul) return;
+  ul.hidden = !ul.hidden;
+}</pre>
+  </section>
+  <section>
+    <h2>테이블 정렬</h2>
+    <table id="grid">
+      <thead>
+      <tr>
+        <th data-type="number">나이</th>
+        <th data-type="string">이름</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>5</td>
+        <td>일리야</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>보라</td>
+      </tr>
+      <tr>
+        <td>12</td>
+        <td>호진</td>
+      </tr>
+      <tr>
+        <td>9</td>
+        <td>민지</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>호석</td>
+      </tr>
+      </tbody>
+    </table>
+    <pre>grid.onclick = function(event) {
+  if (event.target.tagName !== 'TH') return;
+
+  let tbody = grid.querySelector('tbody');
+  let rowArray = Array.from(tbody.rows);
+  if(event.target.dataset.type ==='number') {
+    rowArray.sort(function (rowA, rowB) {
+      return rowA.cells[0].innerHTML - rowB.cells[0].innerHTML;
+    });
+  } else {
+    rowArray.sort(function (rowA, rowB) {
+      return rowA.cells[1].innerHTML.localeCompare(rowB.cells[1].innerHTML);
+    });
+  }
+  tbody.append(...rowArray);
+}   </pre>
+  </section>
+  <section>
+    <h2>링크 클리시 떠날지 묻는 ...</h2>
+    <fieldset id="contents">
+      <legend>#contents</legend>
+      <p>
+        How about to read <a href="https://wikipedia.org">Wikipedia</a> or visit <a href="https://w3.org"><i>W3.org</i></a> and learn about modern standards?
+      </p>
+    </fieldset>
+<pre>let contents = document.getElementById('contents');
+  contents.onClick = function(e) {
+    function handleLink(href) {
+      let isLeaving = confirm(`${href}로 갈까요`);
+      if(!isLeaving) return false;
+    }
+    let atag = e.target.closest('a');
+    if(atag && contents.contains(atag)){
+      return handleLink(atag.getAttribute('href'));
+    }
+  }</pre>
+    <h2>thumbs image 선택시 큰그림 변경</h2>
+    <p><img id="largeImg" src="https://en.js.cx/gallery/img1-lg.jpg" alt="Large image"></p>
+
+    <ul id="thumbs">
+      <!-- the browser shows a small built-in tooltip on hover with the text from "title" attribute -->
+      <li>
+        <a href="https://en.js.cx/gallery/img2-lg.jpg" title="Image 2">
+          <img src="https://en.js.cx/gallery/img2-thumb.jpg"></a>
+      </li>
+      <li>
+        <a href="https://en.js.cx/gallery/img3-lg.jpg" title="Image 3">
+          <img src="https://en.js.cx/gallery/img3-thumb.jpg"></a>
+      </li>
+      <li>
+        <a href="https://en.js.cx/gallery/img4-lg.jpg" title="Image 4">
+          <img src="https://en.js.cx/gallery/img4-thumb.jpg"></a>
+      </li>
+      <li>
+        <a href="https://en.js.cx/gallery/img5-lg.jpg" title="Image 5">
+          <img src="https://en.js.cx/gallery/img5-thumb.jpg"></a>
+      </li>
+      <li>
+        <a href="https://en.js.cx/gallery/img6-lg.jpg" title="Image 6">
+          <img src="https://en.js.cx/gallery/img6-thumb.jpg"></a>
+      </li>
+    </ul>
+<pre>let thumbs = document.getElementById('thumbs');
+  thumbs.style.display = 'flex';
+  thumbs.onclick = function(event) {
+    event.preventDefault();
+    if(event.target.tagName !== 'IMG') return;
+    let target = event.target.closest('a');
+    let largeImg = document.getElementById('largeImg');
+
+    largeImg.src = target.href;
+    largeImg.alt = target.title;
+  }</pre>
+  </section>
+</main>
+<script>
+  grid.onclick = function(event) {
+    if (event.target.tagName !== 'TH') return;
+
+    let tbody = grid.querySelector('tbody');
+    let rowArray = Array.from(tbody.rows);
+    if(event.target.dataset.type ==='number') {
+      rowArray.sort(function (rowA, rowB) {
+        return rowA.cells[0].innerHTML - rowB.cells[0].innerHTML;
+      });
+    } else {
+      rowArray.sort(function (rowA, rowB) {
+        return rowA.cells[1].innerHTML.localeCompare(rowB.cells[1].innerHTML);
+      });
+    }
+    tbody.append(...rowArray);
+  }
+  let lis = document.querySelectorAll('li');
+  lis.forEach(li => {
+    li.style.cursor = "pointer";
+  });
+  tree.onclick = function(event) {
+    let target = event.target
+    let ul = target.querySelector('ul');
+    if (target.tagName !== 'LI' || !ul) return;
+    ul.hidden = !ul.hidden;
+  }
+
+  let btns = document.querySelectorAll('.remove-button');
+  btns.forEach(function(btn) {
+    btn.style.position = 'absolute';
+    btn.style.right = '0';
+    btn.style.top = '0';
+  });
+  document.querySelectorAll('.pane').forEach(function(p) {
+    p.style.position = 'relative';
+  })
+  container.onclick = function(event) {
+    if (event.target.tagName !== 'BUTTON') return;
+    event.target.closest('.pane').remove();
+  }
+  class Menu {
+    constructor(elem) {
+      this._elem = elem;
+      elem.onclick = this.onClick.bind(this); // (*)
+    }
+
+    save() {
+      alert('저장하기');
+    }
+
+    load() {
+      alert('불러오기');
+    }
+
+    search() {
+      alert('검색하기');
+    }
+
+    onClick(event) {
+      let action = event.target.dataset.action;
+      if (action) {
+        this[action]();
+      }
+    };
+  }
+  new Menu(menutest)
+
+  let thumbs = document.getElementById('thumbs');
+  thumbs.style.display = 'flex';
+  thumbs.onclick = function(event) {
+    event.preventDefault();
+    if(event.target.tagName !== 'IMG') return;
+    let target = event.target.closest('a');
+    let largeImg = document.getElementById('largeImg');
+
+    largeImg.src = target.href;
+    largeImg.alt = target.title;
+  }
+  let contents = document.getElementById('contents');
+  contents.onClick = function(e) {
+    function handleLink(href) {
+      let isLeaving = confirm(`${href}로 갈까요`);
+      if(!isLeaving) return false;
+    }
+    let atag = e.target.closest('a');
+    if(atag && contents.contains(atag)){
+      return handleLink(atag.getAttribute('href'));
+    }
+  }
+</script>
+</body>
+</html>

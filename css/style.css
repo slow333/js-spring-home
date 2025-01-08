@@ -17,8 +17,8 @@
   --colorgray:#777;
   --colorbright:#f1f1f1;
   --colorbrightest:#fafafa;
-  --h1: 28px;
-  --h2: 22px;
+  --h1: 30px;
+  --h2: 24px;
   --h3: 20px;
   --h4: 18px;
   --p: 16px;
@@ -37,7 +37,7 @@ main {
   padding: 40px 5px 0 206px;
   overflow: auto;
   margin:0 0 40px 0;
-  min-height: calc(94.2vh);
+  min-height: calc(100vh - 85px);
 }
 section {
   margin: 0;
@@ -60,9 +60,10 @@ footer {
 h1 {
   font-size: var(--h1);
   margin: 10px;
-  /* text-align: center; */
+   text-align: center;
   font-weight: 900;
   text-transform: uppercase;
+  text-decoration: underline;
 }
 
 h2, h3, h4, h5, h6 {

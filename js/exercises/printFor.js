@@ -5,3 +5,4 @@ function printText(str){
    }
    console.log(s.split('/')[5]);
 }
+// printText("http://127.0.0.1:8080/page/html/02-event/01-browser-event.html")

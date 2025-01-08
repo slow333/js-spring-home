@@ -1,4 +1,0 @@
- If you get stuck, you can compare your version of the code to ours, to see what it is meant to look like — see it live, and see the source code.
- If you were improving this code, you might want to loop through a list of items to display, fetching and decoding each one, and then loop through the results inside Promise.all(), running a different function to display each one depending on what the type of code was. This would make it work for any number of items, not just three.
-
-Also, you could determine what the type of file is being fetched without needing an explicit type property. You could, for example, check the Content-Type HTTP header of the response in each case using response.headers.get("content-type"), and then react accordingly.

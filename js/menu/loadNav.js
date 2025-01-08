@@ -1,4 +1,5 @@
 async function loadMenu(){
+   await loadHeadLinks();
    let responseNav = await fetch('/page/components/nav.html');
    let navText = await responseNav.text();
    let nav = await setNavEl(navText);
@@ -6,7 +7,13 @@ async function loadMenu(){
    await loadFooter("/page/components/footer.html");
 
    let asideUrl = await selectAsideUrl();
-   let responseAside = await fetch(asideUrl);
+   document.querySelector('.navBtn').onclick =  () =>
+      document.querySelector('#footer').scrollIntoView(false, {behavior: 'smooth'});
+   document.querySelector('.footerBtn').onclick = () => window.scrollTo(0,0);
+   let responseAside;
+   if(asideUrl){
+     responseAside = await fetch(asideUrl);
+   }
    let asideText = await responseAside.text();
    let aside = await setAside(asideText);
    document.querySelectorAll('aside ul li ul')
@@ -14,13 +21,15 @@ async function loadMenu(){
    setStyleByCurrentUrl(aside, nav);
    showToggleByCurrUrl(aside);
    aside.onclick = toggleAsideSub;
-   document.querySelector('.navBtn').onclick =  () =>
-      document.querySelector('#footer').scrollIntoView(false,{behavior: 'smooth'});
-   // document.querySelector('.navBtn').onclick =  () => window.scrollTo(0, 2000);
-   document.querySelector('.footerBtn').onclick = () => document.body.scrollIntoView();
-   // document.querySelector('.footerBtn').onclick = () => window.scrollTo(0,0);
 }
 loadMenu().catch(error => new Error(error.message));
+
+async function loadHeadLinks(){
+   let links = await fetch('/page/components/links.html');
+   let linksText = await links.text();
+   document.head.insertAdjacentHTML("afterbegin",linksText);
+   return linksText;
+}
 
 // responseText를 가지고 nav element 생성
 async function setNavEl(text){
