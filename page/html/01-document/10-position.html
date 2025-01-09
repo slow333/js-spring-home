@@ -6,11 +6,15 @@
 <body>
 <main>
   <h1>좌표</h1>
-  <h3>창기준: position:fixed, clientX/clinetY</h3>
-  <h3>문서기준: position:absolute, pageX/pageY</h3>
-  <img src="/images/page-client-position.png" alt="pageXY, clientXY" width=600>
+  <section>
+    <h2>마우스 클릭이 발생한 곳의 위치: event.clientX/pageX, ...</h2>
+    <h3>창기준: position:fixed, clientX/clinetY</h3>
+    <h3>문서기준: position:absolute, pageX/pageY</h3>
+    <img src="/images/page-client-position.png" alt="pageXY, clientXY" width=600>
+  </section>
   <section>
     <h2>getBoundingClientRec()로 요소 좌표 얻기</h2>
+    <h3>현재 위치한 요소의 좌표 위치를 반환</h3>
     <img src="/images/getBoundingClientRec.png" alt="getBoundingClinetRec()" width=400>
     <h3>left = x, top = y /  right = x + width, bottom = y + height</h3>
   </section>

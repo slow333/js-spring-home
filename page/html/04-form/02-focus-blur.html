@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="/js/menu/loadScript.js"></script>
+  <style>
+    .invalid { border-color: red; }
+    #error { color: red }
+  </style>
+</head>
+<body>
+<main>
+  <h1>focus And blur</h1>
+  <p>요소가 포커스를 잃는 순간(blur)은 요소가 포커스를 얻는 순간보다 더 중요할 수 있습니다. 사용자가 다른 곳을 클릭하거나 Tab 키를 눌러 다음 폼 필드로 이동하면 포커스 상태의 요소가 포커스를 잃게 됩니다. 이 외에도 다양한 방법을 사용해 포커스를 잃게 할 수 있습니다.</p>
+  <p>요소가 포커스를 잃는 것은 대개 '데이터 입력이 완료되었다’는 것을 의미하기 때문에 포커싱이 해제되는 순간엔 데이터를 체크하거나 입력된 데이터를 저장하기 위해 서버에 요청을 보내는 등의 코드를 실행할 수 있습니다.</p>
+  <section>
+    <h2>focus, blur event</h2>
+    <p>예시에서 각 핸들러는 다음과 같은 역할을 합니다.</p>
+    <h3>blur 핸들러에선 필드에 이메일이 잘 입력되었는지 확인하고 잘 입력되지 않은 경우엔 에러를 보여줍니다.</h3>
+    <h3>focus 핸들러에선 에러 메시지를 숨깁니다(이메일 재확인은 blur 핸들러에서 합니다).</h3>
+<pre>이메일: <input type="email" id="input">
+error: <span id="error"></span></pre>
+<pre>input.onblur = function() {
+  if (!input.value.includes('@')) { // @ 유무를 이용해 유효한 이메일 주소가 아닌지 체크
+    input.classList.add('invalid');
+    error.innerHTML = '올바른 이메일 주소를 입력하세요.'
+  }
+};
+input.onfocus = function() {
+  if (this.classList.contains('invalid')) {
+    // 사용자가 새로운 값을 입력하려고 하므로 에러 메시지를 지움
+    this.classList.remove('invalid');
+    error.innerHTML = "";
+  }
+};</pre>
+  </section>
+</main>
+<script>
+</script>
+</body>
+</html>

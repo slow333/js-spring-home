@@ -92,15 +92,15 @@ h4, h5, h6  {
   margin: 7px 0 0 20px;
 }
 h4:before {
-  content: "▸";
+  content: "▸ ";
   padding-left: 8px;
-  color: lightgray;
+  color: #bd0000;
 }
 h5, h6 {font-size: var(--p)}
 h5:before {
-  content: " ↳ ";
+  content: " ▫ ";
   padding-left: 18px;
-  color: lightgray;
+  color: #0021dc;
 }
 .linebreak {
   white-space: pre-wrap;
@@ -122,7 +122,8 @@ code, pre {
   font-size: var(--p);
 }
 code {
-  padding: 2px;
+  font-size: inherit;
+  padding: 0;margin:0;
 }
 pre {
   border-top: 0.2px dotted #aaa;
@@ -308,6 +309,11 @@ button, .btn, input {
   font-size: 16px;
   margin: 2px 0;
   border-radius: 4px;
+}
+input {
+  background-color: var(--colorbright);
+  color: var(--colorprimary);
+  margin-left: 10px;
 }
 .todo {
   display:inline-block;
