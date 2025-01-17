@@ -1,0 +1,100 @@
+<html lang="en">
+<head>
+  <script src="/js/menu/loadScript.js"></script>
+</head>
+<body>
+<main>
+<h1>OOP 1</h1>
+  <section>
+    <h2>멤버변수 초기화</h2>
+<pre>
+class Product {
+  static int counter = 0;
+  int serialNumber;
+  { // 인스턴스 초기화 블럭: 모든 생성자 생성시 수행
+    counter++;
+    serialNumber = counter;
+  }
+  public Product() {};
+
+  public static void main(String[] args) {
+    Product product = new Product();
+    Product p2 = new Product();
+    Product p3 = new Product();
+    System.out.println(Product.counter);
+  };
+}
+</pre>
+</section>
+<section>
+  <h2>인터페이스</h2>
+  <h3>모든 멤버변수는 public static final 이면 생략가능</h3>
+  <h3>모든 메서드는 public abstract 이며 생략 가능</h3>
+  <h3>interface는 Object 클래스와 같은 최고 조상이 없다.</h3>
+  <pre>interface PlayingCard {
+    public static final int SPADE =4;
+    final int DIAMOND =3;
+    static int HEART = 2;
+    int CLOVER = 1;
+    public abstract String getCardNumber();
+    String getCardKind();  
+  }</pre>
+  <h4>Unit interface 활용 예시</h4>
+  <pre>interface Repairable {};
+
+public class Unit {
+  int hitPoint;
+  final int MAX_HP;
+  
+  Unit(int hp){  MAX_HP = hp;  }
+}
+
+class AirUnit extends Unit {
+  AirUnit (int hp){ super(hp); }
+}
+class GroundUnit extends Unit {
+  GroundUnit (int hp){ super(hp);  }
+}
+
+class Marine extends Unit implements Repairable {
+  Marine (int hp) { super(hp); }
+}
+class Goliat extends GroundUnit implements Repairable {
+  Goliat(int hp) { 
+    super(100); 
+    hitPoint = MAX_HP;
+  }
+}
+class Tank extends GroundUnit implements Repairable{
+  Tank(){
+    super(150);
+    hitPoint = MAX_HP;
+  }
+  public String toString() { return "Tank"; }
+}
+class SCV extends GroundUnit implements Repairable {
+  SCV() {
+    super(60);
+    hitPoint = MAX_HP;
+  }
+
+  void repair(Repairable r) {
+    if( r instanceof Unit) {
+      Unit u = (Unit) r;
+      while (u.hitPoint < u.MAX_HP) {  u.hitPoint++; }
+    }
+  }
+}
+class UnitEx {
+  public static void main(String[] args) {
+    SCV scv = new SCV();
+    Tank tank = new Tank();
+    tank.hitPoint = 100;
+    scv.repair(tank);
+    System.out.println(tank.hitPoint);
+  }
+}</pre>
+</section>
+</main>
+</body>
+</html>

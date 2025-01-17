@@ -320,5 +320,36 @@ input {
   font-size: 16px;
   padding: 4px 0 0 10px;
   width: 120px;
-
+}
+#hamburger {
+  display: none;
+}
+#hamburger img {
+  width: 40px;
+  filter: invert(1);
+}
+#hamburger:hover img {
+  cursor: pointer;
+}
+.aside.is-active {
+  display: block;
+  left: 60px;
+  background-color: var(--colorbright);
+}
+@media screen and (max-width: 900px) {
+  .aside { display: none; float: none;}
+  main { display:block;
+    width:96%;
+    margin:0 auto;
+    padding: 40px 5px 5px 5px;
+    min-height: 94.2vh;
+  }
+  #hamburger {
+    display: block;
+    position: fixed;
+    top: 60px; left: 10px;
+    z-index: 1009;
+    width: 40px;
+    height: 40px;
+  }
 }

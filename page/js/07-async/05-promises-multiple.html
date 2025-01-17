@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="/js/menu/loadNav.js"></script>
+</head>
+<body>
+<main>
+  <h1>JS Promises Multiple </h1>
+  <section>
+    <h2>다수의 Promises fulfilling에 대한 response</h2>
+    <p>위의 예제에서 Promise사용의 기초를 확인했습니다. 이제 고급 기능들을 한번 보겠습니다. 제일 먼저 확인해볼 예제는 다음과 같습니다. 연쇄적으로 일어나는 작업은 좋습니다. 그런데 모든 Promise가 fulfilled일 경우 코드를 실행하고 싶은 경우가 있을것 입니다.</p>
+    <p>해당 기능을 Promise.all() 이라는 스테틱 메서드를 사용하여 만들 수 있습니다. 이 메서드는 Promise의 배열을 매개변수로 삼고, 배열의 모든 Promise가 fulfil일 때만 새로운 fulfil Promise 오브젝트를 반환합니다. 아래처럼 말이죠 :</p>
+    <code>Promise.all([a, b, c]).then(values => { ... });</code>
+  <p>배열의 모든 Promise가 fulfil 이면, .then() 블럭의 executor 함수로의 매개변수로 Promise 결과의 배열을 전달합니다. Promise.all() 의 Promise의 배열 중 하나라도 reject라면, 전체 결과가 reject가 됩니다.</p>
+  <p>이 방법은 매우 유용합니다. 웹 UI의 컨텐츠를 동적인 방법으로 채운다고 생각 해보겠습니다. 대부분 경우에 듬성듬성 내용을 채우기보단, 완전한 내용을 채울것 입니다.</p>
+  </section>
+  <section>
+    <h3>다른 예제를 만들어서 실행해 보겠습니다. </h3>
+    <ol>
+      <li>먼저 Promise를 반환하는 몇 가지 함수를 만들어 Promise.all()로 결과를 반환합니다. 세 개의 fetch() 작업이 끝나고 다음 요청을 진행하고 싶다면 아래 코드처럼 Promise.all()블럭을 작성합니다. :
+      <pre>let a = fetch(url1);
+  let b = fetch(url2);
+  let c = fetch(url3);
+
+  Promise.all([a, b, c]).then(values => { ... });</pre>
+  Promise가 fulfilled가 됐을 때, fulfilment handler 핸들러로 전달된 values 매개변수에는 각 fetch() 의 결과로 발생한 세 개의 Response 오브젝트가 들어있습니다 . 하지만 우리는 단순히 결과만 넘겨주고 싶지 않습니다. 우리는 fetch()가 언제 끝나는지 보다 불러온 데이터에 더 관심이 있습니다. 그말은 브라우저에 표현할 수 있는 Blob과 텍스트 문자열이 불러와 졌을 때 Promise.all() 블럭을 실행하고 싶다는 것 입니다. &lt;script> 엘리먼트에 아래와 같이 작성합니다. :
+  <pre>function fetchAndDecode(url, type) {
+  return fetch(url)
+    .then((response) => {
+      if (type === "blob") {
+        return response.blob();
+      } else if (type === "text") {
+        return response.text();
+      }
+    })
+    .catch((e) => {
+      console.log(
+        "There has been a problem with your fetch operation: " + e.message,
+      );
+    });
+}</pre>
+살짝 복잡해 보이므로 하나하나 살펴봅시다. :
+      <ol type="i">
+        <li>fetchAndDecode() 함수의 매개변수로 컨텐츠의 URL과 가져오는 리소스의 타입을 지정합니다.</li>
+        <li>함수 내부에 fetch() 함수를 호출하여 전달받은 URL에서 리소스를 받아오도록 했습니다. 그리고 다음 Promise를 연쇄적으로 호출하여 디코딩된 (혹은 "읽은") Response Body를 반환하게 합니다.</li>
+        <li>여기에선 이전과 다른 두 가지가 있습니다.
+            <p>먼저 두 번째 Promise에서는 불러올 리소스의 type 이 무엇인지에 따라 반환받는 데이터가 다릅니다. (이 경우 blob 이나 text밖에 없지만, 이것을 잘 활용하여 다른 코드에 확장하여 적용할 수 있습니다.).</p>
+        </li>
+        <li>블럭의 마지막에는 .catch() 블럭을 추가하여 작업중 발생한 에러를 .all()의 배열로 전달합니다. Promise에서 reject가 발생하면, catch 블럭은 어떤 Promise에서 에러가 발생했는지 알려줄 것 입니다. .all() (아래쪽에 있는) 블럭의 리소스에 문제가 있지 않는 이상 항상 fulfil일것 입니다. .all 블럭의 마지막 체이닝에 .catch() 블럭을 추가하여 reject됐을때 확인을 할 수 있습니다.</li>
+      </ol>
+        함수의 body 안에 있는 코드는 비동기적이고 Promise 기반이므로, 전체 함수는 Promise로 작동합니다.
+      </li>
+      <li>다음으로 fetchAndDecode() 함수를 세 번 호출하여 이미지와 텍스트를 가져오고 디코딩 하는 과정을 시작합니다.
+      <pre>let coffee = fetchAndDecode("coffee.jpg", "blob");
+  let tea = fetchAndDecode("tea.jpg", "blob");
+  let description = fetchAndDecode("description.txt", "text");</pre>
+      </li>
+      <li>다음으로 위의 세 가지 코드가 모두 fulfilled가 됐을 때 원하는 코드를 실행하기 위해 Promise.all() 블럭을 만듭니다.
+    <pre>Promise.all([coffee, tea, description]).then((values) => {});</pre>
+    위에서 Promise를 포함하는 배열을 매개 변수로 사용하는 것을 확인할 수 있습니다. executor는 세 가지 Promise가 resolve될 때만 실행될 것 입니다. 그리고 executor가 실행될 때 개별적인 Promise의 결과를 포함하는 [coffee-results, tea-results, description-results] 배열을 매개 변수로 전달받을 것 입니다. (여기선 디코딩된 Response Body 입니다.).
+      </li>
+      <li>마지막으로 executor 함수를 작성합니다. 간단한 동기화 코드를 사용합니다. (Blob에서 오브젝트 URLs 생성), 그리고 페이지에 텍스트와 이미지를 표시합니다.
+      <pre>console.log(values);
+  // Store each value returned from the promises in separate variables;
+  //  create object URLs from the blobs
+  let objectURL1 = URL.createObjectURL(values[0]);
+  let objectURL2 = URL.createObjectURL(values[1]);
+  let descText = values[2];
+
+  // Display the images in <img> elements
+  let image1 = document.createElement("img");
+  let image2 = document.createElement("img");
+  image1.src = objectURL1;
+  image2.src = objectURL2;
+  document.body.appendChild(image1);
+  document.body.appendChild(image2);
+
+  // Display the text in a paragraph
+  let para = document.createElement("p");
+  para.textContent = descText;
+  document.body.appendChild(para);</pre>
+      </li>
+      <li>코드를 저장하고 창을 새로고치면 보기엔 좋지 않지만, UI 구성 요소가 모두 표시된 것을 볼 수 있습니다.</li>
+    </ol>
+  </section>
+  <section>
+    <h3>finally 추가하기</h3>
+    <pre>function fetchAndDecode(url, type) {
+  return fetch(url)
+    .then((response) => {
+      if (type === "blob") {
+        return response.blob();
+      } else if (type === "text") {
+        return response.text();
+      }
+    })
+    .catch((e) => {
+      console.log(
+        `There has been a problem with your fetch operation for resource "${url}": ` +
+          e.message,
+      );
+    })
+    .finally(() => {
+      console.log(`fetch attempt for "${url}" finished.`);
+    });
+}</pre>
+  </section>
+</main>
+</body>
+
+</html>

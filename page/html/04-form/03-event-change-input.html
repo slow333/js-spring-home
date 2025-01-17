@@ -5,8 +5,42 @@
 </head>
 <body>
 <main>
-  <h1>form property and method</h1>
+  <h1>이벤트: change, input, cut, copy, paste</h1>
   <section>
+    <h2>event: change</h2>
+    <h3>change 이벤트는 요소 변경이 끝나면 발생</h3>
+    <h3>text input의 경우 focus를 잃을 때 이벤트가 발생</h3>
+    <h3>select, checkbox, radio는 선택 값이 변경된 직후에 이벤트가 발생</h3>
+    <pre><form action="" id="form" name="form">form name="form"
+  text input <input type="text" name="input" placeholder="name;input"><span id="output"></span>
+      <input type="button" value="버튼">
+  name; select <select onchange="console.log(this.value)" name="select">
+    <option value="">선택하세요.</option>
+    <option value="1">옵션 1</option>  <option value="2">옵션 2</option>
+  </select>
+  checkbox: <input type="checkbox" name="check" checked>
+  radio1: <input type="radio" name="radio1" onchange="console.log(this.getAttribute('name'))"> radio2: <input type="radio" name="radio1" onchange="console.log(this.getAttribute('type'))">
+</form></pre>
+    <script>
+      const form = document.forms[0];
+      form.input.onchange = function() {
+        console.log(this.value);
+      };
+      form.input.oninput = function() {
+        output.innerHTML = this.value;
+      }
+    </script>
+  </section>
+  <section>
+    <h2>Event: cut, copy, paste</h2>
+    <h3>이벤트 방지하기</h3>
+    <input type="text" id="input2">
+    <script>
+      input2.oncut = input.oncopy = input.onpaste = function(event) {
+        alert(event.type + ' - ' + event.clipboardData.getData('text/plain'));
+        return false;
+      };
+    </script>
   </section>
 </main>
 <script>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script src="/js/menu/loadNav.js"></script>
+  <style>
+    .heroHeader, #heroIntro { font-weight: bolder; text-align: center;}
+    .heroHeader { font-size: 2rem; }
+    #heroIntro { font-size: 1.3rem; }
+    .heroName { font-size: 1.2rem; font-weight: bold;}
+  </style>
+</head>
+
+<body>
+<main>
+  <h1>JS JSON2</h1>
+  <section>
+    <h3>JSON 가져오기</h3>
+    <ol>
+      <li>일단, 변수로 둘 JSON의 URL을 가져옴<br>
+<pre>let requestURL =
+  "https://mdn.github.io/learning-area/javascript/oojs
+          /json/superheroes.json";</pre></li>
+      <li>요청을 만들기 위해, 우리는 new 키워드를 이용하여 XMLHttpRequest 생성자로부터 새로운 request 인스턴스를 생성<br>
+      <pre>var request = new XMLHttpRequest();</pre></li>
+      <li>이제 open() 메소드를 사용해 새로운 요청을 만듭니다. 아래의 코드를 추가<br>
+      <pre>reqest.open("GET", requestURL);</pre>
+        이것은 최소 두 개의 매개변수를 가짐(다른 선택적 매개변수도 가능). 이건 단순 예제니깐 두 가지 필수 매개변수만 취할게요.
+        <ul>
+          <li>HTTP 메서드는 네트워크 요청을 만들 때 사용됩니다.
+            이 경우 GET 을 사용하는게 좋겠어요. 우린 그저 데이터를 가져오면 되니깐요.
+          </li>
+          <li>URL은 요청을 보낼 곳을 지정합니다. 우리가 저장해 둔 JSON 파일의 URL로 지정할게요.</li>
+        </ul>
+      </li>
+      <li>다음으로, 아래의 두 줄을 추가. responseType 을 JSON으로 설정했어요.
+        XHR로 하여금 서버가 JSON 데이터를 반환할 것이며, JavaScript 객체로서 변환될 것이라는 걸 알게 하기 위해서죠.
+        이제 send() 메서드를 이용해 요청을 보냅시다.<br>
+      <pre>request.responseType = "json";
+  request.send();</pre></li>
+      <li>마지막 부분은 서버의 응답을 기다리고, 그것의 처리까지와 관련된 섹션입니다.<br>
+      <pre>request.onload = function () {
+        <i><b>// 응답이 성공적으로 돌아왔을 때만 로드 이벤트가 작동</b></i>
+  let superHeroes = request.response;
+  populateHeader(superHeroes);
+  showHeroes(superHeroes);
+  };</pre>  </li>
+    </ol>
+    <p> 우리는 요청에 대한 응답을 superHeroes라는 변수에 저장할 겁니다.(response 프로퍼티로 가능)
+      이 변수는 이제 JSON 데이터에 기반한 JavaScript 객체를 포함하게 됩니다!
+      두 개의 함수를 호출해 이 객체를 전달합시다. 하나는 &lt;header> 를 적절한 데이터로 채울 것이고,
+      다른 하나는 팀의 각 히어로에 대한 정보 카드를 생성하여 &lt;section>내에 집어넣을 겁니다. </p>
+    <p> 우리는 로드 이벤트가 request 객체에 발생할 때에 작동하는 이벤트 핸들러 내에 코드를 넣었습니다. (onload 참고)
+      왜냐하면 응답이 성공적으로 돌아왔을 때만 로드 이벤트가 작동하기 때문입니다.
+      이러한 방식은 우리가 무언가를 시도하려고 할 때 request.response 가 확실히 가능하다는 것을 보장해 줍니다. </p>
+    <h5>string을 javascript 객체로 변경하거나 JSON을 텍스트로 변경</h5>
+    <pre>let jsonObject = JSON.parse(textFile);</pre>
+    <pre>let myJson = {name: "black pink", age:6}
+  let text = JSON.stringfy(jsonFile);</pre>
+  </section>
+  <section>
+    <div class="superhero">
+      <div class="heroHeader">Super Hero Squad</div>
+      <div style="text-align: center">(using JSON by XMLHttprequest)</div><br>
+      <div id="heroIntro"></div>
+      <div id="heroSquad" >
+      </div>
+    </div>
+  </section>
+</main>
+<script>
+  let myJson = {name: "black pink", age:6}
+  let text = JSON.stringify(myJson);
+  document.querySelector("#exContainer").textContent = text;
+</script>
+</body>
+</html>

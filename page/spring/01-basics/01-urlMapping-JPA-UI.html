@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="/js/menu/loadNav.js"></script>
+</head>
+<body>
+<main>
+<h1>spring boot project 구조</h1>
+  <section>
+    <h2>src/main/java</h2>
+    <h3>자바 파일을 저장하는 공간</h3>
+  </section>
+  <section>
+    <div id="testout"></div>
+  </section>
+</main>
+</body>
+<script>
+  async function testSpringBoot(url) {
+    let response = await fetch(url);
+    let data = await response.text();
+    return data;
+  }
+  testSpringBoot("http://localhost:8090/hello",)
+          .then(data => {
+            console.log(data);
+            testout.innerHTML = data;
+          });
+</script>
+</html>

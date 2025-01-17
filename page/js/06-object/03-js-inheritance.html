@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script src="/js/menu/loadNav.js"></script>
+</head>
+
+<body>
+<main>
+  <h1 class="h1">JS Inheritance</h1>
+  <section>
+  <h2>Class 상속</h2>
+    <h3>Prototype 상속</h3>
+    <p>지금까지 몇 가지 상속을 살펴보았습니다 — 프로토타입 체인이 어떻게 동작하는지,
+      체인을 통해 멤버들을 탐색하는 것도 보았죠. 하지만 이는 대부분 브라우저가 알아서 처리하는 로직이었습니다.
+      그러면 우리가 직접 객체를 생성하고 상속하려면 어떻게 해야 할까요?</p>
+    <pre>function Person(first, last, age, gender, interests) {
+  this.name = { first, last, };
+  this.age = age;
+  this.gender = gender;
+  this.interests = interests; }
+
+  Person.prototype.greeting = function () {
+    createElement("Hi! I'm " + this.name.first + ".");
+  };
+  function Teacher(first, last, age, gender, interests, subject) {
+    Person.call(this, first, last, age, gender, interests);
+
+    this.subject = subject;
+  }
+const person1 = new Person(...); person1.greeting();</pre>
+    <p>Person() 생성자와 여러모로 비슷해 보이지만 여지껏 보지 못했던 한가지 차이점이 있습니다 — call() 함수죠.
+      call() 함수의 첫번째 매개변수는 다른 곳에서 정의된 함수를 현재 컨텍스트에서 실행할 수 있도록 합니다.
+      실행하고자 하는 함수의 첫 번째 매개변수로 this를 전달하고 나머지는 실제 함수 실행에 필요한 인자들을 전달하면 됩니다.</p>
+    <p>Teacher()의 생성자는 Person()을 상속받았으므로 같은 매개변수들이 필요합니다.
+      따라서 동일한 매개변수들을 call()의 인자로 전달하여 실행합니다.</p>
+    <p>마지막 줄에서는 새 속성인 subject를 정의하여 Person이 아닌 Teacher만이 갖는 속성을 만들어 줍니다.</p>
+    <h4>매개변수가 없는 생성자 상속</h4>
+    <pre>function Brick() {
+  this.width = 10;
+  this.height = 20;
+}
+function BlueGlassBrick() {
+  Brick.call(this);
+
+  this.opacity = 0.5;
+  this.color = "blue";
+}</pre>
+    <p>call() 함수에 this만 넘긴 것을 보세요.
+      — Brick() 생성자에서 매개변수를 통해 초기화 하는 속성들이 없으므로 call()에도 넘길 필요가 없습니다.</p>
+  </section>
+</main>
+</body>
+
+</html>

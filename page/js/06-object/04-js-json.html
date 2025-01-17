@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script src="/js/menu/loadNav.js"></script>
+</head>
+
+<body>
+<main>
+  <h1>JS JSON</h1>
+  <p>JavaScript Object Notation (JSON)은 Javascript 객체 문법으로 구조화된 데이터를 표현하기 위한 문자 기반의 표준 포맷입니다.
+    웹 어플리케이션에서 데이터를 전송할 때 일반적으로 사용합니다(서버에서 클라이언트로 데이터를 전송하여 표현하려거나 반대의 경우).
+    여기저기서 자주 보았을테니 여기선 JSON을 파싱, 데이터에 접근하고 JSON을 생성하는 등
+    Javascript로 JSON을 다루는 법에 대해 알아봅시다. </p>
+  <section>
+    <h3>JSON이 뭐죠?</h3>
+    <p>Javascript 객체 문법을 따르는 문자 기반의 데이터 포맷입니다.
+      JSON이 Javascript 객체 문법과 매우 유사하지만 딱히 Javascript가 아니더라도 JSON을 읽고 쓸 수 있는 기능이
+      다수의 프로그래밍 환경에서 제공됩니다.  </p>
+    <p>JSON은 문자열 형태로 존재합니다 — 네트워크를 통해 전송할 때 아주 유용하죠. 데이터에 접근하기 위해서는 네이티브 JSON 객체로 변환될 필요가 있습니다. 별로 큰 문제는 아닌 것이 Javascript는 JSON 전역 객체를 통해 문자열과 JSON 객체의 상호변환을 지원합니다. </p>
+  </section>
+  <section>
+    <h3>JSON 구조</h3>
+    <p> JSON 안에는 마찬가지로 Javascript의 기본 데이터 타입인 문자열, 숫자, 배열, 불리언 그리고 다른 객체를 포함할 수 있습니다.</p>
+<pre>{
+  "squadName": "Super hero squad",
+  "homeTown": "Metro City",
+  "formed": 2016,
+  "secretBase": "Super tower",
+  "active": true,
+  "mem" : { "name": "Jonas" },
+  "members": [
+    {
+      "name": "Molecule Man",
+      "age": 29,
+      "secretIdentity": "Dan Jukes",
+      "powers": ["Radiation resistance", "Turning tiny", "Radiation blast" ]
+    },
+    {
+      "name": "Madame Uppercut",
+      "age": 39,
+      "secretIdentity": "Jane Wilson",
+      "powers": [ "Million tonne punch", "Damage resistance",
+               "Superhuman reflexes" ]
+    },
+    {
+      "name": "Eternal Flame",
+      "age": 1000000,
+      "secretIdentity": "Unknown",
+      "powers": [ "Immortality", "Heat Immunity", "Inferno",
+          "Teleportation", "Interdimensional travel" ]
+    }
+  ]
+}</pre>
+  </section>
+  <section>
+    <h3>Key Notes</h3>
+    <ul>
+      <li>JSON은 순수히 데이터 포맷입니다. 오직 프로퍼티만 담을 수 있습니다. 메서드는 담을 수 없습니다.</li>
+      <li>JSON은 문자열과 프로퍼티의 이름 작성시 큰 따옴표만을 사용해야 합니다. 작은 따옴표는 사용불가합니다.</li>
+      <li>콤마나 콜론을 잘못 배치하는 사소한 실수로 인해 JSON파일이 잘못되어 작동하지 않을 수 있습니다. JSONLint같은 어플리케이션을 사용해 JSON 유효성 검사를 할 수 있습니다.</li>
+      <li>JSON은 JSON내부에 포함할 수 있는 모든 형태의 데이터 타입을 취할 수 있습니다. 즉, 배열이나 오브젝트 외에도 단일 문자열이나 숫자또한 유효한 JSON 오브젝트가 됩니다.</li>
+      <li>JavaScript에서 오브젝트 프로퍼티가 따옴표로 묶이지 않을 수도 있는 것과는 달리, JSON에서는 따옴표로 묶인 문자열만이 프로퍼티로 사용될 수 있습니다.</li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>

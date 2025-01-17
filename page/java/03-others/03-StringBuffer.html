@@ -1,0 +1,44 @@
+<html lang="en">
+<head>
+  <script src="/js/menu/loadScript.js"></script>
+</head>
+<body>
+<main>
+<h1>StringBuffer class</h1>
+<pre>public final class StringBuffer implements java.io.Serializable{
+  private char[] value;
+  ...  
+}</pre>
+<section>
+  <h3>String class와 달리 내용을 변경할 수 있다.</h3>
+  <pre>StringBuffer sb = new StringBuffer("abc");
+sb.append("123"); </pre>
+<pre>public StringBuffer(int length){
+  value = new char[length];
+  shared = false;
+}</pre>
+<pre>public StringBuffer(String str) {
+  this(str.length() + 16);
+  append(str);
+}</pre>
+  <h4>String class와 달리 equals()를 오버라이딩하지 않음. sb.equals(sb2); //false</h4>
+</section>
+<section>
+  <h2>StringBuffer 생성자와 메서드</h2>
+  <h3>생성자</h3>
+  <h4>StringBuffer(); 16개 문자를 담는 인스턴스 생성</h4>
+  <h4>StringBuffer(int length); StringBuffer(String str);</h4>
+  <h3>method</h3>
+  <h4>append(value); == boolean, char/char[], float/int/logn/double, Object, String</h4>
+  <h4>int capacity(); //설정된 용량, int length(); //string size</h4>
+  <h4>char charAt(int index);</h4>
+  <h4>StringBuffer delete(int begin, int end);</h4>
+  <h4>StringBuffer deleteCharAt(int index);</h4>
+  <h4>StringBuffer insert(int pos, value); == boolean, char/char[], float/int/logn/double, Object, String</h4>
+  <h4>StringBuffer revers();  </h4>
+  <h4>void setLength(int newLength);</h4>
+  <h4>String substring(int start [,int end])</h4>
+</section>
+</main>
+</body>
+</html>

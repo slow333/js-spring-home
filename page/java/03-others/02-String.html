@@ -1,0 +1,57 @@
+<html lang="en">
+<head>
+  <script src="/js/menu/loadScript.js"></script>
+</head>
+<body>
+<main>
+<h1>String class</h1>
+<section>
+  <h3>Constructor</h3>
+  <h4>String(char[] c); String(String str);</h4>
+  <h2>methods</h2>
+  <h4>char charAt(int index); String concat(String str); boolean contains(str);</h4>
+  <h4>String reverse();</h4>
+  <h4>int indexOf(char or String [, int pos]); int lastIndexOf(char or String); </h4>
+  <h4>boolean equals(Object obj); boolean equalsIgnoreCase(str);</h4>
+  <h4>boolean startsWith(str)/endsWith(str);</h4>
+  <h4>int length();</h4>
+  <h4>String replace(old, new); String replaceAll(regex, replacement); String replaceFirst(regex, replacement)</h4>
+  <h4>String[] split(regex [, int limit]);</h4>
+  <h4>String substring(int begin [, int end]);</h4>
+  <h4>String toLowerCase()/toUpperCase();</h4>
+  <h4>String trim();</h4>
+  <h4>String valueOf(boolean || char || int || long || float || double || Object )</h4>
+</section>
+<section>
+<pre>public class StringCount {
+  private int count;
+  private String source = "";
+
+  public StringCount(String src) {
+    this.source = src;
+  }
+  public int stringCount(String s){
+    return stringCount(s, 0);
+  }
+
+  public int stringCount(String s, int pos){
+    int index = 0;
+    if(s == null || s.length() == 0){
+      return 0;
+    }
+    if( (index = source.indexOf(s, pos)) != -1) {
+      count++;
+      stringCount(s, index + s.length());
+    }
+    return count;
+  }
+  public static void main(String[] args) {
+    String str = "aabbccAABBCCaa";
+    StringCount sc = new StringCount(str.toLowerCase());
+    System.out.println(sc.stringCount("aa"));
+  }
+}</pre>
+</section>
+</main>
+</body>
+</html>

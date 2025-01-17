@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="/js/menu/loadScript.js"></script>
+  <style>
+
+  </style>
+</head>
+<body>
+<main>
+  <h1>media</h1>
+  <h3>사이드 메뉴 숨기기</h3>
+  <section>
+    <h3>CSS</h3>
+    <pre>#hamburger {
+  display: none;
+}
+#hamburger img {
+  width: 40px;
+  filter: invert(1);
+}
+#hamburger:hover img {
+  cursor: pointer;
+}
+.aside.is-active {
+  dispaly: block;
+  left: 60px;
+  background-color: var(--colorbright);
+}
+@media screen and (max-width: 900px) {
+  .aside { display: none; float: none;} // opacity로 하면 좀..
+  main { display:block;
+    width:94%;
+    margin:0 auto;
+    padding: 40px 5px 5px 5px;
+    min-height: 94.2vh;
+  }
+  #hamburger {
+    display: block;
+    position: fixed;
+    top: 60px; left: 10px;
+    z-index: 1009;
+    width: 40px;
+    height: 40px;
+  }
+}</pre>
+    <h2>JavaScript</h2>
+<pre>hamburger.onclick = function(){
+  let aside = document.querySelector('.aside');
+  aside.classList.toggle('is-active');
+};</pre>
+  </section>
+</main>
+<script>
+</script>
+</body>
+</html>

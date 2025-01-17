@@ -21,6 +21,10 @@ async function loadMenu(){
    setStyleByCurrentUrl(aside, nav);
    showToggleByCurrUrl(aside);
    aside.onclick = toggleAsideSub;
+   hamburger.onclick = function(){
+      let aside = document.querySelector('.aside');
+      aside.classList.toggle('is-active');
+   };
 }
 loadMenu().catch(error => new Error(error.message));
 
@@ -42,14 +46,17 @@ async function setNavEl(text){
 }
 // nav에 설정된 href를 활용해서 현재의 location 기반 aside file 선택
 async function selectAsideUrl () {
-   if (location.href === 'http://127.0.0.1:8080/'
-       || location.href === "http://127.0.0.1:8080/index.html") {
+   if (location.href.includes("index.html")) {
       document.title = "HOME";
       return null;
    }
    let asideName = location.href.split('/')[4];
-   document.title = asideName;
-   return `/page/components/${asideName}-aside.html`;
+   if(asideName.length > 0){
+      document.title = asideName;
+      return `/page/components/${asideName}-aside.html`;
+   } else {
+      return null;
+   }
 }
 // aside file을 활용한 loadXML에서 받은 responseText를 활용 aside 생성
 async function setAside(asideText) {
