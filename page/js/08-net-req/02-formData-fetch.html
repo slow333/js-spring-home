@@ -1,0 +1,88 @@
+<html lang="en">
+<head>
+  <script src="/js/menu/loadScript.js"></script>
+</head>
+<body>
+<main>
+<h1>FormData 객체</h1>
+  <p>FormData는 폼을 쉽게 보내도록 도와주는 객체. FormData 객체는 HTML 폼 데이터를 나타냅니다.</p>
+  <pre>let formData = new FormData([form]);</pre>
+  <h4>HTML에 form 요소가 있는 경우, 위와 같은 코드를 작성하면 해당 폼 요소의 필드 전체가 자동 반영됩니다.</h4>
+  <h4>fetch 등의 네트워크 메서드가 FormData 객체를 바디로 받는다는 건 FormData의 특징</h4>
+  <h4>이때 브라우저가 보내는 HTTP 메시지는 인코딩되고 Content-Type 속성은 multipart/form-data로 지정된 후 전송됩니다.</h4>
+<section>
+  <h2>간단한 폼 전송</h2>
+  <form id="formElem">
+    <input type="text" name="name" value="Bora">
+    <input type="text" name="surname" value="Lee">
+    <input type="submit">
+  </form>
+  <pre>
+formElem.onsubmit = async (e) => {
+  e.preventDefault();
+  let response = await fetch('/article/formdata/post/user', {
+    method: 'POST',
+    body: new FormData(formElem)
+  });
+  let result = await response.json();
+  alert(result.message);
+};  </pre>
+</section>
+<section>
+  <h2>FormData 메서드</h2>
+  <h4>formData.append(name, value) – name과 value를 가진 폼 필드를 추가</h4>
+  <h4>formData.append(name, blob, fileName) – &lt;input type="file">형태의 필드를 추가. 세 번째 인수 fileName은 (필드 이름이 아니고) 사용자가 해당 이름을 가진 파일을 폼에 추가한 것처럼 설정해줌</h4>
+  <h4>formData.delete(name) – name에 해당하는 필드를 삭제</h4>
+  <h4>formData.get(name) – name에 해당하는 필드의 값을 가져옴</h4>
+  <h4>formData.has(name) – name에 해당하는 필드가 있으면 true를, 그렇지 않으면 false를 반환</h4>
+  <h4>set은 name과 동일한 이름 가진 필드를 모두 제거하고 새로운 필드 하나를 추가</h4>
+  <h4>set 메서드를 쓰면 name을 가진 필드가 단 한 개만 있게끔 보장. 이 외에 다른 기능은 append 메서드와 동일</h4>
+</section>
+<section>
+  <h2>파일이 있는 폼 전송하기</h2>
+  <form id="formElem1">
+    <input type="text" name="firstName" value="Bora">
+    Picture: <input type="file" name="picture" accept="image/*">
+    <input type="submit">
+  </form>
+  <pre>
+formElem1.onsubmit = async (e) => {
+  e.preventDefault();
+  let response = await fetch('/article/formdata/post/user-avatar', {
+    method: 'POST',
+    body: new FormData(formElem)
+  });
+  let result = await response.json();
+  alert(result.message);
+};</pre>
+</section>
+<section>
+  <h2>Blob 데이터가 있는 폼 전송</h2>
+  <canvas id="canvasElem2" width="100" height="80" style="border:1px solid"></canvas>
+  <input type="button" value="이미지 전송" onclick="submit()">
+  <pre>
+canvasElem2.onmousemove = function(e) {
+  let ctx = canvasElem.getContext('2d');
+  ctx.lineTo(e.clientX, e.clientY);
+  ctx.stroke();
+};
+async function submit() {
+  let imageBlob = await new Promise(resolve => canvasElem.toBlob(resolve, 'image/png'));
+
+  let formData = new FormData();
+  formData.append("firstName", "Bora");
+  formData.append("image", imageBlob, "image.png");
+
+  let response = await fetch('/article/formdata/post/image-form', {
+    method: 'POST',
+    body: formData
+  });
+  let result = await response.json();
+  alert(result.message);
+} </pre>
+</section>
+</main>
+<script>
+</script>
+</body>
+</html>

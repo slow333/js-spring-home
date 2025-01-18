@@ -7,9 +7,9 @@
 <body>
 <main>
   <h1>JS worker</h1>
+  <section>
   <h2>Worker</h2>
   <p>"비동기 JavaScript" 학습 과정의 마지막 글에서는 별도의 Thread 실행 시 일부 작업을 실행할 수 있는 workers 를 소개합니다.</p>
-  <section>
     <p>이 과정의 첫 번째 글에서 우리는 프로그램이 장기간 진행되는 동기 작업을 수행할 때 창이 완전히 응답하지 않는 것을 보았습니다. 근본적으로 그 이유는 프로그램이 단일 스레드 이기 때문입니다. 스레드 는 프로그램이 따르는 일련의 명령입니다. 이 프로그램이 단일 스레드로 구성되어 있어서 한 번에 한 가지 작업만 수행할 수 있습니다. 따라서 장기간 실행 중인 동기 호출이 반환되기를 기다리고 있으면 다른 작업을 수행할 수 없습니다.</p>
     <p>워커는 다른 스레드에서 어떤 작업을 실행할 수 있는 기능을 제공하므로 이 작업을 시작하고 다른 처리(예: 사용자 작업 처리)를 계속할 수 있습니다.</p>
     <p>하지만 이것에 대한 대가가 있습니다. 다중 스레드 코드를 사용하면 스레드가 언제 중단되고 다른 스레드가 언제 실행될지 절대 알 수 없습니다. 따라서 두 스레드가 같은 변수에 접근할 수 있는 경우 변수가 언제든지 예기치 않게 변경될 수 있으며, 이에 따라 찾기 어려운 버그가 발생합니다.</p>
@@ -42,7 +42,6 @@
       quota: quota,
     });
   });
-
   // When the worker sends a message back to the main thread,
   // update the output box with a message for the user, including the number of
   // primes that were generated, taken from the message data.
@@ -50,7 +49,6 @@
     document.querySelector("#output").textContent =
       `Finished generating ${message.data} primes!`;
   });
-
   document.querySelector("#reload").addEventListener("click", () => {
     document.querySelector("#user-input").value =
       'Try typing in here immediately after pressing "Generate primes"';
@@ -80,23 +78,17 @@ addEventListener("message", (message) => {
 function generatePrimes(quota) {
   function isPrime(n) {
     for (let c = 2; c <= Math.sqrt(n); ++c) {
-      if (n % c === 0) {
-        return false;
-      }
+      if (n % c === 0) { return false; }
     }
     return true;
   }
-
   const primes = [];
   const maximum = 1000000;
 
   while (primes.length < quota) {
     const candidate = Math.floor(Math.random() * (maximum + 1));
-    if (isPrime(candidate)) {
-      primes.push(candidate);
-    }
+    if (isPrime(candidate)) { primes.push(candidate); }
   }
-
   // When we have finished, send a message to the main thread,
   // including the number of primes we generated.
   postMessage(primes.length);

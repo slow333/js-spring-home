@@ -26,19 +26,19 @@
     <h3>reject 추가 하기</h3>
     <p>reject() 메서드를 사용하여 Promise가 reject상태일 때 전달할 값을 지정할 수 있습니다. — resolve()와 똑같습니다. 여기엔 하나의 값만 들어갈 수 있습니다. Promise가 reject 되면 에러는 .catch() 블럭으로 전달됩니다.</p>
     <p> 이전 예시를 좀 더 확장하여 reject() 을 추가하고, Promise가 fulfil일 때 다른 메시지도 전달할 수 있게 만들어봅시다.</p>
-    <pre>function timeoutPromise(message, interval) {
-    return new Promise((resolve, reject) => {
-      if (message === "" || typeof message !== "string") {
-        reject("Message is empty or not a string");
-      } else if (interval < 0 || typeof interval !== "number") {
-        reject("Interval is negative or not a number");
-      } else {
-        setTimeout(function () {
-          resolve(message);
-        }, interval);
-      }
-    });
-  }</pre>
+  <pre>function timeoutPromise(message, interval) {
+  return new Promise((resolve, reject) => {
+    if (message === "" || typeof message !== "string") {
+      reject("Message is empty or not a string");
+    } else if (interval < 0 || typeof interval !== "number") {
+      reject("Interval is negative or not a number");
+    } else {
+      setTimeout(function () {
+        resolve(message);
+      }, interval);
+    }
+  });
+}</pre>
     <p>함수를 살펴보면 두 가지 매개변수가 있습니다. — 출력할 메시지와(message) 메시지를 출력할 때 까지 기다릴 시간(interval)입니다. 맨 위에 Promise 오브젝트를 반환하도록 되어있습니다. 따라서 함수를 실행하면 우리가 사용하고 싶은 Promise가 반환될 것 입니다.</p>
     <p>Promise constructor 안에는 몇가지 사항을 확인하기 위해 if ... else 구문이 있습니다.</p>
     <p>timeoutPromise() 함수는 Promise를 반환하므로, .then(), .catch(), 기타등등 을 사용해 Promise 체이닝을 만들 수 있습니다. 아래와 같이 작성해봅시다. — 기존에 있는 timeoutPromise 를 삭제하고 아래처럼 바꿔주세요. :</p>
@@ -50,17 +50,17 @@
     <h3>실제 적용하는 예시</h3>
     <p>위의 예제는 개념을 이해하기 쉽게 단순하게 만들었지만, 실제로 그다지 비동기적이지는 않습니다. 억지로 비동기적 작업을 구현하기 위해 setTimeout()을 사용하여 함수를 만들었지만 사용자 정의 Promise를 만들고 에러를 다루기엔 충분한 예제였습니다.</p>
     <p>좀 더 공부해볼 추가내용을 소개해주고 싶습니다. 바로 Jake Archibald's idb library입니다 이 라이브러리는 Promise() constructor의 비동기작업 응용을 보여주는 유용한 라이브러리 입니다. 클라이언트측에서 데이터를 저장하고 검색하기 위한 구식 callback 기반 API로 Promise와 함께 사용하는 IndexedDB API입니다. main library file을 살펴보면 우리가 지금까지 다뤄본것과 같은 종류의 테크닉을 볼 수 있습니다. 아래 코드 블록은 basic request model이 Promise를 사용하게끔 변환해 주는 IndexedDB 메서드 입니다. :</p>
-    <pre>function promisifyRequest(request) {
-    return new Promise(function (resolve, reject) {
-      request.onsuccess = function () {
-        resolve(request.result);
-      };
+  <pre>function promisifyRequest(request) {
+  return new Promise(function (resolve, reject) {
+    request.onsuccess = function () {
+      resolve(request.result);
+    };
 
-      request.onerror = function () {
-        reject(request.error);
-      };
-    });
-  }</pre>
+    request.onerror = function () {
+      reject(request.error);
+    };
+  });
+}</pre>
   <p>우리가 했던것 처럼 적절한 타이밍에 Promise를 fulfil하고 reject하는 이벤트 핸들러를 두 개 추가했습니다. :</p>
   <ul>
     <li>request의 success event가 실행될 때, onsuccess 핸들러에 의해 fulfill된 Promise의 request result를 반환한다.</li>

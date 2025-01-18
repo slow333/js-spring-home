@@ -1,0 +1,48 @@
+<html lang="en">
+<head>
+  <script src="/js/menu/loadScript.js"></script>
+</head>
+<body>
+<main>
+<h1>URL objects</h1>
+  <h3>내장 URL 클래스는 다양한 인터페이스를 제공</h3>
+  <pre>new URL(url, [base])</pre>
+<section>
+  <h2>URL 생성</h2>
+  <pre>
+let appendUrl = new URL('https://javascript.info/profile/admin');
+let url = new URL('tester', appendUrl);  // https://javascript.info/profile/tester
+url.protocol; //https
+  url.host; // javascript.info
+  url.pathname; // /profile/admin</pre>
+  <pre>https://site.com:8080/path/page?p1=v1&p2=v2...#hash</pre>
+  <h5>href : 전체 url, url.toString()</h5>
+  <h5>protocol, hostname, port</h5>
+  <h5>pathname: /path/page, ? 이전까지</h5>
+  <h5>search: ?로 시작하는 파라미터 들</h5>
+</section>
+  <section>
+    <h2>SearchParams : "?..."</h2>
+    <pre>new URL('https://google.com/search?query=JavaScript')</pre>
+    <h4>append(name, value) – add the parameter by name</h4>
+    <h4>delete(name) – remove the parameter by name</h4>
+    <h4>get(name) – get the parameter by name   </h4>
+    <h4>getAll(name) – get all parameters with the same name (that’s possible, e.g. ?user=John&user=Pete)  </h4>
+    <h4>has(name) – check for the existence of the parameter by name  </h4>
+    <h4>set(name, value) – set/replace the parameter </h4>
+    <h4>sort() – sort parameters by name, rarely needed </h4>
+    <h4>…and it’s also iterable, similar to Map.</h4>
+    <pre>let url = new URL('https://google.com/search');
+url.searchParams.set('q', 'test me!'); // https://google.com/search?q=test+me%21
+url.searchParams.set('tbs', 'qdr:y'); // .../search?q=test+me%21&tbs=qdr%3Ay
+
+for(let [name, value] of url.searchParams) {
+  alert(`${name}=${value}`); // q=test me!, then tbs=qdr:y
+}</pre>
+    <h2>Encoding</h2>
+  </section>
+</main>
+<script>
+</script>
+</body>
+</html>

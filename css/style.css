@@ -37,22 +37,20 @@ main {
   padding: 40px 5px 0 206px;
   overflow: auto;
   margin:0 0 40px 0;
-  min-height: calc(100vh - 85px);
+  min-height: calc(100vh - 73px);
 }
 section {
-  margin: 0;
+  margin: 6px 2px;
   padding: 0 10px 10px 10px;
   border-right: var(--colorbright) solid 2px;
   border-left: var(--colorbright) solid 2px;
-  border-top: var(--colorbright) solid 2px;
+  border-top: var(--colorgray) solid 1px;
+  border-bottom: var(--colorgray)  dotted 1px;
   background: var(--colorsecondary);
-}
-section:last-child {
-  border-bottom: var(--colorbright) solid 2px;
 }
 footer {
   width: 100%;
-  padding: 6px 20px;
+  padding: 0 20px;
   position : absolute;
   background: var(--colorgray);
   color: var(--colorsecondary);

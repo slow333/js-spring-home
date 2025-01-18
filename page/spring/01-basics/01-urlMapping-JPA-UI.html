@@ -16,15 +16,24 @@
 </main>
 </body>
 <script>
+  // let urls = ["hello", "greeting"];
+  // let requests = urls.map(url => fetch(`http://localhost:8090/${url}`));
+
   async function testSpringBoot(url) {
     let response = await fetch(url);
-    let data = await response.text();
-    return data;
+    return response;
   }
-  testSpringBoot("http://localhost:8090/hello",)
-          .then(data => {
-            console.log(data);
-            testout.innerHTML = data;
+  testSpringBoot("http://localhost:8090/hello")
+          .then(response => response.text())
+          .then(text => {
+              console.log(text);
+              testout.innerHTML += "[" +text + "], ";
+          });
+  testSpringBoot("http://localhost:8090/greeting?name=KIM")
+          .then(response => response.json())
+          .then(json => {
+            console.log(json);
+            testout.innerHTML += "[" +json.content + "], ";
           });
 </script>
 </html>

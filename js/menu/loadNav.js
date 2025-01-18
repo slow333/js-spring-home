@@ -32,6 +32,13 @@ async function loadHeadLinks(){
    let links = await fetch('/page/components/links.html');
    let linksText = await links.text();
    document.head.insertAdjacentHTML("afterbegin",linksText);
+   // <link rel="icon" href="/favicon-32x32.png" />
+   let favicon = document.createElement('link');
+   favicon.rel="icon";
+   document.head.append(favicon);
+   let icon = await fetch("/images/home.png");
+   let img = await icon.blob();
+   favicon.href = URL.createObjectURL(img);
    return linksText;
 }
 
@@ -46,15 +53,12 @@ async function setNavEl(text){
 }
 // nav에 설정된 href를 활용해서 현재의 location 기반 aside file 선택
 async function selectAsideUrl () {
-   if (location.href.includes("index.html")) {
-      document.title = "HOME";
-      return null;
-   }
-   let asideName = location.href.split('/')[4];
-   if(asideName.length > 0){
+   let asideName = location.href.split('/')[4] || "HOME";
+   if(asideName.length > 0 && asideName !== "HOME"){
       document.title = asideName;
       return `/page/components/${asideName}-aside.html`;
    } else {
+      document.title = "HOME";
       return null;
    }
 }

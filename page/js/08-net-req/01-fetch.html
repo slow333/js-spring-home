@@ -11,8 +11,113 @@
   <p>AJAX(Asynchronous JavaScript And XML, 비동기적 JavaScript와 XML)라는 용어를 들어보신 분이 있으실 겁니다. AJAX는 서버에서 추가 정보를 비동기적으로 가져올 수 있게 해주는 포괄적인 기술을 나타내는 용어로, 만들어진 지 오래되었습니다. AJAX에 XML이 포함된 이유가 바로 이 때문이죠.</p>
   <p>fetch()는 구식 브라우저에선 지원하진 않지만(폴리필을 쓰면 사용 가능) 대부분의 모던 브라우저가 지원합니다.</p>
   <pre>let promise = fetch(url, [options])</pre>
+  <pre>let resonse = await fetch(url);
+  if (response.ok) { // HTTP 상태 코드가 200 ~ 299일 경우
+    let json = await response.json();
+  } else { console.log("HTTP-Error: ", response.status }</pre>
 <section>
+  <h2>response type</h2>
+  <h3>response.text(), response.json(), response.formData(), response.blob(), response.arrayBuffer()</h3>
+  <h4>json()</h4>
+<pre>fetch(url)
+    .then(response => response.json())
+    .then(commits => console.log(commits[0].author.login));</pre>
+  <h4>text()</h4>
+<pre>let response = await fetch(url);
+let text = await response.text(); // 응답 본문을 텍스트 형태로 읽습니다.
+alert(text.slice(0, 80) + '...');</pre>
+  <h4>blob() , image 받아서 처리하기</h4>
+  <pre>let response = await fetch('/article/fetch/logo-fetch.svg');
+let blob = await response.blob(); // 응답을 Blob 객체 형태로 다운로드받습니다.
+// 다운로드받은 Blob을 담을 img를 만듭니다.
+let img = document.createElement('img');
+img.style = 'position:fixed;top:10px;left:10px;width:100px';
+document.body.append(img);
+// 이미지를 화면에 보여줍니다.
+img.src = URL.createObjectURL(blob);
+setTimeout(() => { // 3초 후 이미지를 숨깁니다.
+  img.remove();
+  URL.revokeObjectURL(img.src);
+}, 3000);</pre>
 </section>
+  <section>
+    <h2>응답헤더</h2>
+    <h3>응답 헤더는 response.headers에 맵과 유사한 형태로 저장됩니다.</h3>
+    <h3>맵은 아닙니다. 하지만 맵과 유사한 메서드를 지원하죠. 이 메서드들을 사용하면 헤더 일부만 추출하거나 헤더 전체를 순회할 수 있습니다.</h3>
+<pre>fetch('https://api.github.com/repos/javascript-tutorial
+           /en.javascript.info/commits')
+  .then(response => {
+    console.log(response.headers.get('Content-Type'))
+    for (let [key, value] of  response.headers) {
+      console.log(`${key} = ${value}`);
+    }
+  });</pre>
+    <h3>요청 헤더</h3>
+    <h4>headers 옵션을 사용하면 fetch에 요청 헤더를 설정할 수 있습니다. headers엔 아래와 같이 다양한 헤더 정보가 담긴 객체를 넘기게 됩니다.</h4>
+    <pre>let response = fetch(protectedUrl, {
+  headers: {
+    Authentication: 'secret'
+  }
+});</pre>
+    <h4>headers를 사용해 설정할 수 없는 헤더</h4>
+    <h5>Accept-Charset, Accept-Encoding / Access-Control-Request-Headers/Access-Control-Request-Method
+     /  Connection / Content-Length / Cookie, Cookie2 / Date / DNT / Expect /
+      Host / Keep-Alive / Origin/Referer / TE/Trailer / Transfer-Encoding / Upgrade / Via / Proxy-* / Sec-*</h5>
+  </section>
+  <section>
+    <h2>POST request</h2>
+    <h3>GET 이외의 요청르 보내려면 추가 옵션을 사용해야함</h3>
+    <h4>method : HTTP method(ex; POST);</h4>
+    <h4>body : 문자열(JSON), formData, blob 중 하나이여야 함</h4>
+    <pre>let user = { name: 'John', surname: 'Smith' };
+let response = await fetch('/article/fetch/post/user', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json;charset=utf-8'
+  },
+  body: JSON.stringify(user)
+});
+let result = await response.json();
+alert(result.message);</pre>
+  </section>
+  <section>
+    <h2>이미지 전송</h2>
+    <canvas id="canvasElem" width="100" height="80" style="border:1px solid"></canvas>
+
+    <input type="button" value="전송" onclick="submit()">
+<pre>
+  canvasElem.onmousemove = function(e) {
+    let ctx = canvasElem.getContext('2d');
+    ctx.lineTo(e.offsetX, e.offsetY);
+    ctx.stroke();
+  };
+
+  async function submit() {
+    let blob = await new Promise(resolve
+         => canvasElem.toBlob(resolve, 'image/png'));
+    let response = await fetch('/article/fetch/post/image', {
+      method: 'POST',
+      body: blob
+    });
+
+    // 전송이 잘 되었다는 응답이 오고 이미지 사이즈가 얼럿창에 출력됩니다.
+    let result = await response.json();
+    alert(result.message);
+  } </pre>
+  <pre> // async 없이 작성
+function submit() {
+  canvasElem.toBlob(function(blob) {
+    fetch('/article/fetch/post/image', {
+      method: 'POST',
+      body: blob
+    })
+      .then(response => response.json())
+      .then(result => alert(JSON.stringify(result, null, 2)))
+  }, 'image/png');
+} </pre>
+  </section>
 </main>
+<script>
+</script>
 </body>
 </html>
