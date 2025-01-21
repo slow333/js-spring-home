@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="/js/menu/loadNav.js"></script>
+</head>
+<body>
+<main>
+<h1>entity로 테이블 메핑하기</h1>
+  <section>
+    <h2>엔티티 속성 구성하기</h2>
+    <h3>엔티티는 데이터베이스 테이블과 매핑되는 자바 클래스</h3>
+    <p> 게시판 서비스이므로 SBB의 질문과 답변 데이터를 저장할 데이터베이스 테이블과 매핑되는 질문과 답변 엔티티가 있어야 한다.</p>
+    <p>엔티티를 모델 또는 도메인 모델이라고도 한다.</p>
+    <h3>질문 엔티티</h3>
+    <h4>id: 고유번호, subject:제목, content:내용, createDate: 작성일</h4>
+    <h3>답변 엔티티</h3>
+    <h4>id: 고유번호, question: 질문 데이터(어떤 질문의 답변인지 알아야..), content:답변, createDate:</h4>
+  </section>
+  <section>
+    <h2>질문 엔티티 만들기</h2>
+<pre>
+@Getter
+@Setter
+@Entity
+public class Question {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY) //번호가 차례로 증가
+  private Integer id;
+
+  @Column(length = 200)
+  private String subject;
+
+  @Column(columnDefinition = "TEXT")
+  private String content;
+
+  private LocalDateTime createDate;
+}</pre>
+    <h3>@Id annotation</h3>
+    <h4>@Id 애너테이션은 id 속성을 기본키로 지정</h4>
+    <h3>@GeneratedValue 애너테이션</h3>
+    <h4>strategy 옵션을 생략한다면 @GeneratedValue 애너테이션이 지정된 모든 속성에 번호를 차례로 생성하므로 순서가 일정한 고유 번호를 가질 수 없게 된다. 이러한 이유로 보통 strategy = GenerationType.IDENTITY를 많이 사용한다.</h4>
+    <h3>@Column annotation</h3>
+    <h4>테이블의 열 이름과 일치하는데 열의 세부 설정을 위해 @Column 애너테이션을 사용</h4>
+    <h4>length는 열의 길이를 설정할 때 사용</h4>
+    <h4>columnDefinition은 열 데이터의 유형이나 성격을 정의할 때 사용:글자 수를 제한할 수 없는 경우</h4>
+    <h4>엔티티의 속성은 @Column 애너테이션을 사용하지 않더라도 테이블의 열로 인식.
+      @Transient 애너테이션은 엔티티의 속성을 테이블의 열로 만들지 않고 클래스의 속성 기능으로만 사용하고자 할 때 쓴다.</h4>
+    <h3>DB column이름과 엔티티 속성 이름 차이</h3>
+    <p>createDate 속성의 이름은 데이터베이스의 테이블에서는 create_date라는 열 이름으로 설정된다. 즉, createDate처럼 카멜 케이스(camel case) 형식의 이름은 create_date처럼 모두 소문자로 변경되고 단어가 언더바(_)로 구분되어 데이터베이스 테이블의 열 이름이 된다.</p>
+  </section>
+<section>
+  <div id="springTest"></div>
+</section>
+</main>
+</body>
+<script>
+  async function testSpringBoot(url) {
+    let response = await fetch(url);
+    return response;
+  }
+  testSpringBoot("http://localhost:8090/greeting?name=KIM")
+          .then(response => response.json())
+          .then(json => {
+            console.log(json);
+            springTest.innerHTML += "<div>" +json.content + "</div>";
+          });
+</script>
+</html>

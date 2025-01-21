@@ -17,10 +17,10 @@
   --colorgray:#777;
   --colorbright:#f1f1f1;
   --colorbrightest:#fafafa;
-  --h1: 30px;
-  --h2: 24px;
-  --h3: 20px;
-  --h4: 18px;
+  --h1: 24px;
+  --h2: 20px;
+  --h3: 17px;
+  --h4: 16px;
   --p: 16px;
   --subtext: 12px;
   --transition: 0.4s ease-in-out;
@@ -65,10 +65,12 @@ h1 {
 }
 
 h2, h3, h4, h5, h6 {
-  font-size: var(--h2);
   font-weight: bolder;
   margin: 7px 0;
   text-align: left;
+}
+h2 {
+  font-size: var(--h2);
 }
 h2:before {
   content: "◼";
@@ -117,7 +119,7 @@ code, pre {
   padding: 3px 9px;
   margin: 3px 0 0 10px;
   width: 98%;
-  font-size: var(--p);
+  font-size: 13px;
 }
 code {
   font-size: inherit;

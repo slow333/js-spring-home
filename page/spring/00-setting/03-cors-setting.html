@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="/js/menu/loadNav.js"></script>
+</head>
+<body>
+<main>
+<h1>CORS: spring boot 3, security 6</h1>
+  <section>
+<pre>package com.mysite.sbb;
+
+import java.util.Collections;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+  @Bean
+  BCryptPasswordEncoder passwordEncoder(){
+    return new BCryptPasswordEncoder();
+  }
+
+  // ⭐️ CORS 설정 CorsConfigurationSource를 반환 받음
+  CorsConfigurationSource corsConfigurationSource() {
+    return request -> {
+      CorsConfiguration config = new CorsConfiguration();
+      config.setAllowedHeaders(Collections.singletonList("*"));
+      // ⭐️⭐️ GET, POST, PUT, DELETE
+      config.setAllowedMethods(Collections.singletonList("*"));
+      // ⭐️⭐️ 허용할 origin
+      //  config.setAllowedOriginPatterns(Collections.singletonList("http://localhost:8080"));
+      //  config.setAllowedOriginPatterns(Collections.singletonList("http://127.0.0.1:8080"));
+      // config.setAllowedOriginPatterns(Arrays.asList("http://127.0.0.1:8080","http://localhost:8080"));
+      config.setAllowedOrigins(Arrays.asList("http://127.0.0.1:8080","http://localhost:8080"));
+      config.setAllowCredentials(true);
+      return config;
+      };
+  }
+// 필터에 cors source, csrf 설정, 허락할 나의(서버측) 경로를 지정
+  @Bean
+  SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+    httpSecurity.httpBasic(HttpBasicConfigurer::disable)
+      // ⭐️⭐️ 위에서 정의 corsConfigurationSource 를 받아서 origin, method, headers를 허락해줌
+      .cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfigurationSource()))
+      .csrf(AbstractHttpConfigurer::disable)
+      .authorizeHttpRequests(authorize ->
+        authorize
+          .requestMatchers("*").permitAll()  // ⭐️⭐️ 전체 허락, 허락할 경로("/hello") 지정 해야함
+          .requestMatchers("/login").permitAll() // ⭐️⭐️ 허락할 경로
+      );
+
+    return httpSecurity.build();
+    }
+}</pre>
+  </section>
+</main>
+</body>
+</html>

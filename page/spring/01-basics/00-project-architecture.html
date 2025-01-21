@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="/js/menu/loadNav.js"></script>
+</head>
+<body>
+<main>
+<h1>spring boot project 구조</h1>
+  <section>
+    <h2>src/main/java</h2>
+    <p>자바 파일을 저장하는 공간</p>
+    <h2>패키지</h2>
+    <h3>콘트롤러, 폼/DTOO, DB 처리 엔티티, 서비스 등 자바 파일이 위치</h3>
+    <h2>프로젝트명+Application.java: 모든 프로그램의 시작 담당</h2>
+    <h3>반드시 @SpringBootApplication 애너테이션이 적용</h3>
+    <h2>src/main/resources</h2>
+    <h3>HTML, CSS, JavaScript, 환경 파일 등을 저장</h3>
+    <h3>templates directory</h3>
+    <h4>자바 코드를 삽입할수 있는 HTML형식의 파일, 스프링 부트에서 생성한 자바 객체를 HTML 형태로 출력</h4>
+    <h4>관련 HTML 파일을 저장</h4>
+    <h3>static 디렉토리</h3>
+    <h4>CSS, JavaScript, 이미지 파일을 저장</h4>
+    <h3>application.properties 파일</h3>
+    <h4>프로젝트 환경변수, 데이터베이스 설정 등</h4>
+    <h2>src/test/java</h2>
+    <h3>프로젝트에서 작성한 파일을 테스트하는 코드를 저장하는 공간</h3>
+    <h3>JUnit과 스프링 부트의 테스트 도구를 사용하여 서버를 실행하지 않은 상태에서 src/main/java 디렉터리에 작성한 코드를 테스트</h3>
+    <h2>build.gradle</h2>
+    <h3>Gradle이 사용하는 환경 파일</h3>
+  </section>
+  <section>
+    <div id="testout"></div>
+  </section>
+</main>
+</body>
+<script>
+  // let urls = ["hello", "greeting"];
+  // let requests = urls.map(url => fetch(`http://localhost:8090/${url}`));
+
+  async function testSpringBoot(url) {
+    let response = await fetch(url);
+    return response;
+  }
+  testSpringBoot("http://localhost:8090/hello")
+          .then(response => response.text())
+          .then(text => {
+              console.log(text);
+              testout.innerHTML += "<div>" +text + "</div>";
+          });
+  testSpringBoot("http://localhost:8090/greeting?name=KIM")
+          .then(response => response.json())
+          .then(json => {
+            console.log(json);
+            testout.innerHTML += "<div>" +json.content + "</div>";
+          });
+  testSpringBoot("http://localhost:8090/sbb")
+          .then(response => response.text())
+          .then(text => {
+            console.log(text);
+            testout.innerHTML += "<div>" +text + "</div>";
+          });
+</script>
+</html>

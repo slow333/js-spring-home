@@ -1,0 +1,128 @@
+<html lang="en">
+<head>
+  <script src="/js/menu/loadScript.js"></script>
+</head>
+<body>
+<main>
+<h1>Collection Framework</h1>
+  <h2>java.util 패키지에 포함; ArrayList, HashSet 등</h2>
+  <h3>Collection인터페이스에는 List, Set이 있음. Map은 아님</h3>
+  <h2>Collection interface method</h2>
+<section>
+  <h2>List interface method</h2>
+  <h4>void add(int index, Object element) : 주어진 인덱스에 객체 추가</h4>
+  <h4>boolean addAll(int index, Collection c) : 주어진 인덱스에 컬렉션 추가</h4>
+  <h4>Object set(int index, Object element) : 지정된 위치(인덱스)에 객체 저장</h4>
+  <h4>Object get(int index) : 지정된 위치(인덱스)에 있는 객체 반환</h4>
+  <h4>int indexOf/lastIndexOf(Object o) : 지정된 객체의 위치(인덱스) 반환
+    (첫번째 요소부터 순방향/마지막 요소부터 역방향)</h4>
+  <h4>ListIterator listIterator()/listIterator(int index) : List의 객체에 접근할 수 있는 ListIterator 반환</h4>
+  <h4>List subList(int fromIndex, int toIndex) : 지정된 범위에 있는 객체 반환</h4>
+  <h4>Object remove(int index) : 주어진 인덱스에 있는 객체를 삭제하고 지운 객체를 반환</h4>
+  <h4>boolean remove(Object o) : 주어진 객체 삭제</h4>
+  <h4>void sort(Comparator c) : 주어진 비교자(comparator)로 List 정렬</h4>
+  </section>
+  <section>
+    <h2>Set interface</h2>
+    <h3>Set을 통해 적용된 객체에는 equals()와 hashCode()가 오러바이드되어 있어야함</h3>
+  </section>
+  <section>
+    <h2>Iterator</h2>
+    <h4>boolean hasNext() : 있다면 true, 없다면 false 반환</h4>
+    <h4>Object next() : 다음 요소 읽어오기(hasNext()로 확인 후 사용하는 것이 안전)</h4>
+    <h4>void remove() : 읽어온 요소 삭제하기(next()로 읽어온 후 사용해야 함)</h4>
+<pre>Iterator&lt;String> iterator = fruit.iterator();
+  while(iterator.hasNext()){
+    String str = iterator.next();
+    if(str.equals("banana")){
+        iterator.remove();
+    }
+  }</pre>
+    <h3>ListIterator에는 더 많은 메서드가 있음</h3>
+  </section>
+  <section>
+    <h2>HashSet</h2>
+<pre>HashSet&lt;String> coffee = new HashSet&lt>();
+  coffee.add("americano");
+  coffee.add("americano");
+  coffee.add("latte");
+  coffee.add("espresso");
+  coffee.add("cold brew");
+
+  Iterator it = coffee.iterator();
+
+  while(it.hasNext()){
+      System.out.println(it.next());
+  }</pre>
+    <h3>Set을 활용해 객체를 추가할려면 equals(), hashCode()를 오버라이드 해야함</h3>
+<pre>class Person {
+  String name; int age;
+  Person(String name, int age){
+    this.name = name;
+    this.age = age;
+}
+  public boolean equals(Object o){
+    if(!(o instanceof Person)) return false;
+    return o.name.equals(name) && age == o.age;
+  }
+  public int hashCode(){
+    return (age+name).hashCode();
+  }
+}</pre>
+    <h3>TreeSet: 정렬된 Set</h3>
+  </section>
+  <section>
+    <h2>Comparator, Comparable</h2>
+<pre>public interface Comparator {
+  int compare(Object o1, Object o2);
+  boolean equals(Object obj);
+}
+public interface Comparable {
+  public int compareTo(Object o)
+}</pre>
+  <pre>Arrays.sort(arr, new DescComp());
+class DescComp implements Comparator{
+  public int compare(Object o1, Object o2) {
+    if(!(o1 instanceof Integer)) return -1;
+    if(!(o2 instanceof Integer)) return -1;
+    Integer i1 = (Integer) o1;
+    Integer i2 = (Integer) o2;
+    return i1.compareTo(i2)*-1; //기본 정렬의 반대
+  }
+}</pre>
+  </section>
+  <section>
+    <h2>Map interface</h2>
+    <h3>Map&lt;Key, Value> map = new Map&lt; Key, Value>()</h3>
+    <h3>Methods</h3>
+    <h4>Object put(Object key, Object value) : Map에 저장
+      (새로운 키 null 리턴, 동일한 키가 있을 경우 값 대체하고 이전값 리턴)</h4>
+    <h4>boolean containsKey(Object key)	: true, false 리턴</h4>
+    <h4>boolean containsValue(Object value) : true, false 리턴</h4>
+    <h4>Set entrySet() : key-value쌍으로 구성된 모든 Map.Entry 타입의 객체를 Set에 담아서 리턴</h4>
+    <h4>Object get(Object key) : 주어진 key객체에 대응하는 value객체를 찾아서 반환</h4>
+    <h4>boolean isEmpty() : 컬렉션이 비어 있는지 확인</h4>
+    <h4>Set keySet() : Map에 저장된 모든 key를 Set 객체에 담아서 리턴</h4>
+    <h4>int size() : 저장된 key-value 쌍의 총 갯수 리턴</h4>
+    <h4>Collection values() : Map에 저장된 모든 value 객체 반환</h4>
+    <h4>void clear() : 모든 Map.Entry(key-value) 삭제</h4>
+    <h4>Object remove(Object key) : 주어진 key객체와 일치하는 key-value 객체 삭제</h4>
+    <pre>
+Map&lt;String, Integer> map = new HashMap<>();
+  map.put("빨", 1);  map.put("주", 2);  map.put("노", 3);  map.put("초", 4);
+  map.put("파", 5);  map.put("남", 6);  map.put("보", 7);
+
+  System.out.println("총 entry 수 : " + map.size());
+  System.out.println("빨 : " + map.get("빨"));
+
+  Set&lt;String> keySet = map.keySet();
+  Iterator&lt;String> keyIterator = keySet.iterator();
+  while(keyIterator.hasNext()){
+      String key = keyIterator.next();
+      Integer value = map.get(key);
+      System.out.println(key + " : " + value);
+  }    </pre>
+  </section>
+</main>
+</body>
+</html>
