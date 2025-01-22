@@ -1,0 +1,83 @@
+<html lang="en">
+<head>
+  <script src="/js/menu/loadScript.js"></script>
+</head>
+<body>
+<main>
+<h1>Collection Framework</h1>
+  <h2>java.util 패키지에 포함; ArrayList, HashSet 등</h2>
+  <h3>Collection 인터페이스 : List 인터페이스, Set 인터페이스</h3>
+  <h4>List 구현 클래스: ArrayList, LinkedList, Stack, Vector 등</h4>
+  <h4>Set 구현 클래스 : HashSet, TreeSet 등</h4>
+  <h3>Map interface 구현 클래스 : HashMap, TreeMap, Hashtable, Properties 등</h3>
+<section>
+<h2>Collection interface method</h2>
+  <h4>booleand add(Object o); boolean addAll(Collection c); </h4>
+  <h4>void clear(); boolean remove(Object o); boolean removeAll(Collection c);</h4>
+  <h4>boolean contains(Object o); boolean containsAll(Object o);</h4>
+  <h4>boolean equals(Object o);</h4>
+  <h4>int hashCode();</h4>
+  <h4>boolean isEmpty();</h4>
+  <h4>iterator iterator(); Collection의 itorator를 얻어서 반환</h4>
+  <h4>boolean retainAll(Collection c); Collection에 포함된 객체만 남기고 삭제(삭제했으면 true);</h4>
+  <h4>int size();</h4>
+  <h4>Object[] toArray(); Collection에 저장된 객체를 Object[]로 반환</h4>
+  <h4>Object[] toArray(Object[] a); 지정된 배열에 Collection의 객체를 저장해서 반환</h4>
+</section>
+<section>
+  <h2>List interface method</h2>
+  <h4>void add(int index, Object element) : 주어진 인덱스에 객체 추가</h4>
+  <h4>boolean addAll(int index, Collection c) : 주어진 인덱스에 컬렉션 추가</h4>
+  <h4>Object set(int index, Object element) : 지정된 위치(인덱스)에 객체 저장</h4>
+  <h4>Object get(int index) : 지정된 위치(인덱스)에 있는 객체 반환</h4>
+  <h4 class="linebreak">int indexOf/lastIndexOf(Object o) : 지정된 객체의 위치(인덱스) 반환
+      (첫번째 요소부터 순방향/마지막 요소부터 역방향)</h4>
+  <h4>ListIterator listIterator()/listIterator(int index) : List의 객체에 접근할 수 있는 ListIterator 반환</h4>
+  <h4>List subList(int fromIndex, int toIndex) : 지정된 범위에 있는 객체 반환</h4>
+  <h4>Object remove(int index) : 주어진 인덱스에 있는 객체를 삭제하고 지운 객체를 반환</h4>
+  <h4>boolean remove(Object o) : 주어진 객체 삭제</h4>
+  <h4>void sort(Comparator c) : 주어진 비교자(comparator)로 List 정렬</h4>
+</section>
+<section>
+  <h2>Set interface method</h2>
+  <h4>boolean add(Object o);</h4>
+  <h4>void clear();</h4>
+  <h4>boolean contains(Object o);</h4>
+  <h4>boolean equals(Object o);</h4>
+  <h4>int hashCode();</h4>
+  <h4>boolean isEmpty();</h4>
+  <h4>iterator iterator(); Collection의 itorator를 얻어서 반환</h4>
+  <h4>boolean remove(Object o) : 주어진 객체 삭제</h4>
+  <h4>int size();</h4>
+  <h4>Object[] toArray(); Collection에 저장된 객체를 Object[]로 반환</h4>
+  <h4>Object[] toArray(Object[] a); 지정된 배열에 Collection의 객체를 저장해서 반환</h4>
+  <h3>Set을 통해 적용된 객체에는 equals()와 hashCode()가 오러바이드되어 있어야함</h3>
+</section>
+  <section>
+    <h2>집합과 관련된 메서드(Collection에 변화가있으면 true, 아니면 false)</h2>
+    <h4>boolean addAll(Collection c); 지정된 Collection의 객체를 Collection에 추가(합집합)</h4>
+    <h4>boolean containsAll(Collection c); 지정된 Collection의 객체에 Collection이 포함되어 있는지 확인(부분집합)</h4>
+    <h4>boolean removeAll(Collection c); 지정된 Collection에 포함된 객체들을 삭제(차집합)</h4>
+    <h4>boolean retainAll(Collection c); 지정된 Collection에 포함된 객체만 남기고 삭제(교집합)</h4>
+  </section>
+  <section>
+    <h2>Map interface Methods</h2>
+    <h4>void clear();</h4>
+    <h4>boolean containsKey(Object key); boolean containsValue(Object value);</h4>
+
+    <h4>Set entrySet(); Map에 저장되있는 key-value쌍을 Map.Entry 타입의 객체로 저장한 Set으로 반환</h4>
+    <h4>Set keySet(); Map에 저장된 모든 key객체를 반환</h4>
+    <h4>Collection values(); Map에 저장된 모든 value 객체를 반환</h4>
+
+    <h4>Object get(Object key);</h4>
+    <h4>boolean equals(Object o);</h4>
+    <h4>int hashCode();</h4>
+    <h4>boolean isEmpty();</h4>
+    <h4>Object put(Object key, Object value);</h4>
+    <h4>void putAll(Map t); 지정된 Map의 모든 key-value쌍을 추가</h4>
+    <h4>Object remove(Object key);</h4>
+    <h4>int size();</h4>
+  </section>
+</main>
+</body>
+</html>
